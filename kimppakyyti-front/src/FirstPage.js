@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Time from "./components/Time";
 // import ApiCalendar from "react-google-calendar-api";
 
 const url = "";
@@ -30,6 +31,7 @@ class FirstPage extends Component {
         />
         <br />
         <p>Google-kalenteri</p>
+        <Time />
         <br />
         <input value="Tarjoan kyytiä" type="submit" />
         <input value="Etsin kyytiä" type="submit" />
