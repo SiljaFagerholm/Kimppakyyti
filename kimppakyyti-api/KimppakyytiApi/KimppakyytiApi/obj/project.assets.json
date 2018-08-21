@@ -13133,11 +13133,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Code\\Viikko11\\Projekti\\Kimppakyyti\\KimppakyytiApi\\KimppakyytiApi\\KimppakyytiApi.csproj",
+      "projectUniqueName": "C:\\Code\\Viikko11\\Projekti\\Kimppakyyti\\kimppakyyti-api\\KimppakyytiApi\\KimppakyytiApi\\KimppakyytiApi.csproj",
       "projectName": "KimppakyytiApi",
-      "projectPath": "C:\\Code\\Viikko11\\Projekti\\Kimppakyyti\\KimppakyytiApi\\KimppakyytiApi\\KimppakyytiApi.csproj",
+      "projectPath": "C:\\Code\\Viikko11\\Projekti\\Kimppakyyti\\kimppakyyti-api\\KimppakyytiApi\\KimppakyytiApi\\KimppakyytiApi.csproj",
       "packagesPath": "C:\\Users\\Elli\\.nuget\\packages\\",
-      "outputPath": "C:\\Code\\Viikko11\\Projekti\\Kimppakyyti\\KimppakyytiApi\\KimppakyytiApi\\obj\\",
+      "outputPath": "C:\\Code\\Viikko11\\Projekti\\Kimppakyyti\\kimppakyyti-api\\KimppakyytiApi\\KimppakyytiApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
