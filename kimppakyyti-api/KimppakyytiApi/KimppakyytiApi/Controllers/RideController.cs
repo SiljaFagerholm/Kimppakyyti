@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KimppakyytiApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Documents;
@@ -10,16 +11,16 @@ using Microsoft.Extensions.Configuration;
 
 namespace KimppakyytiApi.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class RideController : ControllerBase
     {
         private readonly IConfiguration _configuration;
         private readonly DocumentClient _client;
-        private const string _dbName = "UserDB";
-        private const string _collectionName = "User";
+        private const string _dbName = "RideDB";
+        private const string _collectionName = "Ride";
 
-        public UserController(IConfiguration configuration)
+        public RideController(IConfiguration configuration)
         {
             _configuration = configuration;
             var endpointUri =
@@ -31,7 +32,7 @@ namespace KimppakyytiApi.Controllers
             {
                 Id = _dbName
             }).Wait();
-            
+
             _client.CreateDocumentCollectionIfNotExistsAsync(
             UriFactory.CreateDatabaseUri(_dbName),
             new DocumentCollection { Id = _collectionName });
@@ -43,13 +44,13 @@ namespace KimppakyytiApi.Controllers
             return "Nyt on tehty collection, vaikka sitä ei oltu tehty aiemmin!";
         }
         [HttpPost]
-        public async Task<ActionResult<string>> Post([FromBody] KimppakyytiApi.Models.User value)
+        public async Task<ActionResult<string>> Post([FromBody] Ride value)
         {
             Document document = await _client.CreateDocumentAsync(
           UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
           value);
             return Ok(document.Id);
         }
-        
+
     }
 }
