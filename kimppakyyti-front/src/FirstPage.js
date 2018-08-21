@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import Time from "./components/Time";
 import Date from "./components/Date";
 import { Button } from "reactstrap";
+<<<<<<< HEAD
 import RideBox from "./components/RideBox";
+=======
+import AddProfile from "./components/AddProfile";
+>>>>>>> erika
 // import ApiCalendar from "react-google-calendar-api";
 
 class FirstPage extends Component {
