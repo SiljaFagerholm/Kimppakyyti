@@ -43,13 +43,42 @@ namespace KimppakyytiApi.Controllers
             return "Nyt on tehty collection, vaikka sitä ei oltu tehty aiemmin!";
         }
         [HttpPost]
-        public async Task<ActionResult<string>> Post([FromBody] KimppakyytiApi.Models.User value)
+        public async Task<ActionResult<string>> Post([FromBody] Models.User value)
         {
             Document document = await _client.CreateDocumentAsync(
           UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
           value);
             return Ok(document.Id);
         }
-        
+        [HttpGet]
+        public ActionResult<List<Models.User>> GetAllUsers()
+        {
+            FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
+            IQueryable<Models.User> query = _client.CreateDocumentQuery<Models.User>(
+            UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
+            $"SELECT * FROM C",
+            queryOptions);
+            return Ok(query.ToList());
+        }
+        [HttpGet]
+        public async Task<ActionResult<Models.User>> GetUserByDocumentId(string documentId)
+        {
+            try
+            {
+                Models.User user = await _client.ReadDocumentAsync<Models.User>(UriFactory.CreateDocumentUri(
+                    _dbName, _collectionName, documentId));
+                return Ok(user);
+            }
+            catch (DocumentClientException de)
+            {
+                switch (de.StatusCode.Value)
+                {
+                    case System.Net.HttpStatusCode.NotFound:
+                        return NotFound();
+                }
+            }
+            return BadRequest();
+        }
+
     }
 }

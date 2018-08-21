@@ -56,6 +56,46 @@ namespace KimppakyytiApi.Controllers
 
             return Ok(document.Id);
         }
-
+        [HttpGet]
+        public ActionResult<List<Ride>> GetAllRides()
+        {
+            try
+            {
+                FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
+                IQueryable<Ride> query = _client.CreateDocumentQuery<Ride>(
+                UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
+                $"SELECT * FROM C",
+                queryOptions);
+                return Ok(query.ToList());
+            }
+            catch (DocumentClientException de)
+            {
+                switch (de.StatusCode.Value)
+                {
+                    case System.Net.HttpStatusCode.NotFound:
+                        return NotFound();
+                }
+            }
+            return BadRequest();
+        }
+        [HttpDelete]
+        public async Task<ActionResult<string>> DeleteRide(string documentId)
+        {
+            try
+            {
+                await _client.DeleteDocumentAsync(
+                 UriFactory.CreateDocumentUri(_dbName, _collectionName, documentId));
+                return Ok($"Deleted document id {documentId}");
+            }
+            catch (DocumentClientException de)
+            {
+                switch (de.StatusCode.Value)
+                {
+                    case System.Net.HttpStatusCode.NotFound:
+                        return NotFound();
+                }
+            }
+            return BadRequest();
+        }
     }
 }
