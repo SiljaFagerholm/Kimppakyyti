@@ -49,6 +49,11 @@ namespace KimppakyytiApi.Controllers
             Document document = await _client.CreateDocumentAsync(
           UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
           value);
+
+            // Get route from Google Directions Api
+            string response = await GoogleApiFunctions.GetRouteGoogle(value.StartAddress, value.TargetAddress);
+            // parse response to CosmoDB
+
             return Ok(document.Id);
         }
 
