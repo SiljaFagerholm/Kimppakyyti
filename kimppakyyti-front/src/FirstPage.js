@@ -3,6 +3,7 @@ import Time from "./components/Time";
 import Date from "./components/Date";
 import { Button } from "reactstrap";
 import RideBox from "./components/RideBox";
+import AllProfiles from "./components/AllProfiles";
 // import ApiCalendar from "react-google-calendar-api";
 
 class FirstPage extends Component {
@@ -41,6 +42,7 @@ class FirstPage extends Component {
           Etsin kyytiä
         </Button>{" "}
         <RideBox />
+        <AllProfiles />
       </div>
     );
   }
