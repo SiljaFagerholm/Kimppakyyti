@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KimppakyytiApi.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Documents;
@@ -11,7 +12,8 @@ using Microsoft.Extensions.Configuration;
 
 namespace KimppakyytiApi.Controllers
 {
-    [Route("api/[controller]")]
+    [EnableCors("MyPolicy")]
+    [Route("api/[controller]/[Action]")]
     [ApiController]
     public class RideController : ControllerBase
     {
@@ -51,7 +53,7 @@ namespace KimppakyytiApi.Controllers
           value);
 
             // Get route from Google Directions Api
-            string response = await GoogleApiFunctions.GetRouteGoogle(value.StartAddress, value.TargetAddress);
+            //string response = await GoogleApiFunctions.GetRouteGoogle(value.StartAddress, value.TargetAddress);
             // parse response to CosmoDB
 
             return Ok(document.Id);
