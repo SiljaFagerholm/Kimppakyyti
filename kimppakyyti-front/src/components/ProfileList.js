@@ -6,9 +6,8 @@ class ProfileList extends Component {
     var profileList = this.props.data.map(function(p) {
       return (
         <Profile
-          // key={p.Id}
+          key={p.nickname}
           // Image={p.Image}
-          Key={p.nickname}
           nickname={p.nickname}
           firstName={p.firstName}
           lastName={p.lastName}
