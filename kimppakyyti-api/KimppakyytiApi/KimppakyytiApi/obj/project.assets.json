@@ -13127,23 +13127,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Elli\\.nuget\\packages\\": {},
+    "C:\\Users\\Erika\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Code\\Viikko11\\Projekti\\Kimppakyyti\\KimppakyytiApi\\KimppakyytiApi\\KimppakyytiApi.csproj",
+      "projectUniqueName": "C:\\work\\loppuprojekti\\kimppakyyti-api\\KimppakyytiApi\\KimppakyytiApi\\KimppakyytiApi.csproj",
       "projectName": "KimppakyytiApi",
-      "projectPath": "C:\\Code\\Viikko11\\Projekti\\Kimppakyyti\\KimppakyytiApi\\KimppakyytiApi\\KimppakyytiApi.csproj",
-      "packagesPath": "C:\\Users\\Elli\\.nuget\\packages\\",
-      "outputPath": "C:\\Code\\Viikko11\\Projekti\\Kimppakyyti\\KimppakyytiApi\\KimppakyytiApi\\obj\\",
+      "projectPath": "C:\\work\\loppuprojekti\\kimppakyyti-api\\KimppakyytiApi\\KimppakyytiApi\\KimppakyytiApi.csproj",
+      "packagesPath": "C:\\Users\\Erika\\.nuget\\packages\\",
+      "outputPath": "C:\\work\\loppuprojekti\\kimppakyyti-api\\KimppakyytiApi\\KimppakyytiApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Elli\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Erika\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

@@ -12,3 +12,17 @@ C:\Code\Viikko11\Projekti\Kimppakyyti\KimppakyytiApi\KimppakyytiApi\obj\Debug\ne
 C:\Code\Viikko11\Projekti\Kimppakyyti\KimppakyytiApi\KimppakyytiApi\bin\Debug\netcoreapp2.1\KimppakyytiApi.pdb
 C:\Code\Viikko11\Projekti\Kimppakyyti\KimppakyytiApi\KimppakyytiApi\obj\Debug\netcoreapp2.1\KimppakyytiApi.dll
 C:\Code\Viikko11\Projekti\Kimppakyyti\KimppakyytiApi\KimppakyytiApi\obj\Debug\netcoreapp2.1\KimppakyytiApi.pdb
+C:\work\loppuprojekti\kimppakyyti-api\KimppakyytiApi\KimppakyytiApi\bin\Debug\netcoreapp2.1\KimppakyytiApi.deps.json
+C:\work\loppuprojekti\kimppakyyti-api\KimppakyytiApi\KimppakyytiApi\bin\Debug\netcoreapp2.1\KimppakyytiApi.runtimeconfig.json
+C:\work\loppuprojekti\kimppakyyti-api\KimppakyytiApi\KimppakyytiApi\bin\Debug\netcoreapp2.1\KimppakyytiApi.runtimeconfig.dev.json
+C:\work\loppuprojekti\kimppakyyti-api\KimppakyytiApi\KimppakyytiApi\bin\Debug\netcoreapp2.1\KimppakyytiApi.dll
+C:\work\loppuprojekti\kimppakyyti-api\KimppakyytiApi\KimppakyytiApi\bin\Debug\netcoreapp2.1\KimppakyytiApi.pdb
+C:\work\loppuprojekti\kimppakyyti-api\KimppakyytiApi\KimppakyytiApi\obj\Debug\netcoreapp2.1\KimppakyytiApi.csprojAssemblyReference.cache
+C:\work\loppuprojekti\kimppakyyti-api\KimppakyytiApi\KimppakyytiApi\obj\Debug\netcoreapp2.1\KimppakyytiApi.csproj.CoreCompileInputs.cache
+C:\work\loppuprojekti\kimppakyyti-api\KimppakyytiApi\KimppakyytiApi\obj\Debug\netcoreapp2.1\KimppakyytiApi.RazorAssemblyInfo.cache
+C:\work\loppuprojekti\kimppakyyti-api\KimppakyytiApi\KimppakyytiApi\obj\Debug\netcoreapp2.1\KimppakyytiApi.RazorAssemblyInfo.cs
+C:\work\loppuprojekti\kimppakyyti-api\KimppakyytiApi\KimppakyytiApi\obj\Debug\netcoreapp2.1\KimppakyytiApi.AssemblyInfoInputs.cache
+C:\work\loppuprojekti\kimppakyyti-api\KimppakyytiApi\KimppakyytiApi\obj\Debug\netcoreapp2.1\KimppakyytiApi.AssemblyInfo.cs
+C:\work\loppuprojekti\kimppakyyti-api\KimppakyytiApi\KimppakyytiApi\obj\Debug\netcoreapp2.1\KimppakyytiApi.RazorTargetAssemblyInfo.cache
+C:\work\loppuprojekti\kimppakyyti-api\KimppakyytiApi\KimppakyytiApi\obj\Debug\netcoreapp2.1\KimppakyytiApi.dll
+C:\work\loppuprojekti\kimppakyyti-api\KimppakyytiApi\KimppakyytiApi\obj\Debug\netcoreapp2.1\KimppakyytiApi.pdb
