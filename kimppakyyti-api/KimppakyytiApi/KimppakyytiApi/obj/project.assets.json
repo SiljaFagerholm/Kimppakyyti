@@ -13133,11 +13133,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\work\\loppuprojekti\\kimppakyyti-api\\KimppakyytiApi\\KimppakyytiApi\\KimppakyytiApi.csproj",
       "projectName": "KimppakyytiApi",
       "projectPath": "C:\\work\\loppuprojekti\\kimppakyyti-api\\KimppakyytiApi\\KimppakyytiApi\\KimppakyytiApi.csproj",
       "packagesPath": "C:\\Users\\Erika\\.nuget\\packages\\",
       "outputPath": "C:\\work\\loppuprojekti\\kimppakyyti-api\\KimppakyytiApi\\KimppakyytiApi\\obj\\",
+=======
+      "projectUniqueName": "C:\\Code\\Viikko11\\Projekti\\Kimppakyyti\\kimppakyyti-api\\KimppakyytiApi\\KimppakyytiApi\\KimppakyytiApi.csproj",
+      "projectName": "KimppakyytiApi",
+      "projectPath": "C:\\Code\\Viikko11\\Projekti\\Kimppakyyti\\kimppakyyti-api\\KimppakyytiApi\\KimppakyytiApi\\KimppakyytiApi.csproj",
+      "packagesPath": "C:\\Users\\Elli\\.nuget\\packages\\",
+      "outputPath": "C:\\Code\\Viikko11\\Projekti\\Kimppakyyti\\kimppakyyti-api\\KimppakyytiApi\\KimppakyytiApi\\obj\\",
+>>>>>>> c0946656776b0415732108add3541fd9653ae104
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
