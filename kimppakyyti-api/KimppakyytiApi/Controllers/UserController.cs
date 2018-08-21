@@ -55,12 +55,24 @@ namespace KimppakyytiApi.Controllers
         [HttpGet]
         public ActionResult<List<Models.User>> GetAllUsers()
         {
-            FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
-            IQueryable<Models.User> query = _client.CreateDocumentQuery<Models.User>(
-            UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
-            $"SELECT * FROM C",
-            queryOptions);
-            return Ok(query.ToList());
+            try
+            {
+                FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
+                IQueryable<Models.User> query = _client.CreateDocumentQuery<Models.User>(
+                UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
+                $"SELECT * FROM C",
+                queryOptions);
+                return Ok(query.ToList());
+            }
+            catch (DocumentClientException de)
+            {
+                switch (de.StatusCode.Value)
+                {
+                    case System.Net.HttpStatusCode.NotFound:
+                        return NotFound();
+                }
+            }
+            return BadRequest();
         }
         [HttpGet]
         public async Task<ActionResult<Models.User>> GetUserByDocumentId(string documentId)
