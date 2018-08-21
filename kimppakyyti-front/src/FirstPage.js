@@ -4,6 +4,10 @@ import Date from "./components/Date";
 import { Button } from "reactstrap";
 import RideBox from "./components/RideBox";
 import AllProfiles from "./components/AllProfiles";
+<<<<<<< HEAD
+=======
+import { AddNewProfile } from "./components/AddProfile";
+>>>>>>> erika
 // import ApiCalendar from "react-google-calendar-api";
 
 class FirstPage extends Component {
@@ -43,6 +47,10 @@ class FirstPage extends Component {
         </Button>{" "}
         <RideBox />
         <AllProfiles />
+<<<<<<< HEAD
+=======
+        <AddNewProfile />
+>>>>>>> erika
       </div>
     );
   }
