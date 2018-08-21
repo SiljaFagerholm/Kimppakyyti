@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace KimppakyytiApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class RideController : ControllerBase
     {
