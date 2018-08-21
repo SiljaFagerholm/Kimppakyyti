@@ -14,7 +14,7 @@ namespace KimppakyytiApi.Models
         public string LastName { get; set; }
         public string Email { get; set; }
 
-        public int Phonenumber { get; set; }
+        public string Phonenumber { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
 
