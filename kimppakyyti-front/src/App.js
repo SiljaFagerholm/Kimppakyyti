@@ -4,7 +4,7 @@ import "./App.css";
 // import "./components/Login";
 import FirstPage from "./FirstPage";
 // import "./components/AddProfile";
-// import "./components/AllProfiles";
+import AllProfiles from "./components/AllProfiles";
 
 class App extends Component {
   render() {
@@ -15,7 +15,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <FirstPage />
-        {/* <AllProfiles /> */}
+        <AllProfiles />
       </div>
     );
   }
