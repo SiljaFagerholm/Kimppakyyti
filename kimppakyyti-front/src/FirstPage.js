@@ -4,8 +4,6 @@ import Date from "./components/Date";
 import { Button } from "reactstrap";
 // import ApiCalendar from "react-google-calendar-api";
 
-const url = "";
-
 class FirstPage extends Component {
   constructor(props) {
     super(props);
@@ -35,8 +33,6 @@ class FirstPage extends Component {
         <Date />
         <Time />
         <br />
-        {/* <input value="Tarjoan kyytiä" type="submit" /> */}
-        {/* <input value="Etsin kyytiä" type="submit" /> */}
         <Button outline color="secondary" type="submit">
           Tarjoan kyytiä
         </Button>{" "}

@@ -2,6 +2,7 @@
   "name": "kimppakyyti-front",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:44337/",
   "dependencies": {
     "bootstrap": "^4.1.3",
     "moment": "^2.22.2",

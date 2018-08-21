@@ -8,11 +8,21 @@ class Profile extends Component {
   render() {
     return (
       <div>
-        {this.props.image}
+        {this.props.Image}
         <br />
-        {this.props.firstName}
+        {this.props.Nickname}
         <br />
-        {this.props.lastName}
+        {this.props.FirstName}
+        <br />
+        {this.props.LastName}
+        <br />
+        {this.props.Email}
+        <br />
+        {this.props.Phonenumber}
+        <br />
+        {this.props.Address}
+        <br />
+        {this.props.City}
         <br />
       </div>
     );

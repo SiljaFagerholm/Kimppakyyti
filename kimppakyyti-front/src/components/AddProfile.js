@@ -29,9 +29,17 @@ class AddProfile extends Component {
         {" "}
         <label>Kuva: </label>
         <input maxLength="50" ref="image" type="text" required />
+        <label>Käyttäjätunnus: </label>
+        <input maxLength="50" ref="firstName" type="text" required />
         <label>Etunimi: </label>
         <input maxLength="50" ref="firstName" type="text" required />
         <label>Sukunimi: </label>
+        <input maxLength="50" ref="lastName" type="text" required />
+        <label>Sähköposti: </label>
+        <input maxLength="50" ref="lastName" type="text" required />
+        <label>Osoite: </label>
+        <input maxLength="50" ref="lastName" type="text" required />
+        <label>Kaupunki: </label>
         <input maxLength="50" ref="lastName" type="text" required />
       </div>
     );
