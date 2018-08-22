@@ -53,10 +53,11 @@ namespace KimppakyytiApi.Controllers
           value);
 
             // Get route from Google Directions Api
-            //string response = await GoogleApiFunctions.GetRouteGoogle(value.StartAddress, value.TargetAddress);
+            string response = await GoogleApiFunctions.GetRouteGoogle(value.StartAddress, value.TargetAddress);
             // parse response to CosmoDB
 
-            return Ok(document.Id);
+            return response;
+            //return Ok(document.Id);
         }
         [HttpGet]
         public ActionResult<List<Ride>> GetAllRides()
