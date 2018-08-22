@@ -28,7 +28,7 @@ namespace KimppakyytiApi.Controllers
             var endpointUri =
             _configuration["ConnectionStrings:CosmosDBConnection:EndpointUri"];
             var key =
-            _configuration["ConnectionStrings:CosmosDBConnection:PrimaryKey"];
+            _configuration["ConnectionStrings:CosmosDBConnection:PrimaryKey"];            
             _cosmosDBclient = new DocumentClient(new Uri(endpointUri), key);
             _cosmosDBclient.CreateDatabaseIfNotExistsAsync(new Database
             {
