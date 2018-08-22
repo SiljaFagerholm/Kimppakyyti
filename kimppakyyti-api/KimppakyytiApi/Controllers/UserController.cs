@@ -17,7 +17,7 @@ namespace KimppakyytiApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        private readonly DocumentClient _client;
+        private readonly DocumentClient _cosmosDBclient;
         private const string _dbName = "UserDB";
         private const string _collectionName = "User";
 
@@ -28,13 +28,13 @@ namespace KimppakyytiApi.Controllers
             _configuration["ConnectionStrings:CosmosDBConnection:EndpointUri"];
             var key =
             _configuration["ConnectionStrings:CosmosDBConnection:PrimaryKey"];
-            _client = new DocumentClient(new Uri(endpointUri), key);
-            _client.CreateDatabaseIfNotExistsAsync(new Database
+            _cosmosDBclient = new DocumentClient(new Uri(endpointUri), key);
+            _cosmosDBclient.CreateDatabaseIfNotExistsAsync(new Database
             {
                 Id = _dbName
             }).Wait();
             
-            _client.CreateDocumentCollectionIfNotExistsAsync(
+            _cosmosDBclient.CreateDocumentCollectionIfNotExistsAsync(
             UriFactory.CreateDatabaseUri(_dbName),
             new DocumentCollection { Id = _collectionName });
         }
@@ -47,7 +47,7 @@ namespace KimppakyytiApi.Controllers
         [HttpPost]
         public async Task<ActionResult<string>> Post([FromBody] Models.AppUser value)
         {
-            Document document = await _client.CreateDocumentAsync(
+            Document document = await _cosmosDBclient.CreateDocumentAsync(
           UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
           value);
             return Ok(document.Id);
@@ -58,7 +58,7 @@ namespace KimppakyytiApi.Controllers
             try
             {
                 FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
-                IQueryable<Models.AppUser> query = _client.CreateDocumentQuery<Models.AppUser>(
+                IQueryable<Models.AppUser> query = _cosmosDBclient.CreateDocumentQuery<Models.AppUser>(
                 UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
                 $"SELECT * FROM C",
                 queryOptions);
@@ -79,9 +79,28 @@ namespace KimppakyytiApi.Controllers
         {
             try
             {
-                Models.AppUser user = await _client.ReadDocumentAsync<Models.AppUser>(UriFactory.CreateDocumentUri(
+                Models.AppUser user = await _cosmosDBclient.ReadDocumentAsync<Models.AppUser>(UriFactory.CreateDocumentUri(
                     _dbName, _collectionName, documentId));
                 return Ok(user);
+            }
+            catch (DocumentClientException de)
+            {
+                switch (de.StatusCode.Value)
+                {
+                    case System.Net.HttpStatusCode.NotFound:
+                        return NotFound();
+                }
+            }
+            return BadRequest();
+        }
+        [HttpDelete]
+        public async Task<ActionResult<string>> DeleteUser(string documentId)
+        {
+            try
+            {
+                await _cosmosDBclient.DeleteDocumentAsync(
+                 UriFactory.CreateDocumentUri(_dbName, _collectionName, documentId));
+                return Ok($"Deleted document id {documentId}");
             }
             catch (DocumentClientException de)
             {
