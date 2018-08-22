@@ -11,12 +11,12 @@ using Microsoft.Extensions.Configuration;
 
 namespace KimppakyytiApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class RideController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        private readonly DocumentClient _client;
+        private readonly DocumentClient _cosmoDBclient;
         private const string _dbName = "RideDB";
         private const string _collectionName = "Ride";
 
@@ -27,13 +27,13 @@ namespace KimppakyytiApi.Controllers
             _configuration["ConnectionStrings:CosmosDBConnection:EndpointUri"];
             var key =
             _configuration["ConnectionStrings:CosmosDBConnection:PrimaryKey"];
-            _client = new DocumentClient(new Uri(endpointUri), key);
-            _client.CreateDatabaseIfNotExistsAsync(new Database
+            _cosmoDBclient = new DocumentClient(new Uri(endpointUri), key);
+            _cosmoDBclient.CreateDatabaseIfNotExistsAsync(new Database
             {
                 Id = _dbName
             }).Wait();
 
-            _client.CreateDocumentCollectionIfNotExistsAsync(
+            _cosmoDBclient.CreateDocumentCollectionIfNotExistsAsync(
             UriFactory.CreateDatabaseUri(_dbName),
             new DocumentCollection { Id = _collectionName });
         }
@@ -44,9 +44,9 @@ namespace KimppakyytiApi.Controllers
             return "Nyt on tehty collection, vaikka sitä ei oltu tehty aiemmin!";
         }
         [HttpPost]
-        public async Task<ActionResult<string>> Post([FromBody] Ride value)
+        public async Task<ActionResult<string>> PostOfferRideAsync([FromBody] Ride value)
         {
-            Document document = await _client.CreateDocumentAsync(
+            Document document = await _cosmoDBclient.CreateDocumentAsync(
           UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
           value);
 
@@ -56,13 +56,26 @@ namespace KimppakyytiApi.Controllers
 
             return Ok(document.Id);
         }
+        [HttpPost]
+        public async Task<ActionResult<string>> PostFindRideAsync([FromBody] Ride value)
+        {
+            Document document = await _cosmoDBclient.CreateDocumentAsync(
+          UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
+          value);
+            FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
+            IQueryable<Ride> query = _cosmoDBclient.CreateDocumentQuery<Ride>(
+            UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
+            $"SELECT * FROM C",
+            queryOptions);
+            return Ok(query.ToList());
+        }
         [HttpGet]
         public ActionResult<List<Ride>> GetAllRides()
         {
             try
             {
                 FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
-                IQueryable<Ride> query = _client.CreateDocumentQuery<Ride>(
+                IQueryable<Ride> query = _cosmoDBclient.CreateDocumentQuery<Ride>(
                 UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
                 $"SELECT * FROM C",
                 queryOptions);
@@ -83,7 +96,7 @@ namespace KimppakyytiApi.Controllers
         {
             try
             {
-                await _client.DeleteDocumentAsync(
+                await _cosmoDBclient.DeleteDocumentAsync(
                  UriFactory.CreateDocumentUri(_dbName, _collectionName, documentId));
                 return Ok($"Deleted document id {documentId}");
             }
