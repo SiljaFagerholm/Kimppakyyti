@@ -4,7 +4,6 @@ import "./App.css";
 // import "./components/Login";
 import FirstPage from "./FirstPage";
 // import "./components/AddProfile";
-import AllProfiles from "./components/AllProfiles";
 
 class App extends Component {
   render() {
