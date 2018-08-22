@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import Time from "./components/Time";
 import Date from "./components/Date";
 import { Button } from "reactstrap";
+import RideBox from "./components/RideBox";
+import AllProfiles from "./components/AllProfiles";
+import AddNewProfile from "./components/AddProfile";
+
 // import ApiCalendar from "react-google-calendar-api";
 
 class FirstPage extends Component {
@@ -39,6 +43,9 @@ class FirstPage extends Component {
         <Button outline color="secondary" type="submit">
           Etsin kyytiä
         </Button>{" "}
+        <RideBox />
+        <AllProfiles />
+        <AddNewProfile />
       </div>
     );
   }
