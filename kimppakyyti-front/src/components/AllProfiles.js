@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 import ProfileList from "./ProfileList";
-
-const url = "/api/user";
+const url = "https://localhost:44337/api/user/GetAllUsers";
+// const url = "/api/user/GetAllUsers/";
 
 var data = [
   {
-    Id: 1,
-    Image: "",
-    Nickname: "",
-    FirstName: "",
-    LastName: "",
-    Email: "",
-    Phonenumber: "",
-    Address: "",
-    City: ""
+    // Id: 1,
+    // Image: "",
+    nickname: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    phonenumber: "",
+    address: "",
+    city: ""
   }
 ];
 

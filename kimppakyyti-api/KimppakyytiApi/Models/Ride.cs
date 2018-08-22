@@ -12,15 +12,24 @@ namespace KimppakyytiApi.Models
         public double Price { get; set; }
 
         public DateTime When { get; set; }
-
-        public string City { get; set; }
+       
         public string StartAddress { get; set; }
         public string TargetAddress { get; set; }
-        public Dictionary<DateTime, bool> Frequency { get; set; }
+        public bool OfferingRide { get; set; }
+        public int SeatsLeft { get; set; }
+        public bool MondayFrequency { get; set; }
+        public bool TuesdayFrequency { get; set; }
+        public bool WednesdayFrequency { get; set; }
+        public bool ThursdayFrequency { get; set; }
+        public bool FridayFrequency { get; set; }
+        public bool SaturdayFrequency { get; set; }
+        public bool SundayFrequency { get; set; }
 
         public override string ToString()
         {
-            return $"Nickname: {Nickname} Price: {Price} When: {When} City: {City} StartAddress: {StartAddress} TargetAddress: {TargetAddress}";
+            return $"Nickname: {Nickname} Price: {Price} When: {When} Seats: {SeatsLeft} StartAddress: {StartAddress} TargetAddress: {TargetAddress} OfferingRide: {OfferingRide} Frequency: " +
+                $"Monday: {MondayFrequency} Tuesday: {TuesdayFrequency} Wednesday: {WednesdayFrequency} Thursday: {ThursdayFrequency}" +
+                $"Friday: {FridayFrequency} Saturday: {SaturdayFrequency} Sunday: {SundayFrequency}";
         }
         public string ToJson()
         {

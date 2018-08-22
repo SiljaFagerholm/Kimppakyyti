@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Documents;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace KimppakyytiApi.Controllers
 {
+    [EnableCors("MyPolicy")]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -43,7 +45,7 @@ namespace KimppakyytiApi.Controllers
             return "Nyt on tehty collection, vaikka sitä ei oltu tehty aiemmin!";
         }
         [HttpPost]
-        public async Task<ActionResult<string>> Post([FromBody] Models.User value)
+        public async Task<ActionResult<string>> Post([FromBody] Models.AppUser value)
         {
             Document document = await _client.CreateDocumentAsync(
           UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
@@ -51,12 +53,12 @@ namespace KimppakyytiApi.Controllers
             return Ok(document.Id);
         }
         [HttpGet]
-        public ActionResult<List<Models.User>> GetAllUsers()
+        public ActionResult<List<Models.AppUser>> GetAllUsers()
         {
             try
             {
                 FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
-                IQueryable<Models.User> query = _client.CreateDocumentQuery<Models.User>(
+                IQueryable<Models.AppUser> query = _client.CreateDocumentQuery<Models.AppUser>(
                 UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
                 $"SELECT * FROM C",
                 queryOptions);
@@ -73,11 +75,11 @@ namespace KimppakyytiApi.Controllers
             return BadRequest();
         }
         [HttpGet]
-        public async Task<ActionResult<Models.User>> GetUserByDocumentId(string documentId)
+        public async Task<ActionResult<Models.AppUser>> GetUserByDocumentId(string documentId)
         {
             try
             {
-                Models.User user = await _client.ReadDocumentAsync<Models.User>(UriFactory.CreateDocumentUri(
+                Models.AppUser user = await _client.ReadDocumentAsync<Models.AppUser>(UriFactory.CreateDocumentUri(
                     _dbName, _collectionName, documentId));
                 return Ok(user);
             }

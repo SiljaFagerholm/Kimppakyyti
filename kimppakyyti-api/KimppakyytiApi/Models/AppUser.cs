@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KimppakyytiApi.Models
 {
-    public class User
+    public class AppUser
     {
         public string Nickname { get; set; }       
         public string FirstName { get; set; }
@@ -27,9 +27,9 @@ namespace KimppakyytiApi.Models
         {
             return JsonConvert.SerializeObject(this);
         }
-        public static User FromJson(string json)
+        public static AppUser FromJson(string json)
         {
-            return JsonConvert.DeserializeObject<User>(json);
+            return JsonConvert.DeserializeObject<AppUser>(json);
         }
     }
 }
