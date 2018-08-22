@@ -15,7 +15,7 @@ import RideList from './RideList';
 //         "endlocation": "Prisma"
 //     }
 // ];
-const urlGetRides = "https://localhost:44337/api/ride/getallrides";
+const urlGetRides = "http://kimppakyytiapi.azurewebsites.net/api/ride/getallrides";
 var wholeList = [];
 
 class RideBox extends Component {
