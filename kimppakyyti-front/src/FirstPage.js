@@ -4,7 +4,6 @@ import Date from "./components/Date";
 import { Button } from "reactstrap";
 import AddNewProfile from "./components/AddProfile";
 import { BrowserRouter as Router, Redirect } from "react-router-dom";
-import Auth from "./Auth.js";
 
 class FirstPage extends Component {
   constructor(props) {

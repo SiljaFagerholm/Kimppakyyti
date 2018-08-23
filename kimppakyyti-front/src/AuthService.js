@@ -8,7 +8,7 @@ const CLIENT_ID = "fnULgYUWwAHpMoX2JasBouMIMBZKrGN4";
 const CLIENT_DOMAIN = "melaaman.eu.auth0.com";
 const REDIRECT = "http://localhost:3000";
 const SCOPE = "YOUR_SCOPE";
-const AUDIENCE = "AUDIENCE_ATTRIBUTE";
+const AUDIENCE = "kimppalada.com";
 
 var auth = new auth0.WebAuth({
   clientID: CLIENT_ID,
