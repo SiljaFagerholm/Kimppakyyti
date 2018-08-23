@@ -4,9 +4,9 @@ import auth0 from "auth0-js";
 const ID_TOKEN_KEY = "id_token";
 const ACCESS_TOKEN_KEY = "access_token";
 
-const CLIENT_ID = "MG7lyZ0EGaUX5A3RZWChir4DbfFgRCtA";
+const CLIENT_ID = "fnULgYUWwAHpMoX2JasBouMIMBZKrGN4";
 const CLIENT_DOMAIN = "melaaman.eu.auth0.com";
-const REDIRECT = "http://localhost:3000/callback";
+const REDIRECT = "http://localhost:3000/firstpage";
 const SCOPE = "YOUR_SCOPE";
 const AUDIENCE = "AUDIENCE_ATTRIBUTE";
 
@@ -32,7 +32,7 @@ export function logout() {
 
 export function requireAuth(nextState, replace) {
   if (!isLoggedIn()) {
-    replace({ pathname: "/" });
+    replace({ pathname: "/firstpage" });
   }
 }
 
