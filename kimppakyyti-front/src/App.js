@@ -1,35 +1,62 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
-// import "./components/Login";
 import FirstPage from "./FirstPage";
-// import "./components/AddProfile";
-
-import AllProfiles from "./components/AllProfiles";
 import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Redirect,
-  Link
+  Redirect
 } from "react-router-dom";
+import { browserHistory } from "react-router";
 import RideSearchPage from "./RideSearchPage";
 import AddRide from "./components/AddRide";
+import {
+  Navbar,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown
+} from "reactstrap";
+import { login, logout, isLoggedIn, requireAuth } from "./AuthService";
+import AllProfiles from "./components/AllProfiles";
+import Callback from "./Callback";
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
+        <div>
+          <Navbar color="light" light expand="md">
+            <NavbarBrand href="/">Kimppalada</NavbarBrand>
+            <Nav className="ml-auto" navbar>
+              <NavItem>
+                <NavLink href="/AllProfiles">Kaikki kyydit</NavLink>
+              </NavItem>
+              <NavItem>
+                {isLoggedIn() ? (
+                  <NavLink onClick={() => logout()}>Log out </NavLink>
+                ) : (
+                  <NavLink onClick={() => login()}>Log In</NavLink>
+                )}
+              </NavItem>
+              <UncontrolledDropdown nav inNavbar />
+            </Nav>
+          </Navbar>
+        </div>
 
-        <Router>
+        <Router history={browserHistory}>
           <Switch>
             <Route exact path="/firstpage" component={FirstPage} />
+            <Route
+              exact
+              path="/special"
+              component={AllProfiles}
+              onEnter={requireAuth}
+            />
             <Route exact path="/ridesearchpage" component={RideSearchPage} />
             <Route exact path="/addride" component={AddRide} />
+            <Route path="/callback" component={Callback} />
             <Redirect exact from="/" to="/firstpage" />
             {/* <Route component={NotFound} /> */}
           </Switch>
