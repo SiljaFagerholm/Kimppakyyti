@@ -6,7 +6,7 @@ const ACCESS_TOKEN_KEY = "access_token";
 
 const CLIENT_ID = "fnULgYUWwAHpMoX2JasBouMIMBZKrGN4";
 const CLIENT_DOMAIN = "melaaman.eu.auth0.com";
-const REDIRECT = "http://localhost:3000/firstpage";
+const REDIRECT = "http://localhost:3000";
 const SCOPE = "YOUR_SCOPE";
 const AUDIENCE = "AUDIENCE_ATTRIBUTE";
 
@@ -32,7 +32,7 @@ export function logout() {
 
 export function requireAuth(nextState, replace) {
   if (!isLoggedIn()) {
-    replace({ pathname: "/firstpage" });
+    replace({ pathname: "/" });
   }
 }
 
@@ -72,6 +72,7 @@ export function setIdToken() {
 
 export function isLoggedIn() {
   const idToken = getIdToken();
+  console.log(idToken);
   return !!idToken && !isTokenExpired(idToken);
 }
 
