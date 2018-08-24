@@ -27,18 +27,18 @@ namespace KimppakyytiApi.Models.RouteLogic
     public class Northeast
     {
         [JsonProperty("northeast")]
-        public decimal fakeNews { get; set; }
+        public double fakeNews { get; set; }
 
-        public decimal lng { get; set; }
-        public decimal lat { get; set; }
+        public double lng { get; set; }
+        public double lat { get; set; }
     }
 
     public class Southwest
     {
         [JsonProperty("southwest")]
-        public decimal fakeNews { get; set; }
-        public decimal lng { get; set; }
-        public decimal lat { get; set; }
+        public double fakeNews { get; set; }
+        public double lng { get; set; }
+        public double lat { get; set; }
     }
 
     public class Bounds
@@ -65,17 +65,17 @@ namespace KimppakyytiApi.Models.RouteLogic
     public class EndLocation
     {
         [JsonProperty("endlocation")]
-        public decimal fakeNews { get; set; }
-        public decimal lng { get; set; }
-        public decimal lat { get; set; }
+        public double fakeNews { get; set; }
+        public double lng { get; set; }
+        public double lat { get; set; }
     }
 
     public class StartLocation
     {
         [JsonProperty("startlocation")]
-        public decimal fakeNews { get; set; }
-        public decimal lng { get; set; }
-        public decimal lat { get; set; }
+        public double fakeNews { get; set; }
+        public double lng { get; set; }
+        public double lat { get; set; }
     }
 
     public class Distance2
@@ -95,24 +95,24 @@ namespace KimppakyytiApi.Models.RouteLogic
     public class EndLocation2
     {
         [JsonProperty("endlocation2")]
-        public decimal fakeNews { get; set; }
-        public decimal lng { get; set; }
-        public decimal lat { get; set; }
+        public double fakeNews { get; set; }
+        public double lng { get; set; }
+        public double lat { get; set; }
     }
 
     public class Polyline
     {
         [JsonProperty("polyline")]
-        public decimal fakeNews { get; set; }
+        public double fakeNews { get; set; }
         public string points { get; set; }
     }
 
     public class StartLocation2
     {
         [JsonProperty("startlocation2")]
-        public decimal fakeNews { get; set; }
-        public decimal lng { get; set; }
-        public decimal lat { get; set; }
+        public double fakeNews { get; set; }
+        public double lng { get; set; }
+        public double lat { get; set; }
     }
 
     public class Step
@@ -145,7 +145,7 @@ namespace KimppakyytiApi.Models.RouteLogic
     public class OverviewPolyline
     {
         [JsonProperty("overviewpolyline")]
-        public decimal fakeNews { get; set; }
+        public double fakeNews { get; set; }
         public string points { get; set; }
     }
 

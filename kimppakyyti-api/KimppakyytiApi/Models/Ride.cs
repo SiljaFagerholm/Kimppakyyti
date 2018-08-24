@@ -1,9 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using KimppakyytiApi.Models.RouteLogic;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Azure.Documents.Spatial;
 
 namespace KimppakyytiApi.Models
 {
@@ -15,11 +17,16 @@ namespace KimppakyytiApi.Models
         public DateTime When { get; set; }
        
         public string StartAddress { get; set; }
-        
-        public decimal[] StartLocation { get; set; } 
+
+        [JsonProperty("startlocation")]
+        public Point StartLocation { get; set; }
+         
         public string TargetAddress { get; set; }
-        public decimal[] TargetLocation { get; set; } 
-        public string RoutePoints { get; set; } 
+        [JsonProperty("targetlocation")]
+        public Point TargetLocation { get; set; }
+        [JsonProperty("routepoints")]
+        public List<Point> RoutePoints { get; set; }
+        
         public bool OfferingRide { get; set; }
         public int SeatsLeft { get; set; }
         public bool MondayFrequency { get; set; }
@@ -29,14 +36,9 @@ namespace KimppakyytiApi.Models
         public bool FridayFrequency { get; set; }
         public bool SaturdayFrequency { get; set; }
         public bool SundayFrequency { get; set; }
-
-        public Ride()
-        {
-            StartLocation = new decimal[2];
-            TargetLocation = new decimal[2];
-          
-        }
-
+        
+       
+        
         public override string ToString()
         {
             return $"Nickname: {Nickname} Price: {Price} When: {When} Seats: {SeatsLeft} StartAddress: {StartAddress} TargetAddress: {TargetAddress} OfferingRide: {OfferingRide} Frequency: " +
