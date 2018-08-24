@@ -15,7 +15,11 @@ namespace KimppakyytiApi.Models
         public DateTime When { get; set; }
        
         public string StartAddress { get; set; }
+        
+        public decimal[] StartLocation { get; set; } 
         public string TargetAddress { get; set; }
+        public decimal[] TargetLocation { get; set; } 
+        public string RoutePoints { get; set; } 
         public bool OfferingRide { get; set; }
         public int SeatsLeft { get; set; }
         public bool MondayFrequency { get; set; }
@@ -25,6 +29,13 @@ namespace KimppakyytiApi.Models
         public bool FridayFrequency { get; set; }
         public bool SaturdayFrequency { get; set; }
         public bool SundayFrequency { get; set; }
+
+        public Ride()
+        {
+            StartLocation = new decimal[2];
+            TargetLocation = new decimal[2];
+          
+        }
 
         public override string ToString()
         {
