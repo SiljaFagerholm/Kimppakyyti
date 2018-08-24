@@ -13,6 +13,8 @@ using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Azure.Documents.Spatial;
+using Microsoft.IdentityModel.Protocols;
+
 using Newtonsoft.Json;
 
 namespace KimppakyytiApi.Controllers

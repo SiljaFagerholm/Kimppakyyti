@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
 const url = "https://localhost:44337/api/user/post";
-// const url = "/api/user/GetAllUsers/";
 
 export function AddNewProfile(profile) {
   fetch(url, {
@@ -43,6 +42,7 @@ class AddProfile extends Component {
 
     AddNewProfile(profileTemp);
     this.setState({ profile: {}, redirect: true });
+    alert("Olet rekisteröitynyt palveluun!");
   };
   render() {
     return (
