@@ -33,8 +33,7 @@ namespace KimppakyytiApi.Models
         public Ride()
         {
             StartLocation = new decimal[2];
-            TargetLocation = new decimal[2];
-          
+            TargetLocation = new decimal[2];                   
         }
 
         public override string ToString()
