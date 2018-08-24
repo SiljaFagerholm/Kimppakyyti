@@ -17,6 +17,7 @@ namespace KimppakyytiApi.Models
         public string Phonenumber { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
+      
 
         public override string ToString()
         {
