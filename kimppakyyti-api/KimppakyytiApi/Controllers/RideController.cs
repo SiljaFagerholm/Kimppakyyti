@@ -45,16 +45,16 @@ namespace KimppakyytiApi.Controllers
 
         public RideController(IConfiguration configuration)
         {
-            //_configuration = configuration;
-            //var endpointUri =
-            //_configuration["AppSettings:EndpointUri"];
-            //var key =
-            //_configuration["AppSettings:PrimaryKey"];
+            _configuration = configuration;
+            var endpointUri =
+            _configuration["AppSettings:EndpointUri"];
+            var key =
+            _configuration["AppSettings:PrimaryKey"];
 
 
-            // Reading EndpointUri and PrimaryKey from AzurePortal
-            //endpointUri = Environment.GetEnvironmentVariable("APPSETTING_EndpointUri");
-            //key = Environment.GetEnvironmentVariable("APPSETTING_PrimaryKey");
+            //Reading EndpointUri and PrimaryKey from AzurePortal
+           endpointUri = Environment.GetEnvironmentVariable("APPSETTING_EndpointUri");
+            key = Environment.GetEnvironmentVariable("APPSETTING_PrimaryKey");
 
             _cosmosDBclient = new DocumentClient(new Uri("https://loppuprojekti.documents.azure.com/"), "XzoPgAggVkFhshSEq9WCvZeRkFSnFhSvukkbI07Ou1juLDzyVo4Ek9YJlW0sVog1UZoGXcR8CaJYXSXdLZmAAw==");
             _cosmosDBclient.CreateDatabaseIfNotExistsAsync(new Database
