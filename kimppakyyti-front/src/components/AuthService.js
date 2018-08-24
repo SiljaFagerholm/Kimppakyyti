@@ -7,7 +7,7 @@ const ACCESS_TOKEN_KEY = "access_token";
 
 const CLIENT_ID = "fnULgYUWwAHpMoX2JasBouMIMBZKrGN4";
 const CLIENT_DOMAIN = "melaaman.eu.auth0.com";
-const REDIRECT = "http://localhost:3000";
+const REDIRECT = "http://localhost:3000/callback";
 const SCOPE = "read:alldata";
 const AUDIENCE = "kimppalada.com";
 

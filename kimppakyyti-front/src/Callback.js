@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { setIdToken, setAccessToken } from "./AuthService";
+import { setIdToken, setAccessToken } from "./components/AuthService";
 
 class Callback extends Component {
   componentDidMount() {

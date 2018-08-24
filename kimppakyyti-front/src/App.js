@@ -7,7 +7,7 @@ import {
   Switch,
   Redirect
 } from "react-router-dom";
-import { browserHistory } from "react-router";
+import { Link, browserHistory } from "react-router";
 import RideSearchPage from "./RideSearchPage";
 import AddRide from "./components/AddRide";
 import {
@@ -18,7 +18,12 @@ import {
   NavLink,
   UncontrolledDropdown
 } from "reactstrap";
-import { login, logout, isLoggedIn, requireAuth } from "./AuthService";
+import {
+  login,
+  logout,
+  isLoggedIn,
+  requireAuth
+} from "./components/AuthService";
 import AllProfiles from "./components/AllProfiles";
 import Callback from "./Callback";
 
@@ -50,7 +55,7 @@ class App extends Component {
             <Route exact path="/firstpage" component={FirstPage} />
             <Route
               exact
-              path="/special"
+              path="/AllProfiles"
               component={AllProfiles}
               onEnter={requireAuth}
             />

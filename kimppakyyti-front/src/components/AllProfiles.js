@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import ProfileList from "./ProfileList";
+import { isLoggedIn } from "./AuthService";
+
 const url = "https://localhost:44337/api/user/GetAllUsers";
-// const url = "/api/user/GetAllUsers/";
 
 var data = [
   {
@@ -34,7 +35,16 @@ class AllProfiles extends Component {
   render() {
     return (
       <div>
-        <ProfileList data={this.state.profileList} />
+        {isLoggedIn() ? (
+          <div>
+            <h2>Profiilit</h2>
+            <ProfileList data={this.state.profileList} />
+          </div>
+        ) : (
+          <div>
+            <h2>Kirjaudu sisään</h2>
+          </div>
+        )}
       </div>
     );
   }
