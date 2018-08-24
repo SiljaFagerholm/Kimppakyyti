@@ -17,6 +17,7 @@ using Microsoft.IdentityModel.Protocols;
 
 using Newtonsoft.Json;
 
+
 namespace KimppakyytiApi.Controllers
 {
     [EnableCors("MyPolicy")]
@@ -30,7 +31,7 @@ namespace KimppakyytiApi.Controllers
         private const string _collectionName = "Ride";
         private static readonly string endpointUri = ConfigurationManager.AppSettings["EndpointUri"];
         private static readonly string key = ConfigurationManager.AppSettings["PrimaryKey"];
-
+        
         private static SecureString toSecureString(string v)
         {
             SecureString s = new SecureString();
@@ -60,8 +61,9 @@ namespace KimppakyytiApi.Controllers
             {
                 Id = _dbName
             }).Wait();
-
+            
             _cosmosDBclient.CreateDocumentCollectionIfNotExistsAsync(
+
             UriFactory.CreateDatabaseUri(_dbName),
             new DocumentCollection { Id = _collectionName });
         }
@@ -77,14 +79,42 @@ namespace KimppakyytiApi.Controllers
             return "Nyt on tehty collection, vaikka sitä ei oltu tehty aiemmin!";
         }
         [HttpGet]
-        public ActionResult<List<Ride>> SearchRidesByTime(string time, string otherTime)
+        public ActionResult<List<Ride>> SearchRidesByLocation()
         {
-            try //Searching Rides from CosmosDB with right TimeTable.
+            try
             {
+               
                 FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
                 IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
                 UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
-                    $"SELECT * FROM c WHERE c[\"When\"] BETWEEN {time}AND {otherTime}",
+                    $"SELECT * FROM c WHERE  ST_DISTANCE (c.StartLocation, {"StartLocation": [ 62.8979675, 27.678122]}) < 100 * 1000",
+                    //$"SELECT * FROM c WHERE c[\"When\"] ={time}",             
+
+                    queryOptions);
+
+                return Ok(query.ToList());
+            }
+            catch (DocumentClientException de)
+            {
+                switch (de.StatusCode.Value)
+                {
+                    case System.Net.HttpStatusCode.NotFound:
+                        return NotFound();
+                }
+            }
+            return BadRequest();
+        }
+        [HttpGet]
+        public ActionResult<List<Ride>> SearchRidesByTime(string time, string otherTime)
+        {
+            try //Searching Rides from CosmosDB with right TimeTable.
+
+            {     
+                FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
+                IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
+                UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
+                    $"SELECT * FROM c WHERE c[\"When\"] BETWEEN {time} AND {otherTime}",      
+
                     //$"SELECT * FROM c WHERE c[\"When\"] ={time}",             
 
                     queryOptions);
