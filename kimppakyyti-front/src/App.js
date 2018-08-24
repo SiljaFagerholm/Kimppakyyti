@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import "./App.css";
 import FirstPage from "./FirstPage";
+<<<<<<< HEAD
+// import "./components/AddProfile";
+
+import AllProfiles from "./components/AllProfiles";
+=======
+>>>>>>> erika
 import {
   BrowserRouter as Router,
   Route,
@@ -10,6 +16,7 @@ import {
 import { browserHistory } from "react-router";
 import RideSearchPage from "./RideSearchPage";
 import AddRide from "./components/AddRide";
+
 import {
   Navbar,
   NavbarBrand,
@@ -28,6 +35,7 @@ import AllProfiles from "./components/AllProfiles";
 import Callback from "./Callback";
 import { Button } from "reactstrap";
 
+
 class App extends Component {
   force() {
     this.forceUpdate();
@@ -36,6 +44,17 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1 className="App-title">Welcome to React</h1>
+        </header>
+
+        <Router>
+          <Switch>
+            <Route exact path="/firstpage" component={FirstPage} />
+            <Route exact path="/ridesearchpage" component={RideSearchPage} />
+            <Route exact path="/addride" component={AddRide} />
+
         <div>
           <Navbar color="light" light expand="md">
             <NavbarBrand href="/">Kimppalada</NavbarBrand>
@@ -59,7 +78,7 @@ class App extends Component {
             </Nav>
           </Navbar>
         </div>
-
+<div>
         <Router history={browserHistory}>
           <Switch>
             <Route exact path="/firstpage" component={FirstPage} />
