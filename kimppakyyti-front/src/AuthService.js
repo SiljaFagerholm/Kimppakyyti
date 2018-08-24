@@ -1,13 +1,14 @@
 import decode from "jwt-decode";
 import { browserHistory } from "react-router";
 import auth0 from "auth0-js";
+
 const ID_TOKEN_KEY = "id_token";
 const ACCESS_TOKEN_KEY = "access_token";
 
 const CLIENT_ID = "fnULgYUWwAHpMoX2JasBouMIMBZKrGN4";
 const CLIENT_DOMAIN = "melaaman.eu.auth0.com";
 const REDIRECT = "http://localhost:3000";
-const SCOPE = "YOUR_SCOPE";
+const SCOPE = "read:alldata";
 const AUDIENCE = "kimppalada.com";
 
 var auth = new auth0.WebAuth({
@@ -76,34 +77,33 @@ export function isLoggedIn() {
   return !!idToken && !isTokenExpired(idToken);
 }
 
-// function getTokenExpirationDate(encodedToken) {
-//   const token = decode(encodedToken);
-//   if (!token.exp) {
-//     return null;
-//   }
-
-//   const date = new Date(0);
-//   date.setUTCSeconds(token.exp);
-
-//   return date;
-//   return new Date(0);
-// }
-
 function getTokenExpirationDate(encodedToken) {
-  try {
-    const token = decode(encodedToken);
-    if (!token.exp) {
-      return null;
-    }
-
-    const date = new Date(0);
-    date.setUTCSeconds(token.exp);
-
-    return date;
-  } catch (err) {
-    console.log(err);
+  const token = decode(encodedToken);
+  if (!token.exp) {
+    return null;
   }
+
+  const date = new Date(0);
+  date.setUTCSeconds(token.exp);
+
+  return date;
 }
+
+// function getTokenExpirationDate(encodedToken) {
+//   try {
+//     const token = decode(encodedToken);
+//     if (!token.exp) {
+//       return null;
+//     }
+
+//     const date = new Date(0);
+//     date.setUTCSeconds(token.exp);
+
+//     return date;
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
 
 function isTokenExpired(token) {
   const expirationDate = getTokenExpirationDate(token);
