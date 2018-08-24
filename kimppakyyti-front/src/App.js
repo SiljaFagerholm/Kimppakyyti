@@ -29,6 +29,10 @@ import Callback from "./Callback";
 import { Button } from "reactstrap";
 
 class App extends Component {
+  force() {
+    this.forceUpdate();
+  }
+
   render() {
     return (
       <div className="App">
