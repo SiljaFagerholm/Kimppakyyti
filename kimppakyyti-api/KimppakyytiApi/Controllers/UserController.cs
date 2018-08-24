@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
@@ -20,20 +21,28 @@ namespace KimppakyytiApi.Controllers
         private readonly DocumentClient _cosmosDBclient;
         private const string _dbName = "UserDB";
         private const string _collectionName = "User";
+        private static readonly string endpointUri = ConfigurationManager.AppSettings["EndpointUri"];
+        private static readonly string key = ConfigurationManager.AppSettings["PrimaryKey"];
 
         public UserController(IConfiguration configuration)
         {
             _configuration = configuration;
             var endpointUri =
-            _configuration["ConnectionStrings:CosmosDBConnection:EndpointUri"];
+            _configuration["AppSettings:EndpointUri"];
             var key =
-            _configuration["ConnectionStrings:CosmosDBConnection:PrimaryKey"];
+            _configuration["AppSettings:PrimaryKey"];
+
+
+            // Reading EndpointUri and PrimaryKey from AzurePortal
+            endpointUri = Environment.GetEnvironmentVariable("APPSETTING_EndpointUri");
+            key = Environment.GetEnvironmentVariable("APPSETTING_PrimaryKey");
+
             _cosmosDBclient = new DocumentClient(new Uri(endpointUri), key);
             _cosmosDBclient.CreateDatabaseIfNotExistsAsync(new Database
             {
                 Id = _dbName
             }).Wait();
-            
+
             _cosmosDBclient.CreateDocumentCollectionIfNotExistsAsync(
             UriFactory.CreateDatabaseUri(_dbName),
             new DocumentCollection { Id = _collectionName });

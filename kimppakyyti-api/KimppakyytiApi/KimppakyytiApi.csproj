@@ -15,7 +15,11 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+<<<<<<< HEAD
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.2.4" />
+=======
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+>>>>>>> 701b65718c11d1d7d295e03fd964bdada9d9aad1
   </ItemGroup>
 
 </Project>

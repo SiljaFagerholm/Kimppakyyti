@@ -6,12 +6,12 @@ class Time extends Component {
     time: "10:00"
   };
 
-  onChange = time => this.setState({ time });
+  onChange = time => this.setState(console.dir(time),{ time });
 
   render() {
     return (
       <div>
-        <TimePicker onChange={this.onChange} value={this.state.time} />
+        <TimePicker onChange={this.onChange} value={this.state.time} />      
       </div>
     );
   }
