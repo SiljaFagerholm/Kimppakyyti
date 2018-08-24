@@ -18,7 +18,7 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
+  Container,
   UncontrolledDropdown
 } from "reactstrap";
 import {
@@ -39,8 +39,10 @@ class App extends Component {
     return (
       <div className="App">
         <div>
-          <Navbar color="light" light expand="md">
-            <NavbarBrand href="/">Kimppalada</NavbarBrand>
+          <Navbar color="light expand" light expand="md">
+            <NavbarBrand className="Navbar" href="/">
+              Kimppalada
+            </NavbarBrand>
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <Button outline color="secondary" href="/AllProfiles">
@@ -61,23 +63,24 @@ class App extends Component {
             </Nav>
           </Navbar>
         </div>
-
-        <Router history={browserHistory}>
-          <Switch>
-            <Route exact path="/firstpage" component={FirstPage} />
-            <Route
-              exact
-              path="/AllProfiles"
-              component={AllProfiles}
-              onEnter={requireAuth}
-            />
-            <Route exact path="/ridesearchpage" component={RideSearchPage} />
-            <Route exact path="/addride" component={AddRide} />
-            <Route path="/callback" component={Callback} />
-            <Redirect exact from="/" to="/firstpage" />
-            {/* <Route component={NotFound} /> */}
-          </Switch>
-        </Router>
+        <Container>
+          <Router history={browserHistory}>
+            <Switch>
+              <Route exact path="/firstpage" component={FirstPage} />
+              <Route
+                exact
+                path="/AllProfiles"
+                component={AllProfiles}
+                onEnter={requireAuth}
+              />
+              <Route exact path="/ridesearchpage" component={RideSearchPage} />
+              <Route exact path="/addride" component={AddRide} />
+              <Route path="/callback" component={Callback} />
+              <Redirect exact from="/" to="/firstpage" />
+              {/* <Route component={NotFound} /> */}
+            </Switch>
+          </Router>
+        </Container>
       </div>
     );
   }
