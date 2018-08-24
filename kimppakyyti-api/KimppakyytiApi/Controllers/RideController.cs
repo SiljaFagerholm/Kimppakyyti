@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Security;
 using System.Threading.Tasks;
 using KimppakyytiApi.Models;
 using Microsoft.AspNetCore.Cors;
@@ -21,14 +23,33 @@ namespace KimppakyytiApi.Controllers
         private readonly DocumentClient _cosmosDBclient;
         private const string _dbName = "RideDB";
         private const string _collectionName = "Ride";
+        private static readonly string endpointUri = ConfigurationManager.AppSettings["EndpointUri"];
+        private static readonly string key = ConfigurationManager.AppSettings["PrimaryKey"];
+
+        private static SecureString toSecureString(string v)
+        {
+            SecureString s = new SecureString();
+
+            foreach (var item in v)
+            {
+                s.AppendChar(item);
+            }
+            return s;
+        }
 
         public RideController(IConfiguration configuration)
         {
             _configuration = configuration;
             var endpointUri =
-            _configuration["ConnectionStrings:CosmosDBConnection:EndpointUri"];
+            _configuration["AppSettings:EndpointUri"];
             var key =
-            _configuration["ConnectionStrings:CosmosDBConnection:PrimaryKey"];            
+            _configuration["AppSettings:PrimaryKey"];
+
+
+            // Reading EndpointUri and PrimaryKey from AzurePortal
+            endpointUri = Environment.GetEnvironmentVariable("APPSETTING_EndpointUri");
+            key = Environment.GetEnvironmentVariable("APPSETTING_PrimaryKey");
+           
             _cosmosDBclient = new DocumentClient(new Uri(endpointUri), key);
             _cosmosDBclient.CreateDatabaseIfNotExistsAsync(new Database
             {
@@ -38,6 +59,11 @@ namespace KimppakyytiApi.Controllers
             _cosmosDBclient.CreateDocumentCollectionIfNotExistsAsync(
             UriFactory.CreateDatabaseUri(_dbName),
             new DocumentCollection { Id = _collectionName });
+        }
+        [HttpGet]
+        public string Mita()
+        {
+            return Environment.GetEnvironmentVariable("APPSETTING_EndpointUri");
         }
 
         [HttpGet]
@@ -60,9 +86,35 @@ namespace KimppakyytiApi.Controllers
             //return Ok(document.Id);
         }
         [HttpGet]
+        public ActionResult<List<Ride>> SearchRidesByTime(string time, string otherTime)
+        {
+            try //Searching Rides from CosmosDB with right TimeTable.
+            {                
+                FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
+                IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
+                UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
+                    $"SELECT * FROM c WHERE c[\"When\"] BETWEEN {time}AND {otherTime}",      
+                    //$"SELECT * FROM c WHERE c[\"When\"] ={time}",             
+                    
+                    queryOptions); 
+
+                return Ok(query.ToList());
+            }
+            catch (DocumentClientException de)
+            {
+                switch (de.StatusCode.Value)
+                {
+                    case System.Net.HttpStatusCode.NotFound:
+                        return NotFound();
+                }
+            }
+            return BadRequest();
+        }
+   
+        [HttpGet]
         public ActionResult<List<Ride>> GetAllRides()
         {
-            try
+            try 
             {
                 FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
                 IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
