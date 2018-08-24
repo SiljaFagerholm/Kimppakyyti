@@ -17,7 +17,6 @@ using Microsoft.IdentityModel.Protocols;
 
 using Newtonsoft.Json;
 
-
 namespace KimppakyytiApi.Controllers
 {
     [EnableCors("MyPolicy")]
@@ -31,7 +30,7 @@ namespace KimppakyytiApi.Controllers
         private const string _collectionName = "Ride";
         private static readonly string endpointUri = ConfigurationManager.AppSettings["EndpointUri"];
         private static readonly string key = ConfigurationManager.AppSettings["PrimaryKey"];
-        
+
         private static SecureString toSecureString(string v)
         {
             SecureString s = new SecureString();
@@ -56,14 +55,13 @@ namespace KimppakyytiApi.Controllers
            endpointUri = Environment.GetEnvironmentVariable("APPSETTING_EndpointUri");
             key = Environment.GetEnvironmentVariable("APPSETTING_PrimaryKey");
 
-            _cosmosDBclient = new DocumentClient(new Uri("https://loppuprojekti.documents.azure.com/"), "XzoPgAggVkFhshSEq9WCvZeRkFSnFhSvukkbI07Ou1juLDzyVo4Ek9YJlW0sVog1UZoGXcR8CaJYXSXdLZmAAw==");
+            _cosmosDBclient = new DocumentClient(new Uri(endpointUri), key);
             _cosmosDBclient.CreateDatabaseIfNotExistsAsync(new Database
             {
                 Id = _dbName
             }).Wait();
-            
-            _cosmosDBclient.CreateDocumentCollectionIfNotExistsAsync(
 
+            _cosmosDBclient.CreateDocumentCollectionIfNotExistsAsync(
             UriFactory.CreateDatabaseUri(_dbName),
             new DocumentCollection { Id = _collectionName });
         }
@@ -78,30 +76,15 @@ namespace KimppakyytiApi.Controllers
         {
             return "Nyt on tehty collection, vaikka sitä ei oltu tehty aiemmin!";
         }
-        [HttpPost]
-        public async Task<ActionResult<string>> Post([FromBody] Ride value)
-        {
-            Document document = await _cosmosDBclient.CreateDocumentAsync(
-          UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
-          value);
-
-            // Get route from Google Directions Api
-            string response = await GoogleApiFunctions.GetRouteGoogle(value.StartAddress, value.TargetAddress);
-            // parse response to CosmoDB
-
-            return response;
-            //return Ok(document.Id);
-        }
         [HttpGet]
-        public ActionResult<List<Ride>> SearchRidesByLocation()
+        public ActionResult<List<Ride>> SearchRidesByTime(string time, string otherTime)
         {
-            try
+            try //Searching Rides from CosmosDB with right TimeTable.
             {
-               
                 FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
                 IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
                 UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
-                    $"SELECT * FROM c WHERE  ST_DISTANCE (c.StartLocation, {"StartLocation": [ 62.8979675, 27.678122]}) < 100 * 1000",
+                    $"SELECT * FROM c WHERE c[\"When\"] BETWEEN {time}AND {otherTime}",
                     //$"SELECT * FROM c WHERE c[\"When\"] ={time}",             
 
                     queryOptions);
@@ -118,36 +101,11 @@ namespace KimppakyytiApi.Controllers
             }
             return BadRequest();
         }
-        [HttpGet]
-        public ActionResult<List<Ride>> SearchRidesByTime(string time, string otherTime)
-        {
-            try //Searching Rides from CosmosDB with right TimeTable.
-            {     
-                FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
-                IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
-                UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
-                    $"SELECT * FROM c WHERE c[\"When\"] BETWEEN {time} AND {otherTime}",      
-                    //$"SELECT * FROM c WHERE c[\"When\"] ={time}",             
-                    
-                    queryOptions); 
 
-                return Ok(query.ToList());
-            }
-            catch (DocumentClientException de)
-            {
-                switch (de.StatusCode.Value)
-                {
-                    case System.Net.HttpStatusCode.NotFound:
-                        return NotFound();
-                }
-            }
-            return BadRequest();
-        }
-   
         [HttpGet]
         public ActionResult<List<Ride>> GetAllRides()
         {
-            try 
+            try
             {
                 FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
                 IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
@@ -168,14 +126,30 @@ namespace KimppakyytiApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> PostOfferRideAsync([FromBody] Ride value)
+        public async Task<ActionResult<string>> Post([FromBody] Ride value)
+        {
+            Document document = await _cosmosDBclient.CreateDocumentAsync(
+          UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
+          value);
+
+            // Get route from Google Directions Api
+            string response = await GoogleApiFunctions.GetRouteGoogle(value.StartAddress, value.TargetAddress);
+            // parse response to CosmoDB
+
+            return response;
+            //return Ok(document.Id);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<string>> PostOfferRideAsync([FromBody] Ride valueIn)
         {
             //Functions for delayed response -- timeout try /catch
 
             // Get route from Google Directions Api
-            var response = await GoogleApiFunctions.GetRouteGoogle(value.StartAddress, value.TargetAddress);
+            var response = await GoogleApiFunctions.GetRouteGoogle(valueIn.StartAddress, valueIn.TargetAddress);
             // parse response
             RootObject obj = JsonConvert.DeserializeObject<RootObject>(response);
+            RideOut valueOut = new RideOut();
 
             //return $"Start loc: Mysteerinollapolla:{obj.routes[0].legs[0].start_location.fakeNews} start lat: {obj.routes[0].legs[0].start_location.lat} start lng: {obj.routes[0].legs[0].start_location.lng} TargetLoc lat: {obj.routes[0].legs[0].end_location.lat} TargetLocation lng {obj.routes[0].legs[0].end_location.lng} ";
 
@@ -185,27 +159,32 @@ namespace KimppakyytiApi.Controllers
             }
             else if (obj.status == "OK")
             {
-                //start and end point from Google to CosmosDB -object
-                
-                value.StartLocation = new Point (obj.routes[0].legs[0].start_location.lat, obj.routes[0].legs[0].start_location.lng);
+                // parse incoming object to outgoing  start and end point from Google to CosmosDB -object
+                valueOut.Nickname = valueIn.Nickname;
+                valueOut.Price = valueIn.Price;
+                valueOut.When = valueIn.When;
+                valueOut.StartAddress = valueIn.StartAddress;
+                valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lng, obj.routes[0].legs[0].start_location.lat);
+                valueOut.TargetAddress = valueIn.TargetAddress;
+                valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lng, obj.routes[0].legs[0].end_location.lat);
 
-                value.TargetLocation = new Point (obj.routes[0].legs[0].end_location.lat, obj.routes[0].legs[0].end_location.lng);
-
-
-                //parse route points to Ride -object routepoints in between - unless query is null
-                if (obj.routes[0].legs[0].steps[0].end_location.lat != 0 && obj.routes[0].legs[0].steps[0].end_location.lng != 0)
-                {
-                   
-                    
-                    foreach (var item in obj.routes[0].legs[0].steps)
-                    {
-                        value.RoutePoints.Add(new Point (item.end_location.lat, item.end_location.lng));
-                    }
-                }
+                //foreach (var location in obj.routes[0].legs[0].steps)
+                //{
+                //    valueOut.RoutePoints.Add(new Point(location.end_location.lng, location.end_location.lat));
+                //}
+                valueOut.OfferingRide = valueIn.OfferingRide;
+                valueOut.SeatsLeft = valueIn.SeatsLeft;
+                valueOut.MondayFrequency = valueIn.MondayFrequency;
+                valueOut.TuesdayFrequency = valueIn.TuesdayFrequency;
+                valueOut.WednesdayFrequency = valueIn.WednesdayFrequency;
+                valueOut.ThursdayFrequency = valueIn.ThursdayFrequency;
+                valueOut.FridayFrequency = valueIn.FridayFrequency;
+                valueOut.SaturdayFrequency = valueIn.SaturdayFrequency;
+                valueOut.SundayFrequency = valueIn.SundayFrequency;
 
                 Document document = await _cosmosDBclient.CreateDocumentAsync(
                 UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
-                value);
+                valueOut);
 
                 return Ok(document.ToString());
             }
