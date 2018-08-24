@@ -7,7 +7,7 @@ import {
   Switch,
   Redirect
 } from "react-router-dom";
-import { Link, browserHistory } from "react-router";
+import { browserHistory } from "react-router";
 import RideSearchPage from "./RideSearchPage";
 import AddRide from "./components/AddRide";
 import {
@@ -26,6 +26,7 @@ import {
 } from "./components/AuthService";
 import AllProfiles from "./components/AllProfiles";
 import Callback from "./Callback";
+import { Button } from "reactstrap";
 
 class App extends Component {
   render() {
@@ -36,13 +37,18 @@ class App extends Component {
             <NavbarBrand href="/">Kimppalada</NavbarBrand>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/AllProfiles">Kaikki kyydit</NavLink>
-              </NavItem>
-              <NavItem>
+                <Button outline color="secondary" href="/AllProfiles">
+                  Kaikki kyydit
+                </Button>
+                &nbsp;
                 {isLoggedIn() ? (
-                  <NavLink onClick={() => logout()}>Log out </NavLink>
+                  <Button outline color="secondary" onClick={() => logout()}>
+                    Log out{" "}
+                  </Button>
                 ) : (
-                  <NavLink onClick={() => login()}>Log In</NavLink>
+                  <Button outline color="secondary" onClick={() => login()}>
+                    Log In
+                  </Button>
                 )}
               </NavItem>
               <UncontrolledDropdown nav inNavbar />
