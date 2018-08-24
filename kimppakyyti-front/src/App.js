@@ -1,12 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
 import FirstPage from "./FirstPage";
-<<<<<<< HEAD
 // import "./components/AddProfile";
 
-import AllProfiles from "./components/AllProfiles";
-=======
->>>>>>> erika
 import {
   BrowserRouter as Router,
   Route,
@@ -35,26 +31,13 @@ import AllProfiles from "./components/AllProfiles";
 import Callback from "./Callback";
 import { Button } from "reactstrap";
 
-
 class App extends Component {
   force() {
     this.forceUpdate();
   }
-
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-
-        <Router>
-          <Switch>
-            <Route exact path="/firstpage" component={FirstPage} />
-            <Route exact path="/ridesearchpage" component={RideSearchPage} />
-            <Route exact path="/addride" component={AddRide} />
-
         <div>
           <Navbar color="light" light expand="md">
             <NavbarBrand href="/">Kimppalada</NavbarBrand>
@@ -78,7 +61,7 @@ class App extends Component {
             </Nav>
           </Navbar>
         </div>
-<div>
+
         <Router history={browserHistory}>
           <Switch>
             <Route exact path="/firstpage" component={FirstPage} />
