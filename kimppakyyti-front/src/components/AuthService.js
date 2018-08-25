@@ -8,13 +8,13 @@ const ACCESS_TOKEN_KEY = "access_token";
 const CLIENT_ID = "fnULgYUWwAHpMoX2JasBouMIMBZKrGN4";
 const CLIENT_DOMAIN = "melaaman.eu.auth0.com";
 const REDIRECT = "http://localhost:3000/callback";
-const SCOPE = "read:alldata";
+const SCOPE = "openid profile";
 const AUDIENCE = "kimppalada.com";
 
 var auth = new auth0.WebAuth({
   clientID: CLIENT_ID,
   domain: CLIENT_DOMAIN,
-  scope: "openid profile"
+  scope: SCOPE
 });
 
 export function login() {
@@ -23,6 +23,17 @@ export function login() {
     redirectUri: REDIRECT,
     audience: AUDIENCE,
     scope: SCOPE
+  });
+}
+
+export function getProfile(cb) {
+  let accessToken = getAccessToken();
+  console.log(accessToken);
+  auth.client.userInfo(accessToken, (err, profile) => {
+    if (profile) {
+      this.userProfile = profile;
+    }
+    // cb(err, profile);
   });
 }
 
@@ -46,10 +57,10 @@ export function getAccessToken() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
 }
 
-// getAccessToken() {
+// export function getAccessToken() {
 //   const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
 //   if (!accessToken) {
-//     throw new Error('No Access Token found');
+//     throw new Error("No Access Token found");
 //   }
 //   return accessToken;
 // }
@@ -117,15 +128,4 @@ function getTokenExpirationDate(encodedToken) {
 function isTokenExpired(token) {
   const expirationDate = getTokenExpirationDate(token);
   return expirationDate < new Date();
-}
-
-// Get profile information
-export function getProfile(cb) {
-  let accessToken = this.getAccessToken();
-  this.auth0.client.userInfo(accessToken, (err, profile) => {
-    if (profile) {
-      this.userProfile = profile;
-    }
-    cb(err, profile);
-  });
 }
