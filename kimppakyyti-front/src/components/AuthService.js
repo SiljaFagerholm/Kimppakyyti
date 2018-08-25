@@ -1,5 +1,4 @@
 import decode from "jwt-decode";
-import { browserHistory, Redirect } from "react-router";
 import auth0 from "auth0-js";
 import app from "../index.js";
 
@@ -14,7 +13,8 @@ const AUDIENCE = "kimppalada.com";
 
 var auth = new auth0.WebAuth({
   clientID: CLIENT_ID,
-  domain: CLIENT_DOMAIN
+  domain: CLIENT_DOMAIN,
+  scope: "openid profile"
 });
 
 export function login() {
@@ -45,6 +45,14 @@ export function getIdToken() {
 export function getAccessToken() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
 }
+
+// getAccessToken() {
+//   const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
+//   if (!accessToken) {
+//     throw new Error('No Access Token found');
+//   }
+//   return accessToken;
+// }
 
 function clearIdToken() {
   localStorage.removeItem(ID_TOKEN_KEY);
@@ -109,4 +117,15 @@ function getTokenExpirationDate(encodedToken) {
 function isTokenExpired(token) {
   const expirationDate = getTokenExpirationDate(token);
   return expirationDate < new Date();
+}
+
+// Get profile information
+export function getProfile(cb) {
+  let accessToken = this.getAccessToken();
+  this.auth0.client.userInfo(accessToken, (err, profile) => {
+    if (profile) {
+      this.userProfile = profile;
+    }
+    cb(err, profile);
+  });
 }

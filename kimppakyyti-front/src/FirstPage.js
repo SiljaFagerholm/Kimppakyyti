@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import Time from "./components/Time";
 import Date from "./components/Date";
 import { Button } from "reactstrap";
-import AddNewProfile from "./components/AddProfile";
-import { BrowserRouter as Router, Redirect } from "react-router-dom";
+import { Link, BrowserRouter as Router, Redirect } from "react-router-dom";
 
 class FirstPage extends Component {
   constructor(props) {
@@ -58,6 +57,7 @@ class FirstPage extends Component {
           >
             Etsin kyytiä
           </Button>
+          <Link to="profileauth">Profiili</Link>
         </div>
       );
     }
