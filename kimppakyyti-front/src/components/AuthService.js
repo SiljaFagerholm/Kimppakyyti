@@ -8,7 +8,7 @@ const ACCESS_TOKEN_KEY = "access_token";
 const CLIENT_ID = "fnULgYUWwAHpMoX2JasBouMIMBZKrGN4";
 const CLIENT_DOMAIN = "melaaman.eu.auth0.com";
 const REDIRECT = "http://localhost:3000/callback";
-const SCOPE = "openid profile";
+const SCOPE = "openid profile read:alldata";
 const AUDIENCE = "kimppalada.com";
 
 var auth = new auth0.WebAuth({
@@ -16,6 +16,12 @@ var auth = new auth0.WebAuth({
   domain: CLIENT_DOMAIN,
   scope: SCOPE
 });
+
+export function userProfile() {
+  auth.userProfile({
+    scope: SCOPE
+  });
+}
 
 export function login() {
   auth.authorize({
@@ -28,10 +34,11 @@ export function login() {
 
 export function getProfile(cb) {
   let accessToken = getAccessToken();
+  let profile = userProfile;
   console.log(accessToken);
   auth.client.userInfo(accessToken, (err, profile) => {
     if (profile) {
-      this.userProfile = profile;
+      return profile;
     }
     // cb(err, profile);
   });
