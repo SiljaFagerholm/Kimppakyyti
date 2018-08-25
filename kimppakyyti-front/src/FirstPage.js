@@ -4,7 +4,6 @@ import Date from "./components/Date";
 import { Button } from "reactstrap";
 import { Redirect } from "react-router-dom";
 import { getProfile } from "./components/AuthService";
-import ShowProfile from "./components/ShowProfile";
 
 class FirstPage extends Component {
   constructor(props) {
@@ -67,7 +66,6 @@ class FirstPage extends Component {
           >
             Profiili{" "}
           </Button>
-          sub: "", */}
         </div>
       );
     }
