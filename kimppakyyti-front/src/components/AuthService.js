@@ -25,22 +25,21 @@ export function userProfile() {
 
 export function login() {
   auth.authorize({
-    responseType: "token id_token",
+    responseType: ACCESS_TOKEN_KEY,
     redirectUri: REDIRECT,
     audience: AUDIENCE,
     scope: SCOPE
   });
 }
 
-export function getProfile(cb) {
+export function getProfile() {
   let accessToken = getAccessToken();
-  let profile = userProfile;
   console.log(accessToken);
   auth.client.userInfo(accessToken, (err, profile) => {
     if (profile) {
       return profile;
     }
-    // cb(err, profile);
+    return err;
   });
 }
 

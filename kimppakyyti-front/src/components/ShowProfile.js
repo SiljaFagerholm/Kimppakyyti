@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { isLoggedIn, getProfile } from "./AuthService";
+import { isLoggedIn } from "./AuthService";
+
+// const url = "https://melaaman.eu.auth0.com/userinfo";
 
 var data = [
   {
@@ -23,13 +25,20 @@ class ShowProfile extends Component {
     console.log(data);
   }
 
+  //   componentDidMount() {
+  //     fetch(url)
+  //       .then(response => response.json())
+  //       .then(data => this.setState({ profileInformation: data }));
+  //     console.log("toimii");
+  //   }
+
   render() {
     return (
       <div>
         {isLoggedIn() ? (
           <div>
             <h2>Tiedot</h2>
-            {this.state.profileInformation}
+            {this.state.data}
           </div>
         ) : (
           <div>

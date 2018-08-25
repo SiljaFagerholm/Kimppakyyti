@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Time from "./components/Time";
 import Date from "./components/Date";
 import { Button } from "reactstrap";
-import { Link, BrowserRouter as Router, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { getProfile } from "./components/AuthService";
 import ShowProfile from "./components/ShowProfile";
 
@@ -67,7 +67,7 @@ class FirstPage extends Component {
           >
             Profiili{" "}
           </Button>
-          <ShowProfile />
+          sub: "", */}
         </div>
       );
     }
