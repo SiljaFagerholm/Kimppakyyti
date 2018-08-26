@@ -17,28 +17,17 @@ class NavComponent extends Component {
       <div>
         <Navbar light className="NavBar">
           <NavbarBrand href="/">
-            <img width={84} height={84} src={logo} alt={"logo"} />
-            <span className="Logo">I M P P A L A D A</span>
+            <img width={200} height={100} src={logo} alt={"logo"} />
           </NavbarBrand>
           <Nav>
             <NavItem>
               &nbsp;
               {isLoggedIn() ? (
-                <Button
-                  size="sm"
-                  outline
-                  color="secondary"
-                  onClick={() => logout()}
-                >
+                <Button size="sm" outline color="info" onClick={() => logout()}>
                   Log out{" "}
                 </Button>
               ) : (
-                <Button
-                  size="sm"
-                  outline
-                  color="secondary"
-                  onClick={() => login()}
-                >
+                <Button size="sm" outline color="info" onClick={() => login()}>
                   Log In
                 </Button>
               )}

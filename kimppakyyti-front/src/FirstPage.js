@@ -47,12 +47,12 @@ class FirstPage extends Component {
           <Date />
           <Time />
           <br />
-          <Button outline color="secondary" type="submit">
+          <Button outline color="info" type="submit">
             Tarjoan kyytiä
           </Button>{" "}
           <Button
             outline
-            color="secondary"
+            color="info"
             onClick={this.movetoRideSearch}
             type="button"
           >
@@ -60,13 +60,13 @@ class FirstPage extends Component {
           </Button>
           <Button
             outline
-            color="secondary"
+            color="info"
             onClick={() => getProfile()}
             type="button"
           >
             Profiili{" "}
           </Button>
-          <Button outline color="secondary" href="/AllProfiles">
+          <Button outline color="info" href="/AllProfiles">
             Kaikki kyydit
           </Button>
         </div>
