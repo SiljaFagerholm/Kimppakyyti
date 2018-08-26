@@ -17,22 +17,22 @@ var auth = new auth0.WebAuth({
   scope: SCOPE
 });
 
-export function userProfile() {
-  auth.userProfile({
-    scope: SCOPE
-  });
-}
-
 export function login() {
   auth.authorize({
-    responseType: ACCESS_TOKEN_KEY,
+    responseType: "token id_token",
     redirectUri: REDIRECT,
     audience: AUDIENCE,
     scope: SCOPE
   });
 }
 
-export function getProfile() {
+export function userProfile() {
+  auth.userProfile({
+    scope: SCOPE
+  });
+}
+
+export function getProfile(cb) {
   let accessToken = getAccessToken();
   console.log(accessToken);
   auth.client.userInfo(accessToken, (err, profile) => {
