@@ -4,6 +4,7 @@ import Date from "./components/Date";
 import { Button } from "reactstrap";
 import { Redirect } from "react-router-dom";
 import { getProfile } from "./components/AuthService";
+import "./App.css";
 
 class FirstPage extends Component {
   constructor(props) {
@@ -47,12 +48,12 @@ class FirstPage extends Component {
           <Date />
           <Time />
           <br />
-          <Button outline color="info" type="submit">
+          <Button outline color="secondary" type="submit">
             Tarjoan kyytiä
           </Button>{" "}
           <Button
             outline
-            color="info"
+            color="secondary"
             onClick={this.movetoRideSearch}
             type="button"
           >
@@ -60,13 +61,13 @@ class FirstPage extends Component {
           </Button>
           <Button
             outline
-            color="info"
+            color="secondary"
             onClick={() => getProfile()}
             type="button"
           >
             Profiili{" "}
           </Button>
-          <Button outline color="info" href="/AllProfiles">
+          <Button outline color="secondary" href="/AllProfiles">
             Kaikki kyydit
           </Button>
         </div>

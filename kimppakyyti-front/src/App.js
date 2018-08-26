@@ -15,7 +15,6 @@ import { requireAuth } from "./components/AuthService";
 import AllProfiles from "./components/AllProfiles";
 import Callback from "./Callback";
 import NavComponent from "./Navbar";
-import MainArea from "./MainArea";
 
 class App extends Component {
   force() {
@@ -24,11 +23,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div>
-          <NavComponent />
-          <MainArea />
-        </div>
-        <Container>
+        <NavComponent />
+        <Container className="Container">
           <Router history={browserHistory}>
             <Switch>
               <Route exact path="/firstpage" component={FirstPage} />

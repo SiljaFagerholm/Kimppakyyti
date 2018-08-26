@@ -5,15 +5,20 @@
   color: black;
 }
 
+.Button {
+  border-color: #5db3c1a1;
+  color: black;
+  background-color: white;
+}
 .NavBar {
   height: 150px;
   padding: 20px;
-  background-color: #5db3c1a1;
+  background-color: gray;
 }
 
-.Logo {
-  font-size: 125%;
-  font-weight: bold;
-  font-variant: small-caps;
-  color: black;
+.Container {
+  background-color: #5db3c1a1;
+  height: 150px;
+  padding: 20px;
+  text-align: center;
 }

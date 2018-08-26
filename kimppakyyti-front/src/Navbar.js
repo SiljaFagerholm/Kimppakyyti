@@ -4,32 +4,30 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  UncontrolledDropdown,
-  Button
+  UncontrolledDropdown
 } from "reactstrap";
 import { login, logout, isLoggedIn } from "./components/AuthService";
 import "./App.css";
-import logo from "./Logo_kimppalada.png";
+import logo from "./Logo_kimppalada_2.png";
 
 class NavComponent extends Component {
   render() {
     return (
       <div>
-        <Navbar light className="NavBar">
+        <Navbar className="Navbar">
           <NavbarBrand href="/">
             <img width={200} height={100} src={logo} alt={"logo"} />
           </NavbarBrand>
           <Nav>
             <NavItem>
-              &nbsp;
               {isLoggedIn() ? (
-                <Button size="sm" outline color="info" onClick={() => logout()}>
+                <button size="sm" className="Button" onClick={() => logout()}>
                   Log out{" "}
-                </Button>
+                </button>
               ) : (
-                <Button size="sm" outline color="info" onClick={() => login()}>
+                <button size="sm" className="Button" onClick={() => login()}>
                   Log In
-                </Button>
+                </button>
               )}
             </NavItem>
             <UncontrolledDropdown nav inNavbar />
