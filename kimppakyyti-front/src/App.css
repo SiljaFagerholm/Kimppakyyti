@@ -3,6 +3,7 @@
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif,
     monospace;
   color: black;
+  background-color: #5db3c1a1;
 }
 
 .Button {
@@ -13,12 +14,10 @@
 .NavBar {
   height: 150px;
   padding: 20px;
-  background-color: gray;
+  background-color: whitesmoke;
 }
 
 .Container {
-  background-color: #5db3c1a1;
-  height: 150px;
-  padding: 20px;
-  text-align: center;
+  padding-top: 100px;
+  padding-bottom: 100px;
 }
