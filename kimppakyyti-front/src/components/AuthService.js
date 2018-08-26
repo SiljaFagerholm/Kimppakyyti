@@ -32,16 +32,28 @@ export function userProfile() {
   });
 }
 
-export function getProfile(cb) {
+export function getProfile() {
   let accessToken = getAccessToken();
-  console.log(accessToken);
-  auth.client.userInfo(accessToken, (err, profile) => {
-    if (profile) {
-      return profile;
-    }
-    return err;
-  });
+  if (accessToken) {
+    auth.client.userInfo(accessToken, (err, profile) => {
+      if (profile) {
+        auth.userProfile = { profile };
+        console.log(userProfile);
+      }
+    });
+  }
 }
+
+// export function getProfile(cb) {
+//   let accessToken = getAccessToken();
+//   console.log(accessToken);
+//   auth.client.userInfo(accessToken, (err, profile) => {
+//     if (profile) {
+//       return profile;
+//     }
+//     return err;
+//   });
+// }
 
 export function logout() {
   clearIdToken();
