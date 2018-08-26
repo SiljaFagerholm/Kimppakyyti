@@ -9,41 +9,36 @@ import {
 } from "reactstrap";
 import { login, logout, isLoggedIn } from "./components/AuthService";
 import "./App.css";
+import logo from "./Logo_kimppalada.png";
 
 class NavComponent extends Component {
-  constructor(props) {
-    super(props);
-
-    this.toggleNavbar = this.toggleNavbar.bind(this);
-    this.state = {
-      collapsed: true
-    };
-  }
-
-  toggleNavbar() {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
-  }
   render() {
     return (
       <div>
         <Navbar light className="NavBar">
           <NavbarBrand href="/">
-            <span className="Logo">K</span> imppalada
+            <img width={84} height={84} src={logo} alt={"logo"} />
+            <span className="Logo">I M P P A L A D A</span>
           </NavbarBrand>
           <Nav>
             <NavItem>
-              <Button outline color="secondary" href="/AllProfiles">
-                Kaikki kyydit
-              </Button>
               &nbsp;
               {isLoggedIn() ? (
-                <Button outline color="secondary" onClick={() => logout()}>
+                <Button
+                  size="sm"
+                  outline
+                  color="secondary"
+                  onClick={() => logout()}
+                >
                   Log out{" "}
                 </Button>
               ) : (
-                <Button outline color="secondary" onClick={() => login()}>
+                <Button
+                  size="sm"
+                  outline
+                  color="secondary"
+                  onClick={() => login()}
+                >
                   Log In
                 </Button>
               )}

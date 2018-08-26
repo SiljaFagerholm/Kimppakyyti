@@ -66,6 +66,9 @@ class FirstPage extends Component {
           >
             Profiili{" "}
           </Button>
+          <Button outline color="secondary" href="/AllProfiles">
+            Kaikki kyydit
+          </Button>
         </div>
       );
     }
