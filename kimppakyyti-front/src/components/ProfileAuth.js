@@ -10,7 +10,6 @@ class ProfileAuth extends Component {
   }
 
   componentDidMount() {
-    //this.setState({ profile: getProfile() });
     getProfile((err, profile) => {
       console.log(profile);
       this.setState({ profile: profile });
@@ -18,17 +17,14 @@ class ProfileAuth extends Component {
   }
 
   render() {
-    //const pro = getProfile();
     console.dir(this.state.profile);
-    //console.dir(pro);
-    //const { profile } = this.state;
+
     return (
       isLoggedIn() && (
         <div>
-          {/* <h1>{pro.name}</h1>
-          <img src={pro.picture} alt="profile" />
-          <h3>{pro.nickname}</h3> */}
-          {/*JSON.stringify(profile, null, 2)*/}
+          <h1>{this.state.profile.name}</h1>
+          <img src={this.state.profile.picture} alt="profile" />
+          <h3>{this.state.profile.nickname}</h3>
         </div>
       )
     );
