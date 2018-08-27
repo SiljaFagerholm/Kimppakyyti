@@ -15,6 +15,7 @@ import moment from "moment";
 import "./FirstPage.css";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "./components/Date";
+import {getProfile} from "./components/AuthService";
 
 // import ApiCalendar from "react-google-calendar-api";
 
@@ -26,10 +27,12 @@ export function OfferNewRide(offer) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
+      nickname: offer.nickname,
       startAddress: offer.startAddress,
       targetAddress: offer.targetAddress,
       startTime: offer.startTime,
       endTime: offer.endTime,
+      offeringRide: true,
       mondayFrequency: offer.mondayFrequency,
       tuesdayFrequency: offer.tuesdayFrequency,
       wednesdayFrequency: offer.wednesdayFrequency,
@@ -50,7 +53,10 @@ class FirstPage extends Component {
       redirect: false,
       startTime: moment(),
       endTime: moment(),
-      activeTab: "1"
+      activeTab: "1",
+      startAddress: "",
+      targetAddress: "",
+      profile: {}
     };
     this.startTimeChanged = this.startTimeChanged.bind(this);
     this.endTimeChanged = this.endTimeChanged.bind(this);
@@ -70,8 +76,9 @@ class FirstPage extends Component {
 
   OfferRide = e => {
     let informationTemp = {
-      startAddress: this.refs.startAddress.value,
-      targetAddress: this.refs.targetAddress.value,
+      nickname: this.state.profile.nickname,
+      startAddress: this.state.startAddress,
+      targetAddress: this.state.targetAddress,
       startTime: this.state.startTime,
       endTime: this.state.endTime,
       mondayFrequency: this.refs.monday.checked,
@@ -95,6 +102,23 @@ class FirstPage extends Component {
         activeTab: tab
       });
     }
+  }
+
+  handleChange2(event){
+    this.setState({
+      targetAddress: event.target.value});
+  }
+
+  handleChange(event){
+    this.setState({
+      startAddress: event.target.value});
+  }
+
+  componentDidMount() {
+    getProfile((err, profile) => {
+      console.log(profile);
+      this.setState({ profile: profile });
+    });
   }
 
   render() {
@@ -138,7 +162,9 @@ class FirstPage extends Component {
                     <label>Mistä: </label>
                     <input
                       maxLength="50"
-                      onClick={this.xxx}
+                      value={this.state.startAddress}
+                      name="startAddress"
+                      onChange={this.handleChange.bind(this)}
                       ref="startAddress"
                       type="text"
                       required
@@ -147,8 +173,10 @@ class FirstPage extends Component {
                     <label>Minne: </label>
                     <input
                       maxLength="50"
-                      onClick={this.xxx}
-                      ref="targetAddress"
+                      name="targetAddress"
+                      onChange={this.handleChange2.bind(this)}
+                      value={this.state.targetAddress}
+                      // ref="targetAddress"
                       type="text"
                       required
                     />
