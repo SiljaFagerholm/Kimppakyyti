@@ -1,11 +1,16 @@
-.center, .center li{
-    text-align: center;
-  }
-
-.left ul{
-    padding-left: 0;
+.center,
+.center li {
+  text-align: center;
 }
 
-.center input{
-    text-align: center;
+.left ul {
+  padding-left: 0;
+}
+
+.center input {
+  text-align: center;
+}
+
+.Row {
+  justify-content: center;
 }
