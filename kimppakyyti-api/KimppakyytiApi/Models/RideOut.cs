@@ -13,9 +13,10 @@ namespace KimppakyytiApi.Models
     {
         public string Nickname { get; set; }
         public double Price { get; set; }
-        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
-        public DateTime When { get; set; }
-       
+        
+        public DateTime StartTime { get; set; }
+        public DateTime? EndTime { get; set; }
+
         public string StartAddress { get; set; }
 
         [JsonProperty("startlocation")]
@@ -41,7 +42,7 @@ namespace KimppakyytiApi.Models
         
         public override string ToString()
         {
-            return $"Nickname: {Nickname} Price: {Price} When: {When} Seats: {SeatsLeft} StartAddress: {StartAddress} TargetAddress: {TargetAddress} OfferingRide: {OfferingRide} Frequency: " +
+            return $"Nickname: {Nickname} Price: {Price} Start Time: {StartTime} End Time (?): {EndTime} Seats: {SeatsLeft} StartAddress: {StartAddress} TargetAddress: {TargetAddress} OfferingRide: {OfferingRide} Frequency: " +
                 $"Monday: {MondayFrequency} Tuesday: {TuesdayFrequency} Wednesday: {WednesdayFrequency} Thursday: {ThursdayFrequency}" +
                 $"Friday: {FridayFrequency} Saturday: {SaturdayFrequency} Sunday: {SundayFrequency}";
         }
