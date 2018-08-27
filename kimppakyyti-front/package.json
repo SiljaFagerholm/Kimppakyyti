@@ -4,11 +4,8 @@
   "private": true,
   "proxy": "http://localhost:44337/",
   "dependencies": {
-<<<<<<< Updated upstream
-    "auth0-js": "^9.7.3",
-=======
     "@material-ui/core": "^1.5.1",
->>>>>>> Stashed changes
+    "auth0-js": "^9.7.3",
     "bootstrap": "^4.1.3",
     "jwt-decode": "^2.2.0",
     "moment": "^2.22.2",
@@ -17,7 +14,7 @@
     "react-dom": "^16.4.2",
     "react-google-calendar-api": "^1.0.7",
     "react-moment": "^0.7.9",
-    "react-router": "^3.2.1",
+    "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
     "react-tabs": "^2.2.2",
