@@ -14,8 +14,12 @@ import { requireAuth } from "./components/AuthService";
 import AllProfiles from "./components/AllProfiles";
 import Callback from "./Callback";
 import NavComponent from "./Navbar";
+import ProfileAuth from "./components/ProfileAuth";
 
 class App extends Component {
+  force() {
+    this.forceUpdate();
+  }
   render() {
     return (
       <div className="App">
@@ -29,6 +33,12 @@ class App extends Component {
                   exact
                   path="/AllProfiles"
                   component={AllProfiles}
+                  onEnter={requireAuth}
+                />
+                <Route
+                  exact
+                  path="/profileauth"
+                  component={ProfileAuth}
                   onEnter={requireAuth}
                 />
                 <Route

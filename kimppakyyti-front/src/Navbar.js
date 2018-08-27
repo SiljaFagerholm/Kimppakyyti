@@ -34,6 +34,12 @@ class NavComponent extends Component {
                 </Button>
               )}
             </NavItem>
+            &nbsp;
+            <NavItem>
+              <Button size="sm" outline color="secondary" href="/profileauth">
+                Profiili
+              </Button>
+            </NavItem>
           </Nav>
         </Navbar>
       </div>

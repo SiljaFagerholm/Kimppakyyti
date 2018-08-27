@@ -12,26 +12,15 @@ class RideSearchPage extends Component {
   }
 
   goBack = () => {
-    this.setState({ redirect: true });
+    this.props.history.push("/firstpage");
   };
-  render() {
-    if (this.state.redirect === true) {
-      return <Redirect to={`/firstpage`} />;
-    } else {
-      return (
-        <div>
-          <AddNewRide />
-          <RideBox />
-          <button onClick={this.goBack}>Back</button>
-        </div>
-      );
-    }
-  }
+
   render() {
     return (
       <div>
         <AddNewRide />
         <RideBox />
+        <button onClick={this.goBack}>Back</button>
       </div>
     );
   }

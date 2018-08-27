@@ -1,5 +1,14 @@
 import React, { Component } from "react";
 import { isLoggedIn, getProfile } from "./AuthService";
+import {
+  Row,
+  Col,
+  Card,
+  CardImg,
+  CardText,
+  CardBody,
+  CardTitle
+} from "reactstrap";
 
 class ProfileAuth extends Component {
   constructor(props) {
@@ -22,9 +31,21 @@ class ProfileAuth extends Component {
     return (
       isLoggedIn() && (
         <div>
-          <h1>{this.state.profile.name}</h1>
-          <img src={this.state.profile.picture} alt="profile" />
-          <h3>{this.state.profile.nickname}</h3>
+          <Row>
+            <Col sm="12" md={{ size: 6, offset: 6 }}>
+              <Card>
+                <CardImg src={this.state.profile.picture} alt="profile" />
+                <CardBody>
+                  <CardTitle>Profiili</CardTitle>
+                  <CardText>
+                    Nimi: {this.state.profile.name}
+                    <br />
+                    Käyttäjätunnus: {this.state.profile.nickname}
+                  </CardText>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
         </div>
       )
     );

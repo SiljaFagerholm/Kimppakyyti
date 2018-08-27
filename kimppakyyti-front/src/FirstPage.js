@@ -8,7 +8,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import DatePicker from "./components/Date";
 import AllProfiles from "./components/AllProfiles";
-import ProfileAuth from "./components/ProfileAuth";
 
 // import ApiCalendar from "react-google-calendar-api";
 
@@ -79,7 +78,6 @@ class FirstPage extends Component {
 
     this.setState({ offer: {} });
     this.props.history.push("/ridesearchpage");
-
   };
 
   render() {
@@ -93,7 +91,6 @@ class FirstPage extends Component {
               <Tab>Tarjoan Kyytiä</Tab>
               <Tab>Etsin Kyytiä</Tab>
             </TabList>
-
             <TabPanel>
               <h2>
                 <label>Mistä: </label>
@@ -242,9 +239,6 @@ class FirstPage extends Component {
               </h2>
             </TabPanel>
           </Tabs>
-          <ProfileAuth />
-          <AllProfiles />
-          <AddNewProfile />
         </div>
       );
     }
