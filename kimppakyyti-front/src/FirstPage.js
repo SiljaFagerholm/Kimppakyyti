@@ -156,22 +156,10 @@ class FirstPage extends Component {
                     <div className="center left">
                       <label>Valitse aikaväli miltä haet kyytiä</label>
                       <DatePicker
-                        selected={this.state.startTime}
-                        onChange={this.startTimeChanged}
-                        showTimeSelect
-                        timeFormat="HH:mm"
-                        timeIntervals={15}
-                        dateFormat="YYYY-MM-DD HH:mm"
-                        timeCaption="time"
+
                       />
                       <DatePicker
-                        selected={this.state.endTime}
-                        onChange={this.endTimeChanged}
-                        showTimeSelect
-                        timeFormat="HH:mm"
-                        timeIntervals={15}
-                        dateFormat="YYYY-MM-DD HH:mm"
-                        timeCaption="time"
+
                       />
                       <br />
                       <label>Toistuvat päivät</label>
@@ -221,7 +209,7 @@ class FirstPage extends Component {
             </TabPane>
             <TabPane tabId="2">
               <Row>
-                <Col sm="6">
+                <Col sm="12">
                   <h2>
                     <label>Mistä: </label>
                     <input
@@ -241,25 +229,13 @@ class FirstPage extends Component {
                       required
                     />
                     <br />
-                    <div class="center left">
+                    <div className="center left">
                       <label>Valitse aikaväli miltä haet kyytiä</label>
                       <DatePicker
-                        selected={this.state.startTime}
-                        onChange={this.startTimeChanged}
-                        showTimeSelect
-                        timeFormat="HH:mm"
-                        timeIntervals={15}
-                        dateFormat="YYYY-MM-DD HH:mm"
-                        timeCaption="time"
+
                       />
                       <DatePicker
-                        selected={this.state.endTime}
-                        onChange={this.endTimeChanged}
-                        showTimeSelect
-                        timeFormat="HH:mm"
-                        timeIntervals={15}
-                        dateFormat="YYYY-MM-DD HH:mm"
-                        timeCaption="time"
+
                       />
 
                       <label>

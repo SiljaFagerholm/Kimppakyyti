@@ -24,7 +24,12 @@ class Date extends React.Component {
     return (
       <DatePicker
         onChange={this.handleChange}
-        selected={this.state.startDate}        
+        selected={this.state.startDate}
+        showTimeSelect
+        timeFormat="HH:mm"
+        timeIntervals={15}
+        dateFormat="YYYY-MM-DD HH:mm"
+        timeCaption="time"        
       />
     );
   }
