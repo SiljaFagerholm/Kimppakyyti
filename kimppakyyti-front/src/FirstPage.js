@@ -30,7 +30,6 @@ export function OfferNewRide(offer) {
       nickname: offer.nickname,
       startAddress: offer.startAddress,
       targetAddress: offer.targetAddress,
-      offeringRide: true,
       startTime: offer.startTime,
       endTime: offer.endTime,
       offeringRide: true,
@@ -105,15 +104,15 @@ class FirstPage extends Component {
     }
   }
 
-  handleChangeStart(event) {
-    this.setState({
-      startAddress: event.target.value
-    });
-  }
-
   handleChangeTarget(event) {
     this.setState({
       targetAddress: event.target.value
+    });
+  }
+
+  handleChangeStart(event) {
+    this.setState({
+      startAddress: event.target.value
     });
   }
 
@@ -165,9 +164,9 @@ class FirstPage extends Component {
                     <label>Mistä: </label>
                     <input
                       maxLength="50"
+                      value={this.state.startAddress}
                       name="startAddress"
                       onChange={this.handleChangeStart.bind(this)}
-                      value={this.state.startAddress}
                       type="text"
                       required
                     />{" "}
@@ -258,6 +257,7 @@ class FirstPage extends Component {
                       <label>Valitse aikaväli miltä haet kyytiä</label>
                       <DatePicker />
                       <DatePicker />
+
                       <label>
                         <input ref="frequent" type="checkbox" />
                         Toistuva
