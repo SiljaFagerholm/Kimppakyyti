@@ -90,7 +90,7 @@ class FirstPage extends Component {
     OfferNewRide(informationTemp);
 
     this.setState({ offer: {} });
-    this.props.history.push("/ridesearchpage");
+    // this.props.history.push("/ridesearchpage");
   };
 
   toggle(tab) {
@@ -149,7 +149,6 @@ class FirstPage extends Component {
                     <label>Mistä: </label>
                     <input
                       maxLength="50"
-                      onClick={this.xxx}
                       ref="startAddress"
                       type="text"
                       required
@@ -158,7 +157,6 @@ class FirstPage extends Component {
                     <label>Minne: </label>
                     <input
                       maxLength="50"
-                      onClick={this.xxx}
                       ref="targetAddress"
                       type="text"
                       required
