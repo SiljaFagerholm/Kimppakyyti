@@ -104,12 +104,12 @@ class FirstPage extends Component {
     }
   }
 
-  handleChange2(event){
+  handleChangeTarget(event){
     this.setState({
       targetAddress: event.target.value});
   }
 
-  handleChange(event){
+  handleChangeStart(event){
     this.setState({
       startAddress: event.target.value});
   }
@@ -122,9 +122,7 @@ class FirstPage extends Component {
   }
 
   render() {
-    if (this.state.redirect === true) {
-      return <Redirect to={`/ridesearchpage`} />;
-    } else {
+    
       return (
         <div>
           <Nav className="Row" tabs>
@@ -164,8 +162,7 @@ class FirstPage extends Component {
                       maxLength="50"
                       value={this.state.startAddress}
                       name="startAddress"
-                      onChange={this.handleChange.bind(this)}
-                      ref="startAddress"
+                      onChange={this.handleChangeStart.bind(this)}
                       type="text"
                       required
                     />{" "}
@@ -174,9 +171,8 @@ class FirstPage extends Component {
                     <input
                       maxLength="50"
                       name="targetAddress"
-                      onChange={this.handleChange2.bind(this)}
+                      onChange={this.handleChangeTarget.bind(this)}
                       value={this.state.targetAddress}
-                      // ref="targetAddress"
                       type="text"
                       required
                     />
@@ -287,7 +283,7 @@ class FirstPage extends Component {
           </TabContent>
         </div>
       );
-    }
+    
   }
 }
 
