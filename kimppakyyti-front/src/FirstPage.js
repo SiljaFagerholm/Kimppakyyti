@@ -4,7 +4,7 @@ import Date from "./components/Date";
 import { Button } from "reactstrap";
 import { Redirect } from "react-router-dom";
 import { getProfile } from "./components/AuthService";
-import "./App.css";
+import ProfileAuth from "./components/ProfileAuth";
 
 class FirstPage extends Component {
   constructor(props) {
@@ -68,8 +68,9 @@ class FirstPage extends Component {
             Profiili{" "}
           </Button>
           <Button outline color="secondary" href="/AllProfiles">
-            Kaikki kyydit
+            Kaikki profiilit
           </Button>
+          <ProfileAuth />
         </div>
       );
     }

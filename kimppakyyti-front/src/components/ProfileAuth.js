@@ -1,20 +1,36 @@
 import React, { Component } from "react";
-import { profile, getProfile, userProfile } from "./AuthService";
+import { isLoggedIn, getProfile } from "./AuthService";
 
 class ProfileAuth extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      profile: {}
+    };
+  }
+
+  componentDidMount() {
+    //this.setState({ profile: getProfile() });
+    getProfile((err, profile) => {
+      console.log(profile);
+      this.setState({ profile: profile });
+    });
+  }
+
   render() {
-    const { profile } = this.state;
+    //const pro = getProfile();
+    console.dir(this.state.profile);
+    //console.dir(pro);
+    //const { profile } = this.state;
     return (
-      <div className="container">
-        <div className="profile-area">
-          <h1>{profile.name}</h1>
-          <img src={profile.picture} alt="profile" />
-          <div>
-            <h3>{profile.nickname}</h3>
-          </div>
-          <pre>{JSON.stringify(profile, null, 2)}</pre>
+      isLoggedIn() && (
+        <div>
+          {/* <h1>{pro.name}</h1>
+          <img src={pro.picture} alt="profile" />
+          <h3>{pro.nickname}</h3> */}
+          {/*JSON.stringify(profile, null, 2)*/}
         </div>
-      </div>
+      )
     );
   }
 }

@@ -32,13 +32,17 @@ export function userProfile() {
   });
 }
 
-export function getProfile() {
+export function getProfile(callback) {
   let accessToken = getAccessToken();
   if (accessToken) {
     auth.client.userInfo(accessToken, (err, profile) => {
       if (profile) {
-        auth.userProfile = { profile };
-        console.log(userProfile);
+        console.dir(profile);
+
+        //auth.userProfile = { profile };
+        //console.dir(userProfile);
+        //return userProfile;
+        callback(err, profile);
       }
     });
   }
