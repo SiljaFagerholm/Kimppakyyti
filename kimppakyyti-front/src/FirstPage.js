@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { Button } from "reactstrap";
 import AddNewProfile from "./components/AddProfile";
-<<<<<<< Updated upstream
 import { BrowserRouter as Router, Redirect } from "react-router-dom";
-=======
 import {
   BrowserRouter as Router,
   Route,
@@ -11,7 +9,6 @@ import {
   Redirect,
   Link
 } from "react-router-dom";
-import DatePicker from "react-datepicker";
 import moment from "moment";
 import './FirstPage.css';
 import "react-datepicker/dist/react-datepicker.css";
@@ -20,7 +17,6 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 
 // import ApiCalendar from "react-google-calendar-api";
->>>>>>> Stashed changes
 
 const posturl = "http://kimppakyytiapi.azurewebsites.net/api/ride/postofferrideasync"
 
@@ -102,43 +98,6 @@ class FirstPage extends Component {
     } else {
       return (
         <div>
-<<<<<<< Updated upstream
-          <label>Mistä: </label>
-          <input
-            maxLength="50"
-            onClick={this.xxx}
-            ref="from"
-            type="text"
-            required
-          />{" "}
-          <br />
-          <label>Minne: </label>
-          <input
-            maxLength="50"
-            onClick={this.xxx}
-            ref="where"
-            type="text"
-            required
-          />
-          <br />
-          <Date />
-          <Time />
-          <br />
-          <Button outline color="secondary" type="submit">
-            Tarjoan kyytiä
-          </Button>{" "}
-          <Button
-            outline
-            color="secondary"
-            onClick={this.movetoRideSearch}
-            type="button"
-          >
-            Etsin kyytiä
-          </Button>
-        </div>
-      );
-    }
-=======
           <Tabs id="uncontrolled-tab-example">
     <TabList>
       <Tab>Tarjoan Kyytiä</Tab>
@@ -285,7 +244,6 @@ class FirstPage extends Component {
       </div>
     );
   }
->>>>>>> Stashed changes
   }
 }
 
