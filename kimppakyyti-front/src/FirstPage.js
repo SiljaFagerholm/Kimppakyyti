@@ -30,6 +30,7 @@ export function OfferNewRide(offer) {
       nickname: offer.nickname,
       startAddress: offer.startAddress,
       targetAddress: offer.targetAddress,
+      offeringRide: true,
       startTime: offer.startTime,
       endTime: offer.endTime,
       mondayFrequency: offer.mondayFrequency,
@@ -53,6 +54,8 @@ class FirstPage extends Component {
       startTime: moment(),
       endTime: moment(),
       activeTab: "1",
+      startAddress: "",
+      targetAddress: "",
       profile: {}
     };
     this.startTimeChanged = this.startTimeChanged.bind(this);
@@ -74,8 +77,8 @@ class FirstPage extends Component {
   OfferRide = e => {
     let informationTemp = {
       nickname: this.state.profile.nickname,
-      startAddress: this.refs.startAddress.value,
-      targetAddress: this.refs.targetAddress.value,
+      startAddress: this.state.startAddress,
+      targetAddress: this.state.targetAddress,
       startTime: this.state.startTime,
       endTime: this.state.endTime,
       mondayFrequency: this.refs.monday.checked,
@@ -99,6 +102,18 @@ class FirstPage extends Component {
         activeTab: tab
       });
     }
+  }
+
+  handleChangeStart(event) {
+    this.setState({
+      startAddress: event.target.value
+    });
+  }
+
+  handleChangeTarget(event) {
+    this.setState({
+      targetAddress: event.target.value
+    });
   }
 
   componentDidMount() {
@@ -149,7 +164,9 @@ class FirstPage extends Component {
                     <label>Mistä: </label>
                     <input
                       maxLength="50"
-                      ref="startAddress"
+                      name="startAddress"
+                      onChange={this.handleChangeStart.bind(this)}
+                      value={this.state.startAddress}
                       type="text"
                       required
                     />{" "}
@@ -157,7 +174,9 @@ class FirstPage extends Component {
                     <label>Minne: </label>
                     <input
                       maxLength="50"
-                      ref="targetAddress"
+                      name="targetAddress"
+                      onChange={this.handleChangeTarget.bind(this)}
+                      value={this.state.targetAddress}
                       type="text"
                       required
                     />
