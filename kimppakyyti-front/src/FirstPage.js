@@ -15,6 +15,7 @@ import moment from "moment";
 import "./FirstPage.css";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "./components/Date";
+import { getProfile } from "./components/AuthService";
 
 // import ApiCalendar from "react-google-calendar-api";
 
@@ -26,6 +27,7 @@ export function OfferNewRide(offer) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
+      nickname: offer.nickname,
       startAddress: offer.startAddress,
       targetAddress: offer.targetAddress,
       startTime: offer.startTime,
@@ -50,7 +52,8 @@ class FirstPage extends Component {
       redirect: false,
       startTime: moment(),
       endTime: moment(),
-      activeTab: "1"
+      activeTab: "1",
+      profile: {}
     };
     this.startTimeChanged = this.startTimeChanged.bind(this);
     this.endTimeChanged = this.endTimeChanged.bind(this);
@@ -70,6 +73,7 @@ class FirstPage extends Component {
 
   OfferRide = e => {
     let informationTemp = {
+      nickname: this.state.profile.nickname,
       startAddress: this.refs.startAddress.value,
       targetAddress: this.refs.targetAddress.value,
       startTime: this.state.startTime,
@@ -95,6 +99,13 @@ class FirstPage extends Component {
         activeTab: tab
       });
     }
+  }
+
+  componentDidMount() {
+    getProfile((err, profile) => {
+      console.log(profile);
+      this.setState({ profile: profile });
+    });
   }
 
   render() {
@@ -155,12 +166,8 @@ class FirstPage extends Component {
                     <br />
                     <div className="center left">
                       <label>Valitse aikaväli miltä haet kyytiä</label>
-                      <DatePicker
-
-                      />
-                      <DatePicker
-
-                      />
+                      <DatePicker />
+                      <DatePicker />
                       <br />
                       <label>Toistuvat päivät</label>
                       <br />
@@ -231,13 +238,8 @@ class FirstPage extends Component {
                     <br />
                     <div className="center left">
                       <label>Valitse aikaväli miltä haet kyytiä</label>
-                      <DatePicker
-
-                      />
-                      <DatePicker
-
-                      />
-
+                      <DatePicker />
+                      <DatePicker />
                       <label>
                         <input ref="frequent" type="checkbox" />
                         Toistuva
