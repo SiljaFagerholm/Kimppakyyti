@@ -2,7 +2,6 @@
   "name": "kimppakyyti-front",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:44337/",
   "dependencies": {
     "auth0-js": "^9.7.3",
     "bootstrap": "^4.1.3",

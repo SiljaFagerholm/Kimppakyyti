@@ -33,6 +33,7 @@ export function OfferNewRide(offer) {
       offeringRide: true,
       startTime: offer.startTime,
       endTime: offer.endTime,
+      offeringRide: true,
       mondayFrequency: offer.mondayFrequency,
       tuesdayFrequency: offer.tuesdayFrequency,
       wednesdayFrequency: offer.wednesdayFrequency,
