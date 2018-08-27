@@ -37,6 +37,14 @@ class RideSearchPage extends Component {
           )
         }
       }
+  render() {
+    return (
+      <div>
+        <AddNewRide />
+        <RideBox />
+      </div>
+    );
   }
+}
 
-  export default RideSearchPage;
+export default RideSearchPage;

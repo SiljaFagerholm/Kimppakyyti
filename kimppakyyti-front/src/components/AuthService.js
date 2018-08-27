@@ -1,5 +1,4 @@
 import decode from "jwt-decode";
-import { browserHistory, Redirect } from "react-router";
 import auth0 from "auth0-js";
 import app from "../index.js";
 
@@ -9,12 +8,13 @@ const ACCESS_TOKEN_KEY = "access_token";
 const CLIENT_ID = "fnULgYUWwAHpMoX2JasBouMIMBZKrGN4";
 const CLIENT_DOMAIN = "melaaman.eu.auth0.com";
 const REDIRECT = "http://localhost:3000/callback";
-const SCOPE = "read:alldata";
+const SCOPE = "openid profile read:alldata";
 const AUDIENCE = "kimppalada.com";
 
 var auth = new auth0.WebAuth({
   clientID: CLIENT_ID,
-  domain: CLIENT_DOMAIN
+  domain: CLIENT_DOMAIN,
+  scope: SCOPE
 });
 
 export function login() {
@@ -25,6 +25,39 @@ export function login() {
     scope: SCOPE
   });
 }
+
+export function userProfile() {
+  auth.userProfile({
+    scope: SCOPE
+  });
+}
+
+export function getProfile(callback) {
+  let accessToken = getAccessToken();
+  if (accessToken) {
+    auth.client.userInfo(accessToken, (err, profile) => {
+      if (profile) {
+        console.dir(profile);
+
+        //auth.userProfile = { profile };
+        //console.dir(userProfile);
+        //return userProfile;
+        callback(err, profile);
+      }
+    });
+  }
+}
+
+// export function getProfile(cb) {
+//   let accessToken = getAccessToken();
+//   console.log(accessToken);
+//   auth.client.userInfo(accessToken, (err, profile) => {
+//     if (profile) {
+//       return profile;
+//     }
+//     return err;
+//   });
+// }
 
 export function logout() {
   clearIdToken();
@@ -45,6 +78,14 @@ export function getIdToken() {
 export function getAccessToken() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
 }
+
+// export function getAccessToken() {
+//   const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
+//   if (!accessToken) {
+//     throw new Error("No Access Token found");
+//   }
+//   return accessToken;
+// }
 
 function clearIdToken() {
   localStorage.removeItem(ID_TOKEN_KEY);

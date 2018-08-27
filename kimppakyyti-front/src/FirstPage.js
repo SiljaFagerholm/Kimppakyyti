@@ -2,17 +2,12 @@ import React, { Component } from "react";
 import { Button } from "reactstrap";
 import AddNewProfile from "./components/AddProfile";
 import { BrowserRouter as Router, Redirect } from "react-router-dom";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-  Link
-} from "react-router-dom";
 import moment from "moment";
 import './FirstPage.css';
 import "react-datepicker/dist/react-datepicker.css";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import DatePicker from "./components/Date";
+import AllProfiles from "./components/AllProfiles";
 
 
 
