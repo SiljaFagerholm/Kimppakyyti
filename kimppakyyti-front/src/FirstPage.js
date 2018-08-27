@@ -241,7 +241,7 @@ class FirstPage extends Component {
                       required
                     />
                     <br />
-                    <div class="center left">
+                    <div className="center left">
                       <label>Valitse aikaväli miltä haet kyytiä</label>
                       <DatePicker
                         selected={this.state.startTime}
