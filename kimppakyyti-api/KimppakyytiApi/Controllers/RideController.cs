@@ -55,10 +55,10 @@ namespace KimppakyytiApi.Controllers
 
 
             //Reading EndpointUri and PrimaryKey from AzurePortal
-            //endpointUri = Environment.GetEnvironmentVariable("APPSETTING_EndpointUri");
-            //key = Environment.GetEnvironmentVariable("APPSETTING_PrimaryKey");
+            endpointUri = Environment.GetEnvironmentVariable("APPSETTING_EndpointUri");
+            key = Environment.GetEnvironmentVariable("APPSETTING_PrimaryKey");
 
-            _cosmosDBclient = new DocumentClient(new Uri("https://loppuprojekti.documents.azure.com:443/"), "XzoPgAggVkFhshSEq9WCvZeRkFSnFhSvukkbI07Ou1juLDzyVo4Ek9YJlW0sVog1UZoGXcR8CaJYXSXdLZmAAw==");
+            _cosmosDBclient = new DocumentClient(new Uri(endpointUri), key);
             _cosmosDBclient.CreateDatabaseIfNotExistsAsync(new Database
             {
                 Id = _dbName
