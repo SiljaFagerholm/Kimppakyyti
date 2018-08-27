@@ -1,0 +1,11 @@
+.center, .center li{
+    text-align: center;
+  }
+
+.left ul{
+    padding-left: 0;
+}
+
+.center input{
+    text-align: center;
+}
