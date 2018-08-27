@@ -134,170 +134,153 @@ class FirstPage extends Component {
             <TabPane tabId="1">
               <Row>
                 <Col sm="12">
-                  <h4>Tekstiä</h4>
+                  <h2>
+                    <label>Mistä: </label>
+                    <input
+                      maxLength="50"
+                      onClick={this.xxx}
+                      ref="startAddress"
+                      type="text"
+                      required
+                    />{" "}
+                    <br />
+                    <label>Minne: </label>
+                    <input
+                      maxLength="50"
+                      onClick={this.xxx}
+                      ref="targetAddress"
+                      type="text"
+                      required
+                    />
+                    <br />
+                    <div className="center left">
+                      <label>Valitse aikaväli miltä haet kyytiä</label>
+                      <DatePicker
+                        selected={this.state.startTime}
+                        onChange={this.startTimeChanged}
+                        showTimeSelect
+                        timeFormat="HH:mm"
+                        timeIntervals={15}
+                        dateFormat="YYYY-MM-DD HH:mm"
+                        timeCaption="time"
+                      />
+                      <DatePicker
+                        selected={this.state.endTime}
+                        onChange={this.endTimeChanged}
+                        showTimeSelect
+                        timeFormat="HH:mm"
+                        timeIntervals={15}
+                        dateFormat="YYYY-MM-DD HH:mm"
+                        timeCaption="time"
+                      />
+                      <br />
+                      <label>Toistuvat päivät</label>
+                      <br />
+
+                      <label>
+                        <input ref="monday" type="checkbox" />
+                        Ma
+                      </label>
+                      <label>
+                        <input ref="tuesday" type="checkbox" />
+                        Ti
+                      </label>
+                      <label>
+                        <input ref="wednesday" type="checkbox" />
+                        Ke
+                      </label>
+                      <label>
+                        <input ref="thursday" type="checkbox" />
+                        To
+                      </label>
+                      <label>
+                        <input ref="friday" type="checkbox" />
+                        Pe
+                      </label>
+                      <label>
+                        <input ref="saturday" type="checkbox" />
+                        La
+                      </label>
+                      <label>
+                        <input ref="sunday" type="checkbox" />
+                        Su
+                      </label>
+                      <br />
+                    </div>
+                    <Button
+                      outline
+                      color="secondary"
+                      onClick={this.OfferRide}
+                      type="button"
+                    >
+                      Tarjoa kyytiä
+                    </Button>{" "}
+                  </h2>
                 </Col>
               </Row>
             </TabPane>
             <TabPane tabId="2">
               <Row>
                 <Col sm="6">
-                  <p>Tekstiä</p>
+                  <h2>
+                    <label>Mistä: </label>
+                    <input
+                      maxLength="50"
+                      onClick={this.xxx}
+                      ref="startAddress"
+                      type="text"
+                      required
+                    />{" "}
+                    <br />
+                    <label>Minne: </label>
+                    <input
+                      maxLength="50"
+                      onClick={this.xxx}
+                      ref="targetAddress"
+                      type="text"
+                      required
+                    />
+                    <br />
+                    <div class="center left">
+                      <label>Valitse aikaväli miltä haet kyytiä</label>
+                      <DatePicker
+                        selected={this.state.startTime}
+                        onChange={this.startTimeChanged}
+                        showTimeSelect
+                        timeFormat="HH:mm"
+                        timeIntervals={15}
+                        dateFormat="YYYY-MM-DD HH:mm"
+                        timeCaption="time"
+                      />
+                      <DatePicker
+                        selected={this.state.endTime}
+                        onChange={this.endTimeChanged}
+                        showTimeSelect
+                        timeFormat="HH:mm"
+                        timeIntervals={15}
+                        dateFormat="YYYY-MM-DD HH:mm"
+                        timeCaption="time"
+                      />
+
+                      <label>
+                        <input ref="frequent" type="checkbox" />
+                        Toistuva
+                      </label>
+                      <br />
+                    </div>
+                    <Button
+                      outline
+                      color="secondary"
+                      onClick={this.movetoRideSearch}
+                      type="button"
+                    >
+                      Etsi kyytiä
+                    </Button>{" "}
+                  </h2>
                 </Col>
               </Row>
             </TabPane>
           </TabContent>
-
-          {/* <Tabs id="uncontrolled-tab-example">
-            <TabList>
-              <Tab>Tarjoan Kyytiä</Tab>
-              <Tab>Etsin Kyytiä</Tab>
-            </TabList>
-            <TabPanel> */}
-          <h2>
-            <label>Mistä: </label>
-            <input
-              maxLength="50"
-              onClick={this.xxx}
-              ref="startAddress"
-              type="text"
-              required
-            />{" "}
-            <br />
-            <label>Minne: </label>
-            <input
-              maxLength="50"
-              onClick={this.xxx}
-              ref="targetAddress"
-              type="text"
-              required
-            />
-            <br />
-            <div className="center left">
-              <label>Valitse aikaväli miltä haet kyytiä</label>
-              <DatePicker
-                selected={this.state.startTime}
-                onChange={this.startTimeChanged}
-                showTimeSelect
-                timeFormat="HH:mm"
-                timeIntervals={15}
-                dateFormat="YYYY-MM-DD HH:mm"
-                timeCaption="time"
-              />
-              <DatePicker
-                selected={this.state.endTime}
-                onChange={this.endTimeChanged}
-                showTimeSelect
-                timeFormat="HH:mm"
-                timeIntervals={15}
-                dateFormat="YYYY-MM-DD HH:mm"
-                timeCaption="time"
-              />
-              <br />
-              <label>Toistuvat päivät</label>
-              <br />
-
-              <label>
-                <input ref="monday" type="checkbox" />
-                Ma
-              </label>
-              <label>
-                <input ref="tuesday" type="checkbox" />
-                Ti
-              </label>
-              <label>
-                <input ref="wednesday" type="checkbox" />
-                Ke
-              </label>
-              <label>
-                <input ref="thursday" type="checkbox" />
-                To
-              </label>
-              <label>
-                <input ref="friday" type="checkbox" />
-                Pe
-              </label>
-              <label>
-                <input ref="saturday" type="checkbox" />
-                La
-              </label>
-              <label>
-                <input ref="sunday" type="checkbox" />
-                Su
-              </label>
-              <br />
-              <Button type="submit" onClick={this.OfferRide}>
-                Jeesusnappi
-              </Button>
-            </div>
-            <Button
-              outline
-              color="secondary"
-              onClick={this.OfferRide}
-              type="button"
-            >
-              Tarjoa kyytiä
-            </Button>{" "}
-          </h2>
-          {/* </TabPanel>
-            <TabPanel> */}
-          <h2>
-            <label>Mistä: </label>
-            <input
-              maxLength="50"
-              onClick={this.xxx}
-              ref="startAddress"
-              type="text"
-              required
-            />{" "}
-            <br />
-            <label>Minne: </label>
-            <input
-              maxLength="50"
-              onClick={this.xxx}
-              ref="targetAddress"
-              type="text"
-              required
-            />
-            <br />
-            <div class="center left">
-              <label>Valitse aikaväli miltä haet kyytiä</label>
-              <DatePicker
-                selected={this.state.startTime}
-                onChange={this.startTimeChanged}
-                showTimeSelect
-                timeFormat="HH:mm"
-                timeIntervals={15}
-                dateFormat="YYYY-MM-DD HH:mm"
-                timeCaption="time"
-              />
-              <DatePicker
-                selected={this.state.endTime}
-                onChange={this.endTimeChanged}
-                showTimeSelect
-                timeFormat="HH:mm"
-                timeIntervals={15}
-                dateFormat="YYYY-MM-DD HH:mm"
-                timeCaption="time"
-              />
-
-              <label>
-                <input ref="frequent" type="checkbox" />
-                Toistuva
-              </label>
-              <br />
-              <Button type="submit" onClick={this.dateTimeValue}>
-                Jeesusnappi
-              </Button>
-            </div>
-            <Button
-              outline
-              color="secondary"
-              onClick={this.movetoRideSearch}
-              type="button"
-            >
-              Etsi kyytiä
-            </Button>{" "}
-          </h2>
         </div>
       );
     }
