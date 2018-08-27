@@ -76,8 +76,10 @@ class FirstPage extends Component {
     };
     console.log(informationTemp);
     OfferNewRide(informationTemp);
+
     this.setState({ offer: {} });
     this.props.history.push("/ridesearchpage");
+
   };
 
   render() {
