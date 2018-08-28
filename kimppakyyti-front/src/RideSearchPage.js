@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Redirect } from "react-router-dom";
+//import { BrowserRouter as Router, Redirect } from "react-router-dom";
 import RideBox from "./components/RideBox";
 import AddNewRide from "./components/AddRide";
 

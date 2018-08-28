@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ProfileList from "./ProfileList";
 import { isLoggedIn } from "./AuthService";
 
-const url = "http://kimppakyytiapi.azurewebsites.net/api/user/GetAllUsers";
+const url = "https://kimppakyytiapi.azurewebsites.net/api/user/GetAllUsers";
 
 var data = [
   {
