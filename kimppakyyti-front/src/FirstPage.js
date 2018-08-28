@@ -15,7 +15,7 @@ import "./FirstPage.css";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "./components/Date";
 import { getProfile } from "./components/AuthService";
-import { OfferNewRide } from "./components/RideService";
+import { OfferNewRide, searchRide } from "./components/RideService";
 
 class FirstPage extends Component {
   constructor(props) {
@@ -45,6 +45,14 @@ class FirstPage extends Component {
   }
 
   movetoRideSearch = () => {
+    let informationTemp = {
+      nickname: this.state.profile.nickname,
+      startAddress: this.state.startAddress,
+      targetAddress: this.state.targetAddress,
+      startTime: this.state.startTime,
+      endTime: this.state.endTime
+    };
+    searchRide(informationTemp);
     this.props.history.push("/ridesearchpage");
   };
 
@@ -125,7 +133,6 @@ class FirstPage extends Component {
             </NavLink>
           </NavItem>
         </Nav>
-
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
             <Row>
@@ -158,7 +165,6 @@ class FirstPage extends Component {
                     <br />
                     <label>Toistuvat päivät</label>
                     <br />
-
                     <label>
                       <input ref="monday" type="checkbox" />
                       Ma
@@ -208,8 +214,9 @@ class FirstPage extends Component {
                   <label>Mistä: </label>
                   <input
                     maxLength="50"
-                    onClick={this.xxx}
-                    ref="startAddress"
+                    value={this.state.startAddress}
+                    name="startAddress"
+                    onChange={this.handleChangeStart.bind(this)}
                     type="text"
                     required
                   />{" "}
@@ -217,8 +224,9 @@ class FirstPage extends Component {
                   <label>Minne: </label>
                   <input
                     maxLength="50"
-                    onClick={this.xxx}
-                    ref="targetAddress"
+                    name="targetAddress"
+                    onChange={this.handleChangeTarget.bind(this)}
+                    value={this.state.targetAddress}
                     type="text"
                     required
                   />
