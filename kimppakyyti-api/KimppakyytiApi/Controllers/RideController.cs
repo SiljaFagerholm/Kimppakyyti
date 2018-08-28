@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Security;
+using System.Text;
 using System.Threading.Tasks;
 using KimppakyytiApi.Models;
 using KimppakyytiApi.Models.RouteLogic;
@@ -55,9 +56,9 @@ namespace KimppakyytiApi.Controllers
 
 
             //Reading EndpointUri and PrimaryKey from AzurePortal
-            endpointUri = Environment.GetEnvironmentVariable("APPSETTING_EndpointUri");
-            key = Environment.GetEnvironmentVariable("APPSETTING_PrimaryKey");
-            
+            endpointuri = environment.getenvironmentvariable("appsetting_endpointuri");
+            key = environment.getenvironmentvariable("appsetting_primarykey");
+
 
             _cosmosDBclient = new DocumentClient(new Uri(endpointUri), key);
             _cosmosDBclient.CreateDatabaseIfNotExistsAsync(new Database
@@ -146,6 +147,10 @@ namespace KimppakyytiApi.Controllers
                 {
                     //Functions for delayed response -- timeout try /catch
 
+                    // Parse input from user
+                    //valueIn.StartAddress = valueIn.StartAddress.Trim().Replace(' ','+');
+                    //valueIn.TargetAddress = valueIn.TargetAddress.Trim().Replace(' ', '+');
+
                     // Get route from Google Directions Api
                     var response = await GoogleApiFunctions.GetRouteGoogle(valueIn.StartAddress, valueIn.TargetAddress);
 
@@ -166,9 +171,9 @@ namespace KimppakyytiApi.Controllers
                         valueOut.StartTime = valueIn.StartTime;
                         valueOut.EndTime = valueIn.EndTime;
                         valueOut.StartAddress = valueIn.StartAddress;
-                        valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lng, obj.routes[0].legs[0].start_location.lat);
+                        valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lat, obj.routes[0].legs[0].start_location.lng);
                         valueOut.TargetAddress = valueIn.TargetAddress;
-                        valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lng, obj.routes[0].legs[0].end_location.lat);
+                        valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lat, obj.routes[0].legs[0].end_location.lng);
 
                         //foreach (var location in obj.routes[0].legs[0].steps)
                         //{
@@ -250,6 +255,10 @@ namespace KimppakyytiApi.Controllers
         {
             //Functions for delayed response -- timeout try /catch
 
+            // Parse input from user
+            valueIn.StartAddress.Trim().Replace(' ', '+');
+            valueIn.TargetAddress.Trim().Replace(' ', '+');
+
             // Get route from Google Directions Api
             var response = await GoogleApiFunctions.GetRouteGoogle(valueIn.StartAddress, valueIn.TargetAddress);
             // parse response
@@ -272,9 +281,9 @@ namespace KimppakyytiApi.Controllers
                     valueOut.EndTime = valueIn.EndTime;
                 }
                 valueOut.StartAddress = valueIn.StartAddress;
-                valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lng, obj.routes[0].legs[0].start_location.lat);
+                valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lat, obj.routes[0].legs[0].start_location.lng);
                 valueOut.TargetAddress = valueIn.TargetAddress;
-                valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lng, obj.routes[0].legs[0].end_location.lat);
+                valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lat, obj.routes[0].legs[0].end_location.lng);
 
                 //foreach (var location in obj.routes[0].legs[0].steps)
                 //{
