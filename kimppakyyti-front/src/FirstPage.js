@@ -15,7 +15,11 @@ import "./FirstPage.css";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "./components/Date";
 import { getProfile } from "./components/AuthService";
-import { OfferNewRide, searchRide } from "./components/RideService";
+import {
+  OfferNewRide,
+  searchRide,
+  searchRideTry
+} from "./components/RideService";
 
 class FirstPage extends Component {
   constructor(props) {
@@ -53,6 +57,19 @@ class FirstPage extends Component {
       endTime: this.state.endTime
     };
     searchRide(informationTemp);
+    this.setState({ informationTemp: informationTemp });
+    this.props.history.push("/ridesearchpage");
+  };
+
+  searchRideT = () => {
+    let informationTemp = {
+      nickname: this.state.profile.nickname,
+      startAddress: this.state.startAddress,
+      targetAddress: this.state.targetAddress,
+      startTime: this.state.startTime,
+      endTime: this.state.endTime
+    };
+    searchRideTry(informationTemp);
     this.props.history.push("/ridesearchpage");
   };
 
@@ -97,6 +114,11 @@ class FirstPage extends Component {
     });
   }
 
+  handleChangeRideList(event) {
+    this.setState({
+      offer: event.target.value
+    });
+  }
   componentDidMount() {
     getProfile((err, profile) => {
       console.log(profile);
@@ -107,6 +129,16 @@ class FirstPage extends Component {
   render() {
     return (
       <div>
+        <input
+          maxLength="50"
+          name="searchRide"
+          value={this.state.offer}
+          onChange={this.handleChangeRideList.bind(this)}
+          type="text"
+        />{" "}
+        <button id="nappi" onClick={this.searchRideT}>
+          Etsi{" "}
+        </button>
         <Nav className="Row" tabs>
           <NavItem>
             <NavLink

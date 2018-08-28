@@ -5,8 +5,17 @@ const SEARCHURL =
   "https://kimppakyytiapi.azurewebsites.net/api/Ride/SearchRidesCustomerAsync";
 
 export function getEveryRide() {
-  let rides = fetch(GETURL).then(res => console.log(res));
-  return rides;
+  fetch(GETURL).then(res => console.log(res));
+}
+
+export function searchRideTry(offer) {
+  let allRides = fetch(GETURL)
+    .then(result => result.json())
+    .then(data => {
+      allRides = data.filter(x => x.startAddress);
+    });
+  console.log(allRides);
+  return allRides;
 }
 
 export function searchRide(offer) {
