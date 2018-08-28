@@ -5,17 +5,7 @@ const SEARCHURL =
   "https://kimppakyytiapi.azurewebsites.net/api/Ride/SearchRidesCustomerAsync";
 
 export function getEveryRide() {
-  fetch(GETURL).then(res => console.log(res));
-}
-
-export function searchRideTry(offer) {
-  let allRides = fetch(GETURL)
-    .then(result => result.json())
-    .then(data => {
-      allRides = data.filter(x => x.startAddress);
-    });
-  console.log(allRides);
-  return allRides;
+  fetch(GETURL).then(result => result.json());
 }
 
 export function searchRide(offer) {
@@ -28,7 +18,7 @@ export function searchRide(offer) {
       targetAddress: offer.targetAddress,
       startTime: offer.startTime,
       endTime: offer.endTime,
-      offeringRide: true,
+      offeringRide: false,
       mondayFrequency: true,
       tuesdayFrequency: true,
       wednesdayFrequency: true,
