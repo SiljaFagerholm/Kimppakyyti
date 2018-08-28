@@ -56,8 +56,8 @@ namespace KimppakyytiApi.Controllers
 
 
             //Reading EndpointUri and PrimaryKey from AzurePortal
-            endpointUri = environment.getenvironmentvariable("appsetting_endpointuri");
-            key = environment.getenvironmentvariable("appsetting_primarykey");
+            endpointUri = Environment.GetEnvironmentVariable("appsetting_endpointuri");
+            key = Environment.GetEnvironmentVariable("appsetting_primarykey");
 
 
             _cosmosDBclient = new DocumentClient(new Uri(endpointUri), key);
