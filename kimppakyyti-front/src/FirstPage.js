@@ -20,7 +20,7 @@ import { getProfile } from "./components/AuthService";
 // import ApiCalendar from "react-google-calendar-api";
 
 const posturl =
-  "http://kimppakyytiapi.azurewebsites.net/api/ride/postofferrideasync";
+  "https://kimppakyytiapi.azurewebsites.net/api/ride/postofferrideasync";
 
 export function OfferNewRide(offer) {
   fetch(posturl, {

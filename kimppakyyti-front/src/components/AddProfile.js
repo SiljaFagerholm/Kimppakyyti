@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-const url = "http://kimppakyytiapi.azurewebsites.net/api/user/post";
+const url = "https://kimppakyytiapi.azurewebsites.net/api/user/post";
 
 export function AddNewProfile(profile) {
   fetch(url, {
