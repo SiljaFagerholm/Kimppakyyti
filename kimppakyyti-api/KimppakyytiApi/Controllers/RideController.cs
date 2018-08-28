@@ -57,6 +57,7 @@ namespace KimppakyytiApi.Controllers
             //Reading EndpointUri and PrimaryKey from AzurePortal
             endpointUri = Environment.GetEnvironmentVariable("APPSETTING_EndpointUri");
             key = Environment.GetEnvironmentVariable("APPSETTING_PrimaryKey");
+            
 
             _cosmosDBclient = new DocumentClient(new Uri(endpointUri), key);
             _cosmosDBclient.CreateDatabaseIfNotExistsAsync(new Database
@@ -191,7 +192,7 @@ namespace KimppakyytiApi.Controllers
 
                         FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
                         IQueryable<RideOut> query = _cosmosDBclient.CreateDocumentQuery<RideOut>(
-                        rideCollectionUri, queryOptions).Where(f => f.OfferingRide == true && f.StartTime >= valueOut.StartTime && f.StartTime <= valueOut.EndTime); // Distance (to) etäisyys metreinä
+                        rideCollectionUri, queryOptions).Where(f => f.OfferingRide == true && f.StartTime >= valueOut.StartTime && f.StartTime <= valueOut.EndTime && f.StartLocation.Distance(valueOut.StartLocation) < 500 && f.TargetLocation.Distance(valueOut.TargetLocation) < 500); // Distance (to) etäisyys metreinä
 
                         // check for contents in query before returning?
 
