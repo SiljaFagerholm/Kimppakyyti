@@ -10,7 +10,7 @@ import {
   Col
 } from "reactstrap";
 import classnames from "classnames";
-import { Redirect } from "react-router-dom";
+//import { Redirect } from "react-router-dom";
 import moment from "moment";
 import "./FirstPage.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -20,7 +20,7 @@ import { getProfile } from "./components/AuthService";
 // import ApiCalendar from "react-google-calendar-api";
 
 const posturl =
-  "https://kimppakyytiapi.azurewebsites.net/api/ride/postofferrideasync";
+  "https://kimppakyytiapi.azurewebsites.net/api/Ride/PostOfferRideAsync";
 
 export function OfferNewRide(offer) {
   fetch(posturl, {
@@ -41,7 +41,15 @@ export function OfferNewRide(offer) {
       saturdayFrequency: offer.saturdayFrequency,
       sundayFrequency: offer.sundayFrequency
     })
-  }).then(res => console.log(res));
+  })
+    .then(res => {
+      console.log("OfferNewRide", res);
+      this.setState({ offer: {} });
+      this.props.history.push("/ridesearchpage");
+    })
+    .catch(err => {
+      console.error("OfferNewRidevirhe", err);
+    });
 }
 
 class FirstPage extends Component {
@@ -91,9 +99,6 @@ class FirstPage extends Component {
     };
     console.log(informationTemp);
     OfferNewRide(informationTemp);
-
-    this.setState({ offer: {} });
-    // this.props.history.push("/ridesearchpage");
   };
 
   toggle(tab) {
@@ -124,162 +129,158 @@ class FirstPage extends Component {
   }
 
   render() {
-    if (this.state.redirect === true) {
-      return <Redirect to={`/ridesearchpage`} />;
-    } else {
-      return (
-        <div>
-          <Nav className="Row" tabs>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  active: this.state.activeTab === "1"
-                })}
-                onClick={() => {
-                  this.toggle("1");
-                }}
-              >
-                Tarjoan kyytiä
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({
-                  active: this.state.activeTab === "2"
-                })}
-                onClick={() => {
-                  this.toggle("2");
-                }}
-              >
-                Etsin kyytiä
-              </NavLink>
-            </NavItem>
-          </Nav>
+    return (
+      <div>
+        <Nav className="Row" tabs>
+          <NavItem>
+            <NavLink
+              className={classnames({
+                active: this.state.activeTab === "1"
+              })}
+              onClick={() => {
+                this.toggle("1");
+              }}
+            >
+              Tarjoan kyytiä
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({
+                active: this.state.activeTab === "2"
+              })}
+              onClick={() => {
+                this.toggle("2");
+              }}
+            >
+              Etsin kyytiä
+            </NavLink>
+          </NavItem>
+        </Nav>
 
-          <TabContent activeTab={this.state.activeTab}>
-            <TabPane tabId="1">
-              <Row>
-                <Col sm="12">
-                  <h2>
-                    <label>Mistä: </label>
-                    <input
-                      maxLength="50"
-                      value={this.state.startAddress}
-                      name="startAddress"
-                      onChange={this.handleChangeStart.bind(this)}
-                      type="text"
-                      required
-                    />{" "}
+        <TabContent activeTab={this.state.activeTab}>
+          <TabPane tabId="1">
+            <Row>
+              <Col sm="12">
+                <h2>
+                  <label>Mistä: </label>
+                  <input
+                    maxLength="50"
+                    value={this.state.startAddress}
+                    name="startAddress"
+                    onChange={this.handleChangeStart.bind(this)}
+                    type="text"
+                    required
+                  />{" "}
+                  <br />
+                  <label>Minne: </label>
+                  <input
+                    maxLength="50"
+                    name="targetAddress"
+                    onChange={this.handleChangeTarget.bind(this)}
+                    value={this.state.targetAddress}
+                    type="text"
+                    required
+                  />
+                  <br />
+                  <div className="center left">
+                    <label>Valitse aikaväli miltä haet kyytiä</label>
+                    <DatePicker />
+                    <DatePicker />
                     <br />
-                    <label>Minne: </label>
-                    <input
-                      maxLength="50"
-                      name="targetAddress"
-                      onChange={this.handleChangeTarget.bind(this)}
-                      value={this.state.targetAddress}
-                      type="text"
-                      required
-                    />
+                    <label>Toistuvat päivät</label>
                     <br />
-                    <div className="center left">
-                      <label>Valitse aikaväli miltä haet kyytiä</label>
-                      <DatePicker />
-                      <DatePicker />
-                      <br />
-                      <label>Toistuvat päivät</label>
-                      <br />
 
-                      <label>
-                        <input ref="monday" type="checkbox" />
-                        Ma
-                      </label>
-                      <label>
-                        <input ref="tuesday" type="checkbox" />
-                        Ti
-                      </label>
-                      <label>
-                        <input ref="wednesday" type="checkbox" />
-                        Ke
-                      </label>
-                      <label>
-                        <input ref="thursday" type="checkbox" />
-                        To
-                      </label>
-                      <label>
-                        <input ref="friday" type="checkbox" />
-                        Pe
-                      </label>
-                      <label>
-                        <input ref="saturday" type="checkbox" />
-                        La
-                      </label>
-                      <label>
-                        <input ref="sunday" type="checkbox" />
-                        Su
-                      </label>
-                      <br />
-                    </div>
-                    <Button
-                      outline
-                      color="secondary"
-                      onClick={this.OfferRide}
-                      type="button"
-                    >
-                      Tarjoa kyytiä
-                    </Button>{" "}
-                  </h2>
-                </Col>
-              </Row>
-            </TabPane>
-            <TabPane tabId="2">
-              <Row>
-                <Col sm="12">
-                  <h2>
-                    <label>Mistä: </label>
-                    <input
-                      maxLength="50"
-                      onClick={this.xxx}
-                      ref="startAddress"
-                      type="text"
-                      required
-                    />{" "}
+                    <label>
+                      <input ref="monday" type="checkbox" />
+                      Ma
+                    </label>
+                    <label>
+                      <input ref="tuesday" type="checkbox" />
+                      Ti
+                    </label>
+                    <label>
+                      <input ref="wednesday" type="checkbox" />
+                      Ke
+                    </label>
+                    <label>
+                      <input ref="thursday" type="checkbox" />
+                      To
+                    </label>
+                    <label>
+                      <input ref="friday" type="checkbox" />
+                      Pe
+                    </label>
+                    <label>
+                      <input ref="saturday" type="checkbox" />
+                      La
+                    </label>
+                    <label>
+                      <input ref="sunday" type="checkbox" />
+                      Su
+                    </label>
                     <br />
-                    <label>Minne: </label>
-                    <input
-                      maxLength="50"
-                      onClick={this.xxx}
-                      ref="targetAddress"
-                      type="text"
-                      required
-                    />
-                    <br />
-                    <div className="center left">
-                      <label>Valitse aikaväli miltä haet kyytiä</label>
-                      <DatePicker />
-                      <DatePicker />
+                  </div>
+                  <Button
+                    outline
+                    color="secondary"
+                    onClick={this.OfferRide}
+                    type="button"
+                  >
+                    Tarjoa kyytiä
+                  </Button>{" "}
+                </h2>
+              </Col>
+            </Row>
+          </TabPane>
+          <TabPane tabId="2">
+            <Row>
+              <Col sm="12">
+                <h2>
+                  <label>Mistä: </label>
+                  <input
+                    maxLength="50"
+                    onClick={this.xxx}
+                    ref="startAddress"
+                    type="text"
+                    required
+                  />{" "}
+                  <br />
+                  <label>Minne: </label>
+                  <input
+                    maxLength="50"
+                    onClick={this.xxx}
+                    ref="targetAddress"
+                    type="text"
+                    required
+                  />
+                  <br />
+                  <div className="center left">
+                    <label>Valitse aikaväli miltä haet kyytiä</label>
+                    <DatePicker />
+                    <DatePicker />
 
-                      <label>
-                        <input ref="frequent" type="checkbox" />
-                        Toistuva
-                      </label>
-                      <br />
-                    </div>
-                    <Button
-                      outline
-                      color="secondary"
-                      onClick={this.movetoRideSearch}
-                      type="button"
-                    >
-                      Etsi kyytiä
-                    </Button>{" "}
-                  </h2>
-                </Col>
-              </Row>
-            </TabPane>
-          </TabContent>
-        </div>
-      );
-    }
+                    <label>
+                      <input ref="frequent" type="checkbox" />
+                      Toistuva
+                    </label>
+                    <br />
+                  </div>
+                  <Button
+                    outline
+                    color="secondary"
+                    onClick={this.movetoRideSearch}
+                    type="button"
+                  >
+                    Etsi kyytiä
+                  </Button>{" "}
+                </h2>
+              </Col>
+            </Row>
+          </TabPane>
+        </TabContent>
+      </div>
+    );
   }
 }
 

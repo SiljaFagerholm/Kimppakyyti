@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
-const url = "http://kimppakyytiapi.azurewebsites.net/api/ride/post";
-
+const url = "https://kimppakyytiapi.azurewebsites.net/api/ride/post";
 
 export function AddNewRide(ride) {
   fetch(url, {
@@ -28,11 +27,11 @@ class AddRide extends Component {
 
   AddRide = e => {
     let rideTemp = {
-        nickname: this.refs.nickname.value,
-        startAddress: this.refs.startAddress.value,
-        targetAddress: this.refs.targetAddress.value,
-        price: this.refs.price.value,
-        when: this.refs.when.value
+      nickname: this.refs.nickname.value,
+      startAddress: this.refs.startAddress.value,
+      targetAddress: this.refs.targetAddress.value,
+      price: this.refs.price.value,
+      when: this.refs.when.value
     };
 
     AddNewRide(rideTemp);

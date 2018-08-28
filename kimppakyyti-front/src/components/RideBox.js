@@ -17,7 +17,6 @@ import RideList from "./RideList";
 // ];
 const urlGetRides =
   "https://kimppakyytiapi.azurewebsites.net/api/ride/getallrides";
-var wholeList = [];
 
 class RideBox extends Component {
   constructor() {
@@ -34,8 +33,6 @@ class RideBox extends Component {
       .then(result => result.json())
       .then(data => {
         this.setState({ list: data });
-        wholeList = data;
-        console.log(wholeList);
       });
   };
 
