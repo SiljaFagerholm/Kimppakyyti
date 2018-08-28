@@ -56,7 +56,7 @@ namespace KimppakyytiApi.Controllers
 
 
             //Reading EndpointUri and PrimaryKey from AzurePortal
-            endpointuri = environment.getenvironmentvariable("appsetting_endpointuri");
+            endpointUri = environment.getenvironmentvariable("appsetting_endpointuri");
             key = environment.getenvironmentvariable("appsetting_primarykey");
 
 
