@@ -20,7 +20,7 @@ import {getProfile} from "./components/AuthService";
 // import ApiCalendar from "react-google-calendar-api";
 
 const posturl =
-  "http://kimppakyytiapi.azurewebsites.net/api/ride/postofferrideasync";
+  "https://kimppakyytiapi.azurewebsites.net/api/ride/postofferrideasync";
 
 export function OfferNewRide(offer) {
   fetch(posturl, {
@@ -41,7 +41,13 @@ export function OfferNewRide(offer) {
       saturdayFrequency: offer.saturdayFrequency,
       sundayFrequency: offer.sundayFrequency
     })
-  }).then(res => console.log(res));
+  }).then(res => {
+    console.log("OfferNewRide", res);
+    this.setState({ offer: {} });
+    this.props.history.push("/ridesearchpage");
+}).catch(err => {
+  console.error("OfferNewRidevirhe", err);
+});
 }
 
 class FirstPage extends Component {
