@@ -38,10 +38,6 @@ export function getProfile(callback) {
     auth.client.userInfo(accessToken, (err, profile) => {
       if (profile) {
         console.dir(profile);
-
-        //auth.userProfile = { profile };
-        //console.dir(userProfile);
-        //return userProfile;
         callback(err, profile);
       }
     });
