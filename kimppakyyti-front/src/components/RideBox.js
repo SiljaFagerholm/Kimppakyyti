@@ -1,20 +1,6 @@
 import React, { Component } from "react";
 import RideList from "./RideList";
 
-// let data = [
-//     {
-//         "id": 1,
-//         "nickname": "Jooseppi",
-//         "startlocation": "Helvetti",
-//         "endlocation": "Taivas"
-//     },
-//     {
-//         "id": 2,
-//         "nickname": "Skuggeli",
-//         "startlocation": "Kerava",
-//         "endlocation": "Prisma"
-//     }
-// ];
 const urlGetRides =
   "https://kimppakyytiapi.azurewebsites.net/api/ride/getallrides";
 

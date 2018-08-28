@@ -1,10 +1,16 @@
-import React, { Component } from "react";
-
-const posturl =
+const POSTURL =
   "https://kimppakyytiapi.azurewebsites.net/api/Ride/PostOfferRideAsync";
+const GETURL = "https://kimppakyytiapi.azurewebsites.net/api/ride/getallrides";
+
+export function getEveryRide() {
+  let ride = fetch(GETURL).then(res => console.log(res));
+  return ride;
+}
+
+export function searchRide() {}
 
 export function OfferNewRide(offer) {
-  fetch(posturl, {
+  fetch(POSTURL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -25,8 +31,7 @@ export function OfferNewRide(offer) {
   })
     .then(res => {
       console.log("OfferNewRide", res);
-      this.setState({ offer: {} });
-      this.props.history.push("/ridesearchpage");
+      // this.setState({ offer: {} });
     })
     .catch(err => {
       console.error("OfferNewRidevirhe", err);

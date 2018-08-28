@@ -44,17 +44,6 @@ export function getProfile(callback) {
   }
 }
 
-// export function getProfile(cb) {
-//   let accessToken = getAccessToken();
-//   console.log(accessToken);
-//   auth.client.userInfo(accessToken, (err, profile) => {
-//     if (profile) {
-//       return profile;
-//     }
-//     return err;
-//   });
-// }
-
 export function logout() {
   clearIdToken();
   clearAccessToken();
@@ -74,14 +63,6 @@ export function getIdToken() {
 export function getAccessToken() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
 }
-
-// export function getAccessToken() {
-//   const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
-//   if (!accessToken) {
-//     throw new Error("No Access Token found");
-//   }
-//   return accessToken;
-// }
 
 function clearIdToken() {
   localStorage.removeItem(ID_TOKEN_KEY);
@@ -125,22 +106,6 @@ function getTokenExpirationDate(encodedToken) {
 
   return date;
 }
-
-// function getTokenExpirationDate(encodedToken) {
-//   try {
-//     const token = decode(encodedToken);
-//     if (!token.exp) {
-//       return null;
-//     }
-
-//     const date = new Date(0);
-//     date.setUTCSeconds(token.exp);
-
-//     return date;
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
 
 function isTokenExpired(token) {
   const expirationDate = getTokenExpirationDate(token);

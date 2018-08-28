@@ -10,47 +10,12 @@ import {
   Col
 } from "reactstrap";
 import classnames from "classnames";
-//import { Redirect } from "react-router-dom";
 import moment from "moment";
 import "./FirstPage.css";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "./components/Date";
 import { getProfile } from "./components/AuthService";
-
-// import ApiCalendar from "react-google-calendar-api";
-
-const posturl =
-  "https://kimppakyytiapi.azurewebsites.net/api/Ride/PostOfferRideAsync";
-
-export function OfferNewRide(offer) {
-  fetch(posturl, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      nickname: offer.nickname,
-      startAddress: offer.startAddress,
-      targetAddress: offer.targetAddress,
-      startTime: offer.startTime,
-      endTime: offer.endTime,
-      offeringRide: true,
-      mondayFrequency: offer.mondayFrequency,
-      tuesdayFrequency: offer.tuesdayFrequency,
-      wednesdayFrequency: offer.wednesdayFrequency,
-      thursdayFrequency: offer.thursdayFrequency,
-      fridayFrequency: offer.fridayFrequency,
-      saturdayFrequency: offer.saturdayFrequency,
-      sundayFrequency: offer.sundayFrequency
-    })
-  })
-    .then(res => {
-      console.log("OfferNewRide", res);
-      this.setState({ offer: {} });
-      this.props.history.push("/ridesearchpage");
-    })
-    .catch(err => {
-      console.error("OfferNewRidevirhe", err);
-    });
-}
+import { OfferNewRide } from "./components/RideService";
 
 class FirstPage extends Component {
   constructor(props) {
@@ -64,7 +29,8 @@ class FirstPage extends Component {
       activeTab: "1",
       startAddress: "",
       targetAddress: "",
-      profile: {}
+      profile: {},
+      informationTemp: {}
     };
     this.startTimeChanged = this.startTimeChanged.bind(this);
     this.endTimeChanged = this.endTimeChanged.bind(this);
@@ -99,6 +65,8 @@ class FirstPage extends Component {
     };
     console.log(informationTemp);
     OfferNewRide(informationTemp);
+    this.setState({ offer: informationTemp });
+    this.props.history.push("/ridesearchpage");
   };
 
   toggle(tab) {
