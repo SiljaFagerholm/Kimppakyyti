@@ -11,9 +11,10 @@ namespace KimppakyytiApi.Models
 {
     public class RideOut
     {
+        [Newtonsoft.Json.JsonProperty(PropertyName = "id")]
+        public virtual string Id { get; set; }
         public string Nickname { get; set; }
-        public double Price { get; set; }
-        public int? RideId { get; set; }
+        public double Price { get; set; }    
 
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }

@@ -74,12 +74,6 @@ namespace KimppakyytiApi.Controllers
 
         }
         [HttpGet]
-        public string Mita()
-        {
-            return Environment.GetEnvironmentVariable("APPSETTING_EndpointUri");
-        }
-
-        [HttpGet]
         public string Ping()
         {
             return "Nyt on tehty collection, vaikka sitä ei oltu tehty aiemmin!";
@@ -390,18 +384,19 @@ namespace KimppakyytiApi.Controllers
             }
         }
         [HttpPut]
-        public async Task<string> JoinTheRideAsync(string documentId, int rideid, int seatsLeft)
+        public async Task<string> JoinTheRideAsync(string Id,  int seatsLeft)
         {       //Updating seats to database
             try
             {
                 //Fetch the Document to be updated
                 Document doc = _cosmosDBclient.CreateDocumentQuery<Document>(rideCollectionUri)
-                                            .Where(r => r.Id == documentId)
+                                            .Where(r => r.Id == Id)
                                             .AsEnumerable()
                                             .SingleOrDefault();
-                FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
-                IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
-                rideCollectionUri, queryOptions).Where(f => f.RideId == rideid);
+                
+                //FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
+                //IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
+                //rideCollectionUri, queryOptions).Where(f => f.Id == rideid);
 
                 int updatedSeats = seatsLeft;
                 updatedSeats--;
@@ -428,17 +423,25 @@ namespace KimppakyytiApi.Controllers
             return "Olisikohan joku mennyt vikaan?";
         }
         [HttpPut]
-        public async Task<ActionResult<Ride>> EditProfileAsync([FromBody]Ride valueIn, string id)
+        public async Task<string> EditRideAsync(string id, double price, int seatsleft, DateTime startTime, DateTime endTime, string start, string end )
         {
-            try
+            try //Editing the Ride
             {
                 Document doc = _cosmosDBclient.CreateDocumentQuery<Document>(rideCollectionUri)
                                        .Where(r => r.Id == id )
                                        .AsEnumerable()
-                                       .SingleOrDefault();
+                                       .SingleOrDefault();               
+                
+                doc.SetPropertyValue("Price", price);
+                doc.SetPropertyValue("SeatsLeft", seatsleft);
+                doc.SetPropertyValue("StartTime", startTime);
+                doc.SetPropertyValue("EndTime", endTime);
+                doc.SetPropertyValue("StartAddress", start);
+                doc.SetPropertyValue("EndAddress", end);
+
                 Document updated = await _cosmosDBclient.ReplaceDocumentAsync(doc);
 
-                return Ok(updated);
+                return updated.ToString();
 
             }
             catch (DocumentClientException de)
@@ -446,10 +449,10 @@ namespace KimppakyytiApi.Controllers
                 switch (de.StatusCode.Value)
                 {
                     case System.Net.HttpStatusCode.NotFound:
-                        return NotFound();
+                        return "Nyt täytyy kokeilla uudelleen!";
                 }
             }
-            return BadRequest();
+            return "Joku meni vikaan!";
         }
 
 

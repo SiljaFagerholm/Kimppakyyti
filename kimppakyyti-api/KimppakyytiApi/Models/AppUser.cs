@@ -8,6 +8,8 @@ namespace KimppakyytiApi.Models
 {
     public class AppUser
     {
+        [Newtonsoft.Json.JsonProperty(PropertyName = "id")]
+        public virtual string Id { get; set; }
         public string Nickname { get; set; }       
         public string FirstName { get; set; }
 
