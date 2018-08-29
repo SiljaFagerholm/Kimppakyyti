@@ -241,7 +241,6 @@ class FirstPage extends Component {
                     <label>Valitse aikaväli miltä haet kyytiä</label>
                     <DatePicker />
                     <DatePicker />
-
                     <label>
                       <input ref="frequent" type="checkbox" />
                       Toistuva
