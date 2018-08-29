@@ -18,8 +18,6 @@ import { getProfile } from "./components/AuthService";
 import { OfferNewRide, searchRide } from "./components/RideService";
 import LookingForRide from "./components/LookingForRide";
 
-
-
 class FirstPage extends Component {
   constructor(props) {
     super(props);
@@ -171,22 +169,22 @@ class FirstPage extends Component {
                   <div className="center left">
                     <label>Valitse aikaväli miltä haet kyytiä</label>
                     <DatePicker
-                    onChange={this.startTimeChanged}
-                    selected={this.state.startTIme}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    dateFormat="YYYY-MM-DD HH:mm"
-                    timeCaption="time" 
+                      onChange={this.startTimeChanged}
+                      selected={this.state.startTIme}
+                      showTimeSelect
+                      timeFormat="HH:mm"
+                      timeIntervals={15}
+                      dateFormat="YYYY-MM-DD HH:mm"
+                      timeCaption="time"
                     />
                     <DatePicker
-                    onChange={this.endTimeChanged}
-                    selected={this.state.endtTime}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    dateFormat="YYYY-MM-DD HH:mm"
-                    timeCaption="time" 
+                      onChange={this.endTimeChanged}
+                      selected={this.state.endtTime}
+                      showTimeSelect
+                      timeFormat="HH:mm"
+                      timeIntervals={15}
+                      dateFormat="YYYY-MM-DD HH:mm"
+                      timeCaption="time"
                     />
                     <br />
                     <label>Toistuvat päivät</label>

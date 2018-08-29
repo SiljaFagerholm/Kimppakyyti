@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import RideList from "./RideList";
 import moment from "moment";
-import DatePicker from "./Date";
 import { Button } from "reactstrap";
+import DatePicker from "react-datepicker";
 
 class LookingForRide extends Component {
   constructor(props) {
@@ -111,8 +111,24 @@ class LookingForRide extends Component {
           <br />
           <div className="center left">
             <label>Aikaväli</label>
-            <DatePicker />
-            <DatePicker />
+            <DatePicker
+              onChange={this.startTimeChanged}
+              selected={this.state.startTIme}
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              dateFormat="YYYY-MM-DD HH:mm"
+              timeCaption="time"
+            />
+            <DatePicker
+              onChange={this.endTimeChanged}
+              selected={this.state.endtTime}
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              dateFormat="YYYY-MM-DD HH:mm"
+              timeCaption="time"
+            />
             <br />
           </div>
           <Button

@@ -41,7 +41,7 @@ class ProfileAuth extends Component {
   };
 
   deleteRideFromList = id => {
-    var tempList = this.state.list.filter(x => x.id != id);
+    var tempList = this.state.list.filter(x => x.id !== id);
 
     this.setState({ list: tempList });
   };
