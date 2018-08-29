@@ -402,10 +402,10 @@ namespace KimppakyytiApi.Controllers
                 updatedSeats--;
 
                 //Update some properties on the found resource
-                doc.SetPropertyValue("SeatsLeft", updatedSeats);
+                doc.SetPropertyValue("SeatsLeft", updatedSeats);        
+
 
                 //Tähän pitää lisätä vielä reitin pituuden nousu tarvittaessa!    -+
-
 
                 //Now persist these changes to the database by replacing the original resource
                 Document updated = await _cosmosDBclient.ReplaceDocumentAsync(doc);
@@ -422,6 +422,7 @@ namespace KimppakyytiApi.Controllers
             }
             return "Olisikohan joku mennyt vikaan?";
         }
+      
         [HttpPut]
         public async Task<string> EditRideAsync(string id, double price, int seatsleft, DateTime startTime, DateTime endTime, string start, string end )
         {

@@ -14,14 +14,12 @@ namespace KimppakyytiApi.Models
        
         [Newtonsoft.Json.JsonProperty(PropertyName = "id")]
         public virtual string Id { get; set; }
-        // public string [] OnBoard { get; set; } //String array to Nicknames that have joined the Ride. 
+        public List<string> OnBoard { get; set; } //String array to Nicknames that have joined the Ride. 
         public string Nickname { get; set; }
         public double Price { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
-
         public string StartAddress { get; set; }
-
         //[JsonProperty("startlocation")]
         //public Point StartLocation { get; set; }
          
