@@ -23,6 +23,8 @@ namespace KimppakyytiApi.Controllers
         private const string _collectionName = "User";
         private static readonly string endpointUri = ConfigurationManager.AppSettings["EndpointUri"];
         private static readonly string key = ConfigurationManager.AppSettings["PrimaryKey"];
+        private Uri userCollectionUri = UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName);
+
 
         public UserController(IConfiguration configuration)
         {
@@ -83,6 +85,35 @@ namespace KimppakyytiApi.Controllers
             }
             return BadRequest();
         }
+        [HttpPut]
+        public async Task<string> EditUserProfileAsync (string id, string nickname, string puhelin, string email)
+        {
+            try
+            {
+                Document doc = _cosmosDBclient.CreateDocumentQuery<Document>(userCollectionUri)
+                                      .Where(r => r.Id == id)
+                                      .AsEnumerable()
+                                      .SingleOrDefault();
+
+                doc.SetPropertyValue("Nickname", nickname);
+                doc.SetPropertyValue("Phonenumber", puhelin);
+                doc.SetPropertyValue("Email", email);
+
+                Document updated = await _cosmosDBclient.ReplaceDocumentAsync(doc);
+
+                return updated.ToString();
+            }
+            catch (DocumentClientException de)
+            {
+                switch (de.StatusCode.Value)
+                {
+                    case System.Net.HttpStatusCode.NotFound:
+                        return "Nyt täytyy kokeilla uudelleen!";
+                }
+            }
+            return "Joku meni vikaan!";
+        }            
+        
         [HttpGet]
         public async Task<ActionResult<Models.AppUser>> GetUserByDocumentId(string documentId)
         {

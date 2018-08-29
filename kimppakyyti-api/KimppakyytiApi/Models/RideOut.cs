@@ -11,23 +11,21 @@ namespace KimppakyytiApi.Models
 {
     public class RideOut
     {
+        [Newtonsoft.Json.JsonProperty(PropertyName = "id")]
+        public virtual string Id { get; set; }
         public string Nickname { get; set; }
-        public double Price { get; set; }
-        
+        public int Duration { get; set; }
+        public double Price { get; set; }  
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
-
         public string StartAddress { get; set; }
-
         [JsonProperty("startlocation")]
-        public Point StartLocation { get; set; }
-         
+        public Point StartLocation { get; set; }         
         public string TargetAddress { get; set; }
         [JsonProperty("targetlocation")]
         public Point TargetLocation { get; set; }
-        //[JsonProperty("routepoints")]
-        //public List<Point> RoutePoints { get; set; }
-        
+        [JsonProperty("routepoints")]
+        public List<Point> RoutePoints { get; set; }        
         public bool OfferingRide { get; set; }
         public int SeatsLeft { get; set; }
         public bool MondayFrequency { get; set; }
@@ -36,8 +34,7 @@ namespace KimppakyytiApi.Models
         public bool ThursdayFrequency { get; set; }
         public bool FridayFrequency { get; set; }
         public bool SaturdayFrequency { get; set; }
-        public bool SundayFrequency { get; set; }
-        
+        public bool SundayFrequency { get; set; }       
        
         
         public override string ToString()
