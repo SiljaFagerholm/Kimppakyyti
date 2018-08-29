@@ -16,6 +16,7 @@ import Callback from "./Callback";
 import NavComponent from "./Navbar";
 import ProfileAuth from "./components/ProfileAuth";
 import RideBox from "./components/RideBox";
+import OfferCreated from "./components/OfferCreated";
 
 class App extends Component {
   force() {
@@ -30,6 +31,7 @@ class App extends Component {
             <Router>
               <Switch>
                 <Route exact path="/firstpage" component={FirstPage} />
+                <Route exact path="/offercreated" component={OfferCreated}/>
                 <Route exact path="/ridebox" component={RideBox} />
                 <Route
                   exact
