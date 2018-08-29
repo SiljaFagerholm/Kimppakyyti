@@ -25,7 +25,6 @@ class ProfileAuth extends Component {
 
   componentDidMount() {
     getProfile((err, profile) => {
-      console.log(profile);
       this.setState({ profile: profile });
     });
     this.getNicknameRides();
@@ -41,8 +40,6 @@ class ProfileAuth extends Component {
       }
 
   render() {
-    console.dir(this.state.profile);
-
     return (
       isLoggedIn() && (
         <div>
