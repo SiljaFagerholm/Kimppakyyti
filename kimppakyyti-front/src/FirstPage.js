@@ -157,7 +157,7 @@ class FirstPage extends Component {
                   />{" "}
                   <br />
                   <label>Minne: </label>
-                  <input
+                  <Input
                     maxLength="50"
                     name="targetAddress"
                     onChange={this.handleChangeTarget.bind(this)}
@@ -190,27 +190,27 @@ class FirstPage extends Component {
                     <label>Toistuvat päivät</label>
                     <br />
                     <label>
-                      <input ref="monday" type="checkbox" />
+                      <Input ref="monday" type="checkbox" />
                       Ma
                     </label>
                     <label>
-                      <input ref="tuesday" type="checkbox" />
+                      <Input ref="tuesday" type="checkbox" />
                       Ti
                     </label>
                     <label>
-                      <input ref="wednesday" type="checkbox" />
+                      <Input ref="wednesday" type="checkbox" />
                       Ke
                     </label>
                     <label>
-                      <input ref="thursday" type="checkbox" />
+                      <Input ref="thursday" type="checkbox" />
                       To
                     </label>
                     <label>
-                      <input ref="friday" type="checkbox" />
+                      <Input ref="friday" type="checkbox" />
                       Pe
                     </label>
                     <label>
-                      <input ref="saturday" type="checkbox" />
+                      <Input ref="saturday" type="checkbox" />
                       La
                     </label>
                     <label>

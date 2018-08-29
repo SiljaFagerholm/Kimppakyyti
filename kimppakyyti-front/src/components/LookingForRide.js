@@ -65,20 +65,28 @@ class LookingForRide extends Component {
       console.log(url);
       var a = JSON.parse(result);
       console.log(a);
-      // this.setState({ list: result });
     });
-    // .then(data => {
-    //   console.log(data);
-    //   if (data === undefined) {
-    //     data = [{ targetAddress: "Ei löydy dataa" }];
-    //   }
-    //   console.log(data);
-    //   this.setState({ list: data });
-    // })
-    // .catch(err => {
-    //   console.log("Tapahtui virhe" + err);
-    // });
   };
+
+  // GetEveryRide = url => {
+  //   fetch(url)
+  //     .then(result => {
+  //       console.dir(result);
+  //       result.json();
+  //     })
+  //     .then(data => {
+  //       console.dir(data);
+  //       if (data === undefined) {
+  //         console.log("täällä ollaan");
+  //         data = [{ targetAddress: "Ei löydy dataa" }];
+  //       }
+  //       console.log(data);
+  //       this.setState({ list: data });
+  //     })
+  //     .catch(err => {
+  //       console.log("Tapahtui virhe" + err);
+  //     });
+  // };
 
   modifyDateString(date) {
     let temp = JSON.stringify(date);
