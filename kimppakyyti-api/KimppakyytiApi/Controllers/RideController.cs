@@ -371,8 +371,8 @@ namespace KimppakyytiApi.Controllers
                 Document document = await _cosmosDBclient.CreateDocumentAsync(
                 UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
                 valueOut);
-
-                return Ok(valueOut);
+                
+                return Ok(document.Id);
             }
             else
             {
@@ -380,7 +380,7 @@ namespace KimppakyytiApi.Controllers
             }
         }
         [HttpPut]
-        public async Task<string> JoinTheRideAsync(string Id,  int seatsLeft)
+        public async Task<string> JoinTheRideAsync(string Id,  int seatsLeft, string nick)
         {       //Updating seats to database
             try
             {
@@ -388,19 +388,14 @@ namespace KimppakyytiApi.Controllers
                 Document doc = _cosmosDBclient.CreateDocumentQuery<Document>(rideCollectionUri)
                                             .Where(r => r.Id == Id)
                                             .AsEnumerable()
-                                            .SingleOrDefault();
-                
-                //FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
-                //IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
-                //rideCollectionUri, queryOptions).Where(f => f.Id == rideid);
-
+                                            .SingleOrDefault();              
                 int updatedSeats = seatsLeft;
                 updatedSeats--;
 
                 //Update some properties on the found resource
-                doc.SetPropertyValue("SeatsLeft", updatedSeats);        
+                doc.SetPropertyValue("SeatsLeft", updatedSeats);
 
-
+  
                 //Tähän pitää lisätä vielä reitin pituuden nousu tarvittaessa!    -+
 
                 //Now persist these changes to the database by replacing the original resource
@@ -418,26 +413,7 @@ namespace KimppakyytiApi.Controllers
             }
             return "Olisikohan joku mennyt vikaan?";
         }
-        [HttpPut]
-        public async Task<string> KOITOS(string id)
-        {
-            //Get the doc back as a Document so you have access to doc.SelfLink
-            Document doc = _cosmosDBclient.CreateDocumentQuery<Document>(rideCollectionUri)
-                                   .Where(r => r.Id == id)
-                                   .AsEnumerable()
-                                   .SingleOrDefault();
 
-            //Now dynamically cast doc back to your MyPoco
-            Ride poco = (dynamic)doc;
-
-            //Update some properties of the poco object
-            poco.Nickname = ("Elli");
-           
-
-            //Now persist these changes to the database using doc.SelLink and the update poco object
-            Document updated = await _cosmosDBclient.ReplaceDocumentAsync(doc.SelfLink, poco);
-            return updated.ToString();
-        }
         [HttpPut]
         public async Task<string> EditRideAsync(string id, double price, int seatsleft, DateTime startTime, DateTime endTime, string start, string end )
         {
