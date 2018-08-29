@@ -39,11 +39,6 @@ class LookingForRide extends Component {
     });
   }
 
-  //   componentWillMount() {
-  //     this.handleChangeUrl();
-  //     this.GetEveryRide();
-  //   }
-
   handleChangeUrl = () => {
     console.log(JSON.stringify(this.state.startTime));
     let start = this.modifyDateString(this.state.startTime);
@@ -51,14 +46,14 @@ class LookingForRide extends Component {
 
     let url =
       "https://kimppakyytiapi.azurewebsites.net/api/Ride/GetSearchRidesCustomerAsync?startTime=" +
-      start +
+      encodeURIComponent(start) +
       "&endTime=" +
-      end +
+      encodeURIComponent(end) +
       "&startAddress=" +
-      this.state.startAddress +
+      encodeURIComponent(this.state.startAddress) +
       "&targetAddress=" +
-      this.state.targetAddress;
-    console.log(url);
+      encodeURIComponent(this.state.targetAddress);
+    console.log("URL", url);
     this.setState({
       searchUrl: url
     });
