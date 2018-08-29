@@ -11,7 +11,8 @@ import {
 } from "reactstrap";
 import NicknameRides from "./NicknameRides";
 
-const urlGetNicknameRides = "https://kimppakyytiapi.azurewebsites.net/api/ride/getallrides";
+const urlGetNicknameRides =
+  "https://kimppakyytiapi.azurewebsites.net/api/ride/getallrides";
 var allRides = [];
 
 class ProfileAuth extends Component {
@@ -29,15 +30,15 @@ class ProfileAuth extends Component {
     });
     this.getNicknameRides();
   }
-      getNicknameRides = () => {
-        fetch(urlGetNicknameRides)
-        .then(result => result.json())
-        .then(data => {
-          allRides = data.filter(x => x.nickname == this.state.profile.nickname)
+  getNicknameRides = () => {
+    fetch(urlGetNicknameRides)
+      .then(result => result.json())
+      .then(data => {
+        allRides = data.filter(x => x.nickname === this.state.profile.nickname);
 
-          this.setState({list: allRides});
-        });
-      }
+        this.setState({ list: allRides });
+      });
+  };
 
   render() {
     return (
@@ -56,7 +57,7 @@ class ProfileAuth extends Component {
                   </CardText>
                   <CardTitle>Kyydit</CardTitle>
                   <CardText>
-                    <NicknameRides rides={this.state.list}/>
+                    <NicknameRides rides={this.state.list} />
                   </CardText>
                 </CardBody>
               </Card>

@@ -16,6 +16,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "./components/Date";
 import { getProfile } from "./components/AuthService";
 import { OfferNewRide, searchRide } from "./components/RideService";
+import LookingForRide from "./components/LookingForRide";
 
 class FirstPage extends Component {
   constructor(props) {
@@ -105,7 +106,7 @@ class FirstPage extends Component {
   }
   componentDidMount() {
     getProfile((err, profile) => {
-      console.log(profile);
+      //console.log(profile);
       this.setState({ profile: profile });
     });
   }
@@ -113,6 +114,7 @@ class FirstPage extends Component {
   render() {
     return (
       <div>
+        <LookingForRide />
         <Nav className="Row" tabs>
           <NavItem>
             <NavLink
