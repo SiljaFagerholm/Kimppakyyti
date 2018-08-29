@@ -10,6 +10,10 @@ class RideBox extends Component {
     this.state = { list: [] };
   }
 
+  componentDidMount() {
+    this.GetEveryRide();
+  }
+
   GetEveryRide = () => {
     fetch(urlGetRides)
       .then(result => result.json())
