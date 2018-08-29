@@ -138,6 +138,88 @@ namespace KimppakyytiApi.Controllers
             return BadRequest();
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<RideOut>>> GetSearchRidesCustomerAsync(DateTime startTime, DateTime endTime, string startAddress, string targetAddress)
+        {
+            try //Searching Rides from CosmosDB with right TimeTable.
+
+            {
+                {
+                    //Functions for delayed response -- timeout try /catch
+
+                    // Parse input from user
+                    //valueIn.StartAddress = valueIn.StartAddress.Trim().Replace(' ','+');
+                    //valueIn.TargetAddress = valueIn.TargetAddress.Trim().Replace(' ', '+');
+
+                    // Get route from Google Directions Api
+                    var response = await GoogleApiFunctions.GetRouteGoogle(startAddress, targetAddress);
+
+                    // parse response from Google
+                    RootObject obj = JsonConvert.DeserializeObject<RootObject>(response);
+                    RideOut valueOut = new RideOut();
+
+
+                    if (obj.status == "ZERO_RESULTS")
+                    {
+                        return NoContent();// "Reittiä ei löytynyt. Tarkista antamasi osoitteet, tai kokeile hakea kaupunginosalla.";
+                    }
+                    else if (obj.status == "OK")
+                    {
+                        // parse incoming object to outgoing  start and end point from Google to CosmosDB -object
+                        valueOut.Nickname = "Haku";
+                        valueOut.Price = 0.00;
+                        valueOut.StartTime = startTime;
+                        valueOut.EndTime = endTime;
+                        valueOut.StartAddress = startAddress;
+                        valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lat, obj.routes[0].legs[0].start_location.lng);
+                        valueOut.TargetAddress = targetAddress;
+                        valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lat, obj.routes[0].legs[0].end_location.lng);
+
+                        //foreach (var location in obj.routes[0].legs[0].steps)
+                        //{
+                        //    valueOut.RoutePoints.Add(new Point(location.end_location.lng, location.end_location.lat));
+                        //}
+                        valueOut.OfferingRide = false;
+                        valueOut.SeatsLeft = 0;
+                        valueOut.MondayFrequency = false;
+                        valueOut.TuesdayFrequency = false;
+                        valueOut.WednesdayFrequency = false;
+                        valueOut.ThursdayFrequency = false;
+                        valueOut.FridayFrequency = false;
+                        valueOut.SaturdayFrequency = false;
+                        valueOut.SundayFrequency = false;
+
+                        
+
+                        // search for matches
+                        FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
+                        IQueryable<RideOut> query = _cosmosDBclient.CreateDocumentQuery<RideOut>(
+                        rideCollectionUri, queryOptions).Where(f => f.OfferingRide == true && f.StartTime >= valueOut.StartTime && f.StartTime <= valueOut.EndTime && f.StartLocation.Distance(valueOut.StartLocation) < 500 && f.TargetLocation.Distance(valueOut.TargetLocation) < 500); // Distance (to) etäisyys metreinä
+
+                        // check for contents in query before returning?
+
+                        return query.ToList();
+                    }
+
+                    else
+                    {
+                        return NoContent();// "Nyt kävi jotain.";
+                    }
+                }
+            }
+
+            catch (DocumentClientException de)
+            {
+                switch (de.StatusCode.Value)
+                {
+                    case System.Net.HttpStatusCode.NotFound:
+                        return NotFound();
+                }
+            }
+            return BadRequest();
+
+        }
+
         [HttpPost]
         public async Task<ActionResult<List<RideOut>>> SearchRidesCustomerAsync([FromBody]Ride valueIn)
         {
@@ -194,7 +276,7 @@ namespace KimppakyytiApi.Controllers
                         UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
                         valueOut);
 
-
+                        // search for matches
                         FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
                         IQueryable<RideOut> query = _cosmosDBclient.CreateDocumentQuery<RideOut>(
                         rideCollectionUri, queryOptions).Where(f => f.OfferingRide == true && f.StartTime >= valueOut.StartTime && f.StartTime <= valueOut.EndTime && f.StartLocation.Distance(valueOut.StartLocation) < 500 && f.TargetLocation.Distance(valueOut.TargetLocation) < 500); // Distance (to) etäisyys metreinä
