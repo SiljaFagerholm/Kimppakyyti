@@ -306,8 +306,6 @@ namespace KimppakyytiApi.Controllers
             return BadRequest();
 
         }
-
-
         [HttpGet]
         public ActionResult<List<Ride>> GetAllRides()
         {
@@ -331,9 +329,7 @@ namespace KimppakyytiApi.Controllers
             }
             return BadRequest();
         }
-
-
-
+        
         [HttpPost]
         public async Task<ActionResult<string>> PostOfferRideAsync([FromBody] Ride valueIn)
         {
@@ -393,13 +389,76 @@ namespace KimppakyytiApi.Controllers
                 return "Nyt kävi jotain.";
             }
         }
+        [HttpPut]
+        public async Task<string> JoinTheRideAsync(string documentId, int rideid, int seatsLeft)
+        {       //Updating seats to database
+            try
+            {
+                //Fetch the Document to be updated
+                Document doc = _cosmosDBclient.CreateDocumentQuery<Document>(rideCollectionUri)
+                                            .Where(r => r.Id == documentId)
+                                            .AsEnumerable()
+                                            .SingleOrDefault();
+                FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
+                IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
+                rideCollectionUri, queryOptions).Where(f => f.RideId == rideid);
+
+                int updatedSeats = seatsLeft;
+                updatedSeats--;
+
+                //Update some properties on the found resource
+                doc.SetPropertyValue("SeatsLeft", updatedSeats);
+
+                //Tähän pitää lisätä vielä reitin pituuden nousu tarvittaessa!    -+
+
+
+                //Now persist these changes to the database by replacing the original resource
+                Document updated = await _cosmosDBclient.ReplaceDocumentAsync(doc);
+
+                return "Olet ilmoittautunut mukaan kyytiin.";
+            }
+            catch (DocumentClientException de)
+            {
+                switch (de.StatusCode.Value)
+                {
+                    case System.Net.HttpStatusCode.NotFound:
+                        return "Nyt ei löytynyt kyytiä, koita uudelleen.";
+                }
+            }
+            return "Olisikohan joku mennyt vikaan?";
+        }
+        [HttpPut]
+        public async Task<ActionResult<Ride>> EditProfileAsync([FromBody]Ride valueIn, string id)
+        {
+            try
+            {
+                Document doc = _cosmosDBclient.CreateDocumentQuery<Document>(rideCollectionUri)
+                                       .Where(r => r.Id == id )
+                                       .AsEnumerable()
+                                       .SingleOrDefault();
+                Document updated = await _cosmosDBclient.ReplaceDocumentAsync(doc);
+
+                return Ok(updated);
+
+            }
+            catch (DocumentClientException de)
+            {
+                switch (de.StatusCode.Value)
+                {
+                    case System.Net.HttpStatusCode.NotFound:
+                        return NotFound();
+                }
+            }
+            return BadRequest();
+        }
+
 
         [HttpDelete]
         public async Task<ActionResult<string>> DeleteRide(string documentId)
         {
             try
             {
-                await _cosmosDBclient.DeleteDocumentAsync(
+                 await _cosmosDBclient.DeleteDocumentAsync(
                  UriFactory.CreateDocumentUri(_dbName, _collectionName, documentId));
                 return Ok($"Deleted document id {documentId}");
             }
