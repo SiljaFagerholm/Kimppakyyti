@@ -1,8 +1,11 @@
+import { callbackify } from "util";
+
 const POSTURL =
   "https://kimppakyytiapi.azurewebsites.net/api/Ride/PostOfferRideAsync";
 const GETURL = "https://kimppakyytiapi.azurewebsites.net/api/ride/getallrides";
 const SEARCHURL =
   "https://kimppakyytiapi.azurewebsites.net/api/Ride/SearchRidesCustomerAsync";
+const urlDeleteNicknameRides = "https://kimppakyytiapi.azurewebsites.net/api/Ride/DeleteRide?documentId=";
 
 export function getEveryRide() {
   fetch(GETURL).then(result => result.json());
@@ -64,4 +67,10 @@ export function OfferNewRide(offer) {
     .catch(err => {
       console.error("OfferNewRidevirhe", err);
     });
+}
+
+export function deleteRideFromApi(id, callback) {
+  fetch(urlDeleteNicknameRides + id, {
+      method: 'DELETE'
+  }).then(callback)
 }
