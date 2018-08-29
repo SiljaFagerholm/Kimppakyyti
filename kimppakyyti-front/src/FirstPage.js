@@ -7,7 +7,8 @@ import {
   TabContent,
   TabPane,
   Row,
-  Col
+  Col,
+  Input
 } from "reactstrap";
 import classnames from "classnames";
 import moment from "moment";
@@ -114,7 +115,6 @@ class FirstPage extends Component {
   render() {
     return (
       <div>
-        <LookingForRide />
         <Nav className="Row" tabs>
           <NavItem>
             <NavLink
@@ -147,7 +147,7 @@ class FirstPage extends Component {
               <Col sm="12">
                 <h2>
                   <label>Mistä: </label>
-                  <input
+                  <Input
                     maxLength="50"
                     value={this.state.startAddress}
                     name="startAddress"
@@ -232,50 +232,7 @@ class FirstPage extends Component {
             </Row>
           </TabPane>
           <TabPane tabId="2">
-            <Row>
-              <Col sm="12">
-                <h2>
-                  <label>Mistä: </label>
-                  <input
-                    maxLength="50"
-                    value={this.state.startAddress}
-                    name="startAddress"
-                    onChange={this.handleChangeStart.bind(this)}
-                    type="text"
-                    required
-                  />{" "}
-                  <br />
-                  <label>Minne: </label>
-                  <input
-                    maxLength="50"
-                    name="targetAddress"
-                    onChange={this.handleChangeTarget.bind(this)}
-                    value={this.state.targetAddress}
-                    type="text"
-                    required
-                  />
-                  <br />
-                  <div className="center left">
-                    <label>Valitse aikaväli miltä haet kyytiä</label>
-                    <DatePicker />
-                    <DatePicker />
-                    <label>
-                      <input ref="frequent" type="checkbox" />
-                      Toistuva
-                    </label>
-                    <br />
-                  </div>
-                  <Button
-                    outline
-                    color="secondary"
-                    onClick={this.movetoRideSearch}
-                    type="button"
-                  >
-                    Etsi kyytiä
-                  </Button>{" "}
-                </h2>
-              </Col>
-            </Row>
+            <LookingForRide />
           </TabPane>
         </TabContent>
       </div>
