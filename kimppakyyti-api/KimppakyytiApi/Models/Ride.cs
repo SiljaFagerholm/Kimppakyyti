@@ -14,7 +14,7 @@ namespace KimppakyytiApi.Models
        
         [Newtonsoft.Json.JsonProperty(PropertyName = "id")]
         public virtual string Id { get; set; }
-        public List<string> OnBoard { get; set; } //String array to Nicknames that have joined the Ride. 
+        //public List<string> OnBoard { get; set; } //String array to Nicknames that have joined the Ride. 
         public string Nickname { get; set; }
         public double Price { get; set; }
         public DateTime StartTime { get; set; }

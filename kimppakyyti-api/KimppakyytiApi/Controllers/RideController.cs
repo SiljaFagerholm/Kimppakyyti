@@ -53,14 +53,10 @@ namespace KimppakyytiApi.Controllers
             _configuration["AppSettings:EndpointUri"];
             var key =
             _configuration["AppSettings:PrimaryKey"];
-
-
+            
             //Reading EndpointUri and PrimaryKey from AzurePortal
-            //endpointUri = Environment.GetEnvironmentVariable("appsetting_endpointuri");
-            //key = Environment.GetEnvironmentVariable("appsetting_primarykey");
-
-            endpointUri = "https://loppuprojekti.documents.azure.com/";
-            key = "XzoPgAggVkFhshSEq9WCvZeRkFSnFhSvukkbI07Ou1juLDzyVo4Ek9YJlW0sVog1UZoGXcR8CaJYXSXdLZmAAw==";
+            endpointUri = Environment.GetEnvironmentVariable("appsetting_endpointuri");
+            key = Environment.GetEnvironmentVariable("appsetting_primarykey");
 
             _cosmosDBclient = new DocumentClient(new Uri(endpointUri), key);
             _cosmosDBclient.CreateDatabaseIfNotExistsAsync(new Database
@@ -72,8 +68,6 @@ namespace KimppakyytiApi.Controllers
 
             UriFactory.CreateDatabaseUri(_dbName),
             new DocumentCollection { Id = _collectionName });
-
-
         }
         [HttpGet]
         public string Ping()
@@ -327,7 +321,7 @@ namespace KimppakyytiApi.Controllers
         }
         
         [HttpPost]
-        public async Task<ActionResult<string>> PostOfferRideAsync([FromBody] Ride valueIn)
+        public async Task<ActionResult<RideOut>> PostOfferRideAsync([FromBody] Ride valueIn)
         {
             //Functions for delayed response -- timeout try /catch
 
@@ -342,7 +336,7 @@ namespace KimppakyytiApi.Controllers
 
             if (obj.status == "ZERO_RESULTS")
             {
-                return "Reittiä ei löytynyt. Tarkista antamasi osoitteet, tai kokeile hakea kaupunginosalla.";
+                return NotFound();
             }
             else if (obj.status == "OK")
             {
@@ -378,11 +372,11 @@ namespace KimppakyytiApi.Controllers
                 UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
                 valueOut);
 
-                return Ok("Ilmoituksesi on tallennettu järjestelmään.");
+                return Ok(valueOut);
             }
             else
             {
-                return "Nyt kävi jotain.";
+                return BadRequest();
             }
         }
         [HttpPut]
@@ -424,7 +418,26 @@ namespace KimppakyytiApi.Controllers
             }
             return "Olisikohan joku mennyt vikaan?";
         }
-      
+        [HttpPut]
+        public async Task<string> KOITOS(string id)
+        {
+            //Get the doc back as a Document so you have access to doc.SelfLink
+            Document doc = _cosmosDBclient.CreateDocumentQuery<Document>(rideCollectionUri)
+                                   .Where(r => r.Id == id)
+                                   .AsEnumerable()
+                                   .SingleOrDefault();
+
+            //Now dynamically cast doc back to your MyPoco
+            Ride poco = (dynamic)doc;
+
+            //Update some properties of the poco object
+            poco.Nickname = ("Elli");
+           
+
+            //Now persist these changes to the database using doc.SelLink and the update poco object
+            Document updated = await _cosmosDBclient.ReplaceDocumentAsync(doc.SelfLink, poco);
+            return updated.ToString();
+        }
         [HttpPut]
         public async Task<string> EditRideAsync(string id, double price, int seatsleft, DateTime startTime, DateTime endTime, string start, string end )
         {
