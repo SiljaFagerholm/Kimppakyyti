@@ -29,16 +29,16 @@ namespace KimppakyytiApi.Models.RouteLogic
         [JsonProperty("northeast")]
         public double fakeNews { get; set; }
 
-        public double lng { get; set; }
         public double lat { get; set; }
+        public double lng { get; set; }
     }
 
     public class Southwest
     {
         [JsonProperty("southwest")]
         public double fakeNews { get; set; }
-        public double lng { get; set; }
         public double lat { get; set; }
+        public double lng { get; set; }
     }
 
     public class Bounds
@@ -66,16 +66,16 @@ namespace KimppakyytiApi.Models.RouteLogic
     {
         [JsonProperty("endlocation")]
         public double fakeNews { get; set; }
-        public double lng { get; set; }
         public double lat { get; set; }
+        public double lng { get; set; }
     }
 
     public class StartLocation
     {
         [JsonProperty("startlocation")]
         public double fakeNews { get; set; }
-        public double lng { get; set; }
         public double lat { get; set; }
+        public double lng { get; set; }
     }
 
     public class Distance2
@@ -96,8 +96,8 @@ namespace KimppakyytiApi.Models.RouteLogic
     {
         [JsonProperty("endlocation2")]
         public double fakeNews { get; set; }
-        public double lng { get; set; }
         public double lat { get; set; }
+        public double lng { get; set; }
     }
 
     public class Polyline
