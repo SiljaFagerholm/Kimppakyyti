@@ -26,18 +26,26 @@ class ProfileAuth extends Component {
   componentDidMount() {
     getProfile((err, profile) => {
       this.setState({ profile: profile });
+      this.getNicknameRides();
     });
-    this.getNicknameRides();
   }
-      getNicknameRides = () => {
+      getNicknameRides = (callback) => {
         fetch(urlGetNicknameRides)
         .then(result => result.json())
         .then(data => {
-          allRides = data.filter(x => x.nickname == this.state.profile.nickname)
+          allRides = data.filter(x => x.nickname === this.state.profile.nickname)
 
           this.setState({list: allRides});
         });
       }
+
+
+
+  deleteRideFromList = id => {
+    var tempList = this.state.list.filter(x => x.id != id)
+    
+    this.setState({list: tempList});
+  }
 
   render() {
     return (
@@ -55,9 +63,9 @@ class ProfileAuth extends Component {
                     Käyttäjätunnus: {this.state.profile.nickname}
                   </CardText>
                   <CardTitle>Kyydit</CardTitle>
-                  <CardText>
-                    <NicknameRides rides={this.state.list}/>
-                  </CardText>
+                  <div>
+                    <NicknameRides rides={this.state.list} deleteRideFromList={this.deleteRideFromList}/>
+                  </div>
                 </CardBody>
               </Card>
             </Col>
