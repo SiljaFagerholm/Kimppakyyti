@@ -58,6 +58,7 @@ namespace KimppakyytiApi.Controllers
             endpointUri = Environment.GetEnvironmentVariable("appsetting_endpointuri");
             key = Environment.GetEnvironmentVariable("appsetting_primarykey");
 
+
             _cosmosDBclient = new DocumentClient(new Uri(endpointUri), key);
             _cosmosDBclient.CreateDatabaseIfNotExistsAsync(new Database
             {
@@ -219,9 +220,7 @@ namespace KimppakyytiApi.Controllers
                 {
                     //Functions for delayed response -- timeout try /catch
 
-                    // Parse input from user
-                    //valueIn.StartAddress = valueIn.StartAddress.Trim().Replace(' ','+');
-                    //valueIn.TargetAddress = valueIn.TargetAddress.Trim().Replace(' ', '+');
+                  
 
                     // Get route from Google Directions Api
                     var response = await GoogleApiFunctions.GetRouteGoogle(valueIn.StartAddress, valueIn.TargetAddress);
@@ -243,9 +242,11 @@ namespace KimppakyytiApi.Controllers
                         valueOut.StartTime = valueIn.StartTime;
                         valueOut.EndTime = valueIn.EndTime;
                         valueOut.StartAddress = valueIn.StartAddress;
-                        valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lng, obj.routes[0].legs[0].start_location.lat);
+
+                        // lat and lng intentionally the wrong way around. don't fix!
+                        valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lat, obj.routes[0].legs[0].start_location.lng);
                         valueOut.TargetAddress = valueIn.TargetAddress;
-                        valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lng, obj.routes[0].legs[0].end_location.lat);
+                        valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lat, obj.routes[0].legs[0].end_location.lng);
                         
                         
                         //foreach (var location in obj.routes[0].legs[0].steps)
@@ -349,13 +350,15 @@ namespace KimppakyytiApi.Controllers
                     valueOut.EndTime = valueIn.EndTime;
                 }
                 valueOut.StartAddress = valueIn.StartAddress;
-                valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lng, obj.routes[0].legs[0].start_location.lat);
+
+                // lat and lng intentionally the wrong way around. don't fix!
+                valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lat, obj.routes[0].legs[0].start_location.lng);
                 valueOut.TargetAddress = valueIn.TargetAddress;
-                valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lng, obj.routes[0].legs[0].end_location.lat);
+                valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lat, obj.routes[0].legs[0].end_location.lng);
                 valueOut.RoutePoints = new List<Point>();
                 foreach (var location in obj.routes[0].legs[0].steps)
                 {
-                    valueOut.RoutePoints.Add(new Point(location.end_location.lng, location.end_location.lat));
+                    valueOut.RoutePoints.Add(new Point(location.end_location.lat, location.end_location.lng));
                 }
                 valueOut.OfferingRide = valueIn.OfferingRide;
                 valueOut.SeatsLeft = valueIn.SeatsLeft;
