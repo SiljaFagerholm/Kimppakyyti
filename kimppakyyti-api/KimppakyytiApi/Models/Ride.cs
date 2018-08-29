@@ -11,9 +11,10 @@ namespace KimppakyytiApi.Models
 {
     public class Ride
     {
+        public int? RideId { get; set; }
+        // public string [] OnBoard { get; set; } //String array to Nicknames that have joined the Ride. 
         public string Nickname { get; set; }
         public double Price { get; set; }
-        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
 
