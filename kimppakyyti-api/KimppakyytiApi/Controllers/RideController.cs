@@ -56,9 +56,11 @@ namespace KimppakyytiApi.Controllers
 
 
             //Reading EndpointUri and PrimaryKey from AzurePortal
-            endpointUri = Environment.GetEnvironmentVariable("appsetting_endpointuri");
-            key = Environment.GetEnvironmentVariable("appsetting_primarykey");
-            
+            //endpointUri = Environment.GetEnvironmentVariable("appsetting_endpointuri");
+            //key = Environment.GetEnvironmentVariable("appsetting_primarykey");
+
+            endpointUri = "https://loppuprojekti.documents.azure.com/";
+            key = "XzoPgAggVkFhshSEq9WCvZeRkFSnFhSvukkbI07Ou1juLDzyVo4Ek9YJlW0sVog1UZoGXcR8CaJYXSXdLZmAAw==";
 
             _cosmosDBclient = new DocumentClient(new Uri(endpointUri), key);
             _cosmosDBclient.CreateDatabaseIfNotExistsAsync(new Database
@@ -165,9 +167,9 @@ namespace KimppakyytiApi.Controllers
                         valueOut.StartTime = startTime;
                         valueOut.EndTime = endTime;
                         valueOut.StartAddress = startAddress;
-                        valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lat, obj.routes[0].legs[0].start_location.lng);
+                        valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lng, obj.routes[0].legs[0].start_location.lat);
                         valueOut.TargetAddress = targetAddress;
-                        valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lat, obj.routes[0].legs[0].end_location.lng);
+                        valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lng, obj.routes[0].legs[0].end_location.lat);
 
                         //foreach (var location in obj.routes[0].legs[0].steps)
                         //{
@@ -247,9 +249,9 @@ namespace KimppakyytiApi.Controllers
                         valueOut.StartTime = valueIn.StartTime;
                         valueOut.EndTime = valueIn.EndTime;
                         valueOut.StartAddress = valueIn.StartAddress;
-                        valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lat, obj.routes[0].legs[0].start_location.lng);
+                        valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lng, obj.routes[0].legs[0].start_location.lat);
                         valueOut.TargetAddress = valueIn.TargetAddress;
-                        valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lat, obj.routes[0].legs[0].end_location.lng);
+                        valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lng, obj.routes[0].legs[0].end_location.lat);
                         
                         
                         //foreach (var location in obj.routes[0].legs[0].steps)
