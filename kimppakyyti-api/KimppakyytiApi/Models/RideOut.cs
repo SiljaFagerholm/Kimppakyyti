@@ -25,8 +25,8 @@ namespace KimppakyytiApi.Models
         public string TargetAddress { get; set; }
         [JsonProperty("targetlocation")]
         public Point TargetLocation { get; set; }
-        //[JsonProperty("routepoints")]
-        //public List<Point> RoutePoints { get; set; }
+        [JsonProperty("routepoints")]
+        public List<Point> RoutePoints { get; set; }
         
         public bool OfferingRide { get; set; }
         public int SeatsLeft { get; set; }
