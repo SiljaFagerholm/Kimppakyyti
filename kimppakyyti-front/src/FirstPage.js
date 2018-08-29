@@ -6,8 +6,7 @@ import {
   Button,
   TabContent,
   TabPane,
-  Row,
-  Col,
+  Label,
   Input
 } from "reactstrap";
 import classnames from "classnames";
@@ -141,95 +140,91 @@ class FirstPage extends Component {
             </NavLink>
           </NavItem>
         </Nav>
+        <br />
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            <Row>
-              <Col sm="12">
-                <h2>
-                  <label>Mistä: </label>
-                  <Input
-                    maxLength="50"
-                    value={this.state.startAddress}
-                    name="startAddress"
-                    onChange={this.handleChangeStart.bind(this)}
-                    type="text"
-                    required
-                  />{" "}
-                  <br />
-                  <label>Minne: </label>
-                  <Input
-                    maxLength="50"
-                    name="targetAddress"
-                    onChange={this.handleChangeTarget.bind(this)}
-                    value={this.state.targetAddress}
-                    type="text"
-                    required
-                  />
-                  <br />
-                  <div className="center left">
-                    <label>Valitse aikaväli miltä haet kyytiä</label>
-                    <DatePicker
-                      onChange={this.startTimeChanged}
-                      selected={this.state.startTIme}
-                      showTimeSelect
-                      timeFormat="HH:mm"
-                      timeIntervals={15}
-                      dateFormat="YYYY-MM-DD HH:mm"
-                      timeCaption="time"
-                    />
-                    <DatePicker
-                      onChange={this.endTimeChanged}
-                      selected={this.state.endtTime}
-                      showTimeSelect
-                      timeFormat="HH:mm"
-                      timeIntervals={15}
-                      dateFormat="YYYY-MM-DD HH:mm"
-                      timeCaption="time"
-                    />
-                    <br />
-                    <label>Toistuvat päivät</label>
-                    <br />
-                    <label>
-                      <Input ref="monday" type="checkbox" />
-                      Ma
-                    </label>
-                    <label>
-                      <Input ref="tuesday" type="checkbox" />
-                      Ti
-                    </label>
-                    <label>
-                      <Input ref="wednesday" type="checkbox" />
-                      Ke
-                    </label>
-                    <label>
-                      <Input ref="thursday" type="checkbox" />
-                      To
-                    </label>
-                    <label>
-                      <Input ref="friday" type="checkbox" />
-                      Pe
-                    </label>
-                    <label>
-                      <Input ref="saturday" type="checkbox" />
-                      La
-                    </label>
-                    <label>
-                      <input ref="sunday" type="checkbox" />
-                      Su
-                    </label>
-                    <br />
-                  </div>
-                  <Button
-                    outline
-                    color="secondary"
-                    onClick={this.OfferRide}
-                    type="button"
-                  >
-                    Tarjoa kyytiä
-                  </Button>{" "}
-                </h2>
-              </Col>
-            </Row>
+            <Label>Mistä</Label>
+            <Input
+              type="text"
+              name="startAddress"
+              placeholder="Helsinki"
+              maxLength="50"
+              value={this.state.startAddress}
+              onChange={this.handleChangeStart.bind(this)}
+              required
+            />
+            <br />
+            <Label>Minne</Label>
+            <Input
+              type="text"
+              name="targetAddress"
+              placeholder="Espoo"
+              maxLength="50"
+              value={this.state.targetAddress}
+              onChange={this.handleChangeTarget.bind(this)}
+              required
+            />
+            <br />
+            <Label>Lähtö aikaisintaan</Label>
+            <DatePicker
+              onChange={this.startTimeChanged}
+              selected={this.state.startTIme}
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              dateFormat="YYYY-MM-DD HH:mm"
+              timeCaption="time"
+            />
+            <br />
+            <Label>Lähtö viimeistään</Label>
+            <DatePicker
+              onChange={this.endTimeChanged}
+              selected={this.state.endtTime}
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              dateFormat="YYYY-MM-DD HH:mm"
+              timeCaption="time"
+            />
+            <br />
+            <Label>Toistuvat päivät</Label>
+            <br />
+            <Label check>
+              <Input ref="monday" type="checkbox" /> Ma
+            </Label>{" "}
+            <br />
+            <Label check>
+              <Input ref="tuesday" type="checkbox" /> Ti
+            </Label>{" "}
+            <br />
+            <Label check>
+              <Input ref="wednesday" type="checkbox" /> Ke
+            </Label>{" "}
+            <br />
+            <Label check>
+              <Input ref="thursday" type="checkbox" /> To
+            </Label>{" "}
+            <br />
+            <Label check>
+              <Input ref="friday" type="checkbox" /> Pe
+            </Label>{" "}
+            <br />
+            <Label check>
+              <Input ref="saturday" type="checkbox" /> La
+            </Label>{" "}
+            <br />
+            <Label check>
+              <Input ref="sunday" type="checkbox" /> Su
+            </Label>{" "}
+            <br /> <br />
+            <Button
+              outline
+              color="secondary"
+              onClick={this.OfferRide}
+              type="button"
+            >
+              Tarjoa kyytiä
+            </Button>{" "}
           </TabPane>
           <TabPane tabId="2">
             <LookingForRide />

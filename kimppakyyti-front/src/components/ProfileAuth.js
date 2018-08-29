@@ -10,6 +10,7 @@ import {
   CardTitle
 } from "reactstrap";
 import NicknameRides from "./NicknameRides";
+import { ListGroup, ListGroupItem } from "reactstrap";
 
 const urlGetNicknameRides =
   "https://kimppakyytiapi.azurewebsites.net/api/ride/getallrides";
@@ -57,11 +58,19 @@ class ProfileAuth extends Component {
                 <CardBody>
                   <CardTitle>Profiili</CardTitle>
                   <CardText>
-                    Nimi: {this.state.profile.name}
-                    <br />
-                    Käyttäjätunnus: {this.state.profile.nickname}
+                    <ListGroup>
+                      <ListGroupItem>
+                        {" "}
+                        Nimi: {this.state.profile.name}
+                      </ListGroupItem>
+                      <ListGroupItem>
+                        {" "}
+                        Käyttäjätunnus: {this.state.profile.nickname}
+                      </ListGroupItem>
+                    </ListGroup>
                   </CardText>
-                  <CardTitle>Kyydit</CardTitle>
+                  <br />
+                  <CardTitle>Tarjotut kyydit</CardTitle>
                   <div>
                     <NicknameRides
                       rides={this.state.list}
