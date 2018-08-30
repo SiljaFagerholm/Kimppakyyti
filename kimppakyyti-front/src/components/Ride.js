@@ -10,29 +10,22 @@ class Ride extends Component {
     };
   }
 
-  componentDidMount() {
-    getProfile((err, profile) => {
-      //console.log(profile);
-      this.setState({ profile: profile });
-    });
-  }
   handlePutUrl = () => {
-    let id = this.props.singleride.id;
-    let seatsLeft = this.props.singleride.seatsLeft;
-    let nickname = this.state.profile.nickname;
-
-    let url =
-      "https://kimppakyytiapi.azurewebsites.net/api/Ride/JoinTheRideAsync?Id=" +
-      encodeURIComponent(id) +
-      "&seatsLeft=" +
-      encodeURIComponent(seatsLeft) +
-      "&nick=" +
-      encodeURIComponent(nickname);
-    console.log("URL", url);
-    this.setState({
-      searchUrl: url
+    getProfile((err, profile) => {
+      this.setState({ profile: profile });
+      let url =
+        "https://kimppakyytiapi.azurewebsites.net/api/Ride/JoinTheRideAsync?Id=" +
+        encodeURIComponent(this.props.singleride.id) +
+        "&seatsLeft=" +
+        encodeURIComponent(this.props.singleride.seatsLeft) +
+        "&nick=" +
+        encodeURIComponent(this.state.profile.nickname);
+      console.log("URL", url);
+      this.setState({
+        searchUrl: url
+      });
+      this.joinRide(url);
     });
-    this.joinRide(url);
   };
 
   joinRide = url => {
@@ -43,10 +36,10 @@ class Ride extends Component {
       }
     })
       .then(res => {
-        console.log(res);
+        console.log("joinride", res);
         return res;
       })
-      .catch(err => err);
+      .catch(err => console.error("joinRide error", err));
   };
 
   render() {

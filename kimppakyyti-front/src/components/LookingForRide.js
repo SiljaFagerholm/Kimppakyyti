@@ -66,7 +66,7 @@ class LookingForRide extends Component {
         return res.json();
       })
       .then(data => {
-        console.log(data);
+        console.log("Kaikki kyydit", data);
         this.setState({ list: data });
       });
   };
