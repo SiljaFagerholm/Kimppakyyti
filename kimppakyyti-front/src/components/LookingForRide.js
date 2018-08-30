@@ -140,7 +140,7 @@ class LookingForRide extends Component {
         >
           Etsi kyytiä
         </Button>{" "}
-        {/* {this.state.startAddress} */}
+        <br />
         <RideList rides={this.state.list} />
       </div>
     );

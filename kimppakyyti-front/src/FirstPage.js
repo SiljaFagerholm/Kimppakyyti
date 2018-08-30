@@ -226,6 +226,7 @@ class FirstPage extends Component {
             >
               Tarjoa kyytiä
             </Button>{" "}
+            <br />
           </TabPane>
           <TabPane tabId="2">
             <LookingForRide />

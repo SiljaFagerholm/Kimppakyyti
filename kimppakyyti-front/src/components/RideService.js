@@ -27,7 +27,9 @@ export function OfferNewRide(offer) {
       thursdayFrequency: offer.thursdayFrequency,
       fridayFrequency: offer.fridayFrequency,
       saturdayFrequency: offer.saturdayFrequency,
-      sundayFrequency: offer.sundayFrequency
+      sundayFrequency: offer.sundayFrequency,
+      onBoard: [null],
+      seatsLeft: 0
     })
   })
     .then(res => {
