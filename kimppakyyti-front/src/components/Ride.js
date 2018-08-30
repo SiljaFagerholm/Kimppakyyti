@@ -24,7 +24,10 @@ class Ride extends Component {
       this.setState({
         searchUrl: url
       });
-      this.joinRide(url);
+      if (this.props.singleride.seatsLeft !== 0) {
+        this.joinRide(url);
+      }
+      alert("Autossa ei ole tilaa.");
     });
   };
 
@@ -43,7 +46,14 @@ class Ride extends Component {
   };
 
   render() {
-    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    var options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric"
+    };
     let start = new Date(this.props.singleride.startTime);
     start = start.toLocaleString("fi-FI", options);
 
@@ -63,8 +73,7 @@ class Ride extends Component {
           </ListGroupItem>
           <ListGroupItem>
             {" "}
-            Aikaväli: {start} -{" "}
-            {end}
+            Aikaväli: {start} - {end}
           </ListGroupItem>
           <ListGroupItem>Milloin: {this.props.singleride.when}</ListGroupItem>
           <ListGroupItem>Hinta: {this.props.singleride.price}</ListGroupItem>
