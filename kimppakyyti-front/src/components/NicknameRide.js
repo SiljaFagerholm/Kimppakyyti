@@ -9,6 +9,12 @@ class NicknameRide extends Component {
     });
   };
   render() {
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+      let start = new Date(this.props.singleride.startTime);
+      start = start.toLocaleString("fi-FI", options);
+
+      let end = new Date(this.props.singleride.endTime);
+      end = end.toLocaleString("fi-FI", options);
     return (
       <div>
         <br />
@@ -23,8 +29,8 @@ class NicknameRide extends Component {
             Mihin: {this.props.singleride.targetAddress}
           </ListGroupItem>
           <ListGroupItem>
-            Aikaväli: {this.props.singleride.startTime} -{" "}
-            {this.props.singleride.endTime}
+            Aikaväli: {start} -{" "}
+            {end}
           </ListGroupItem>
           <ListGroupItem>
             Paikkoja jäljellä: {this.props.singleride.seatsLeft}

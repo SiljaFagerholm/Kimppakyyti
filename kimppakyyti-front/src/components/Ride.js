@@ -43,6 +43,12 @@ class Ride extends Component {
   };
 
   render() {
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    let start = new Date(this.props.singleride.startTime);
+    start = start.toLocaleString("fi-FI", options);
+
+    let end = new Date(this.props.singleride.endTime);
+    end = end.toLocaleString("fi-FI", options);
     return (
       <div>
         <ListGroup>
@@ -57,8 +63,8 @@ class Ride extends Component {
           </ListGroupItem>
           <ListGroupItem>
             {" "}
-            Aikaväli: {this.props.singleride.startTime} -{" "}
-            {this.props.singleride.endTime}
+            Aikaväli: {start} -{" "}
+            {end}
           </ListGroupItem>
           <ListGroupItem>Milloin: {this.props.singleride.when}</ListGroupItem>
           <ListGroupItem>Hinta: {this.props.singleride.price}</ListGroupItem>
