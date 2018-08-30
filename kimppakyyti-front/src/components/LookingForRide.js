@@ -67,6 +67,7 @@ class LookingForRide extends Component {
       })
       .then(data => {
         console.log(data);
+        this.setState({ list: data });
       });
   };
   //     .then(data => {
