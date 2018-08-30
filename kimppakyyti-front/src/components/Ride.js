@@ -25,9 +25,11 @@ class Ride extends Component {
         searchUrl: url
       });
       if (this.props.singleride.seatsLeft !== 0) {
+        alert("Olet kyydissä!");
         this.joinRide(url);
+      } else {
+        alert("Autossa ei ole tilaa.");
       }
-      alert("Autossa ei ole tilaa.");
     });
   };
 
