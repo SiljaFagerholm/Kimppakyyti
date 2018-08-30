@@ -1,24 +1,21 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import {
-    Nav,
-    NavItem,
-    NavLink,
-    Button,
-    TabContent,
-    TabPane,
-    Row,
-    Col
-  } from "reactstrap";
+  Nav,
+  NavItem,
+  NavLink,
+  Button,
+  TabContent,
+  TabPane,
+  Row,
+  Col
+} from "reactstrap";
 
 class OfferedRide extends Component {
-    constructor(props) {
-        super(props);
-   
-        this.state = {
-          
-        };
-      }
+  constructor(props) {
+    super(props);
 
+    this.state = {};
+  }
 
 
     render(){

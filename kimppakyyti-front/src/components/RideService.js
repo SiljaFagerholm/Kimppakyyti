@@ -6,11 +6,9 @@ const SEARCHURL =
 const urlDeleteNicknameRides =
   "https://kimppakyytiapi.azurewebsites.net/api/Ride/DeleteRide?documentId=";
 
-
-
-  export function searchRide() {
-    fetch(SEARCHURL).then(result => result.json());
-   }
+export function searchRide() {
+  fetch(SEARCHURL).then(result => result.json());
+}
 
 export function OfferNewRide(offer) {
   return fetch(POSTURL, {
@@ -36,10 +34,9 @@ export function OfferNewRide(offer) {
   })
     .then(res => {
       console.log("OfferNewRide", res);
-      return res.text().then(str=> {
+      return res.text().then(str => {
         console.log("OfferNewRdide body", str);
         localStorage.setItem("posti", str);
-        
       });
       // this.setState({ offer: {} });
     })
