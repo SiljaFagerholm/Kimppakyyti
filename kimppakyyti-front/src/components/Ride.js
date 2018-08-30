@@ -24,19 +24,6 @@ class Ride extends Component {
           <ListGroupItem>Hinta: {this.props.singleride.price}</ListGroupItem>
         </ListGroup>
         <Button>Liity kyytiin</Button>
-
-        {/* <p>Nickname: {this.props.singleride.nickname}</p>
-        <p>Mistä: {this.props.singleride.startAddress}</p>
-        <p>Mihin: {this.props.singleride.targetAddress}</p>
-        <p>
-          Aikaväli: {this.props.singleride.startTime} -{" "}
-          {this.props.singleride.endTime}
-        </p>
-        <p>Milloin: {this.props.singleride.when}</p>
-        <p>Hinta: {this.props.singleride.price}</p>
-        <p>
-          <button>Liity kyytiin</button>
-        </p> */}
       </div>
     );
   }
