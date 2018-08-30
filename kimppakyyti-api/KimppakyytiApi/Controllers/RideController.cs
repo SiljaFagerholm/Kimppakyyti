@@ -182,7 +182,8 @@ namespace KimppakyytiApi.Controllers
                         IQueryable<RideOut> query = _cosmosDBclient.CreateDocumentQuery<RideOut>(
                         rideCollectionUri, queryOptions).Where(f => f.OfferingRide == true
                         && f.StartTime >= valueOut.StartTime && f.StartTime <= valueOut.EndTime
-                        && f.StartLocation.Distance(valueOut.StartLocation) < f.StartLocation.Distance(valueOut.TargetLocation));
+                        && f.StartLocation.Distance(valueOut.StartLocation) < f.StartLocation.Distance(valueOut.TargetLocation)
+                        && f.TargetLocation.Distance(valueOut.StartLocation) > f.TargetLocation.Distance(valueOut.TargetLocation));
                         //&& ((f.RoutePoints.Where(p => p.Distance(valueOut.StartLocation) < 500).FirstOrDefault()) != null)); // Distance (to) etäisyys metreinä
 
                         // check for contents in query before returning?
