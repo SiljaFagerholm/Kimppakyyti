@@ -17,6 +17,7 @@ using Microsoft.Azure.Documents.Spatial;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Protocols;
 
+
 using Newtonsoft.Json;
 
 
@@ -79,59 +80,59 @@ namespace KimppakyytiApi.Controllers
         {
             return "Nyt on tehty collection, vaikka sitä ei oltu tehty aiemmin!";
         }
-        [HttpGet]
-        public ActionResult<List<Ride>> SearchRidesByLocation()
-        {
-            try
-            {
+        //[HttpGet]
+        //public ActionResult<List<Ride>> SearchRidesByLocation()
+        //{
+        //    try
+        //    {
 
-                FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
-                IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
-                UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
-                    $"SELECT * FROM c WHERE  ST_DISTANCE (c.StartLocation, {"StartLocation": [ 62.8979675, 27.678122]}) < 100 * 1000",
-                    //$"SELECT * FROM c WHERE c[\"When\"] ={time}",             
+        //        FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
+        //        IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
+        //        UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
+        //            $"SELECT * FROM c WHERE  ST_DISTANCE (c.StartLocation, {"StartLocation": [ 62.8979675, 27.678122]}) < 100 * 1000",
+        //            //$"SELECT * FROM c WHERE c[\"When\"] ={time}",             
 
-                    queryOptions);
+        //            queryOptions);
 
-                return Ok(query.ToList());
-            }
-            catch (DocumentClientException de)
-            {
-                switch (de.StatusCode.Value)
-                {
-                    case System.Net.HttpStatusCode.NotFound:
-                        return NotFound();
-                }
-            }
-            return BadRequest();
-        }
-        [HttpGet]
-        public ActionResult<List<Ride>> SearchRidesByTime(string startTime, string endTime)
-        {
-            try //Searching Rides from CosmosDB with right TimeTable.
+        //        return Ok(query.ToList());
+        //    }
+        //    catch (DocumentClientException de)
+        //    {
+        //        switch (de.StatusCode.Value)
+        //        {
+        //            case System.Net.HttpStatusCode.NotFound:
+        //                return NotFound();
+        //        }
+        //    }
+        //    return BadRequest();
+        //}
+        //[HttpGet]
+        //public ActionResult<List<Ride>> SearchRidesByTime(string startTime, string endTime)
+        //{
+        //    try //Searching Rides from CosmosDB with right TimeTable.
 
-            {
-                FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
-                IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
-                UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
-                    $"SELECT * FROM c WHERE c[\"When\"] BETWEEN {startTime} AND {endTime}",
+        //    {
+        //        FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
+        //        IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
+        //        UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
+        //            $"SELECT * FROM c WHERE c[\"When\"] BETWEEN {startTime} AND {endTime}",
 
-                    //$"SELECT * FROM c WHERE c[\"When\"] ={time}",             
+        //            //$"SELECT * FROM c WHERE c[\"When\"] ={time}",             
 
-                    queryOptions);
+        //            queryOptions);
 
-                return Ok(query.ToList());
-            }
-            catch (DocumentClientException de)
-            {
-                switch (de.StatusCode.Value)
-                {
-                    case System.Net.HttpStatusCode.NotFound:
-                        return NotFound();
-                }
-            }
-            return BadRequest();
-        }
+        //        return Ok(query.ToList());
+        //    }
+        //    catch (DocumentClientException de)
+        //    {
+        //        switch (de.StatusCode.Value)
+        //        {
+        //            case System.Net.HttpStatusCode.NotFound:
+        //                return NotFound();
+        //        }
+        //    }
+        //    return BadRequest();
+        //}
 
         [HttpGet]
         public async Task<ActionResult<List<RideOut>>> GetSearchRidesCustomerAsync(DateTime startTime, DateTime endTime, string startAddress, string targetAddress)
@@ -142,9 +143,6 @@ namespace KimppakyytiApi.Controllers
                 {
                     //Functions for delayed response -- timeout try /catch
 
-                    // Parse input from user
-                    //valueIn.StartAddress = valueIn.StartAddress.Trim().Replace(' ','+');
-                    //valueIn.TargetAddress = valueIn.TargetAddress.Trim().Replace(' ', '+');
 
                     // Get route from Google Directions Api
                     var response = await GoogleApiFunctions.GetRouteGoogle(startAddress, targetAddress);
@@ -156,7 +154,7 @@ namespace KimppakyytiApi.Controllers
 
                     if (obj.status == "ZERO_RESULTS")
                     {
-                        return NoContent();// "Reittiä ei löytynyt. Tarkista antamasi osoitteet, tai kokeile hakea kaupunginosalla.";
+                        return BadRequest("Reittiä ei löytynyt. Tarkista antamasi osoitteet, tai kokeile hakea kaupunginosalla.");
                     }
                     else if (obj.status == "OK")
                     {
@@ -170,10 +168,7 @@ namespace KimppakyytiApi.Controllers
                         valueOut.TargetAddress = targetAddress;
                         valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lng, obj.routes[0].legs[0].end_location.lat);
 
-                        //foreach (var location in obj.routes[0].legs[0].steps)
-                        //{
-                        //    valueOut.RoutePoints.Add(new Point(location.end_location.lng, location.end_location.lat));
-                        //}
+
                         valueOut.OfferingRide = false;
                         valueOut.SeatsLeft = 0;
                         valueOut.MondayFrequency = false;
@@ -188,12 +183,65 @@ namespace KimppakyytiApi.Controllers
 
                         // search for matches
                         FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
+
                         IQueryable<RideOut> query = _cosmosDBclient.CreateDocumentQuery<RideOut>(
-                        rideCollectionUri, queryOptions).Where(f => f.OfferingRide == true && f.StartTime >= valueOut.StartTime && f.StartTime <= valueOut.EndTime && f.StartLocation.Distance(valueOut.StartLocation) < 500 && f.TargetLocation.Distance(valueOut.TargetLocation) < 500); // Distance (to) etäisyys metreinä
+                        rideCollectionUri, queryOptions).Where(f => f.OfferingRide == true
+                        && f.StartTime >= valueOut.StartTime
+                        && f.StartTime <= valueOut.EndTime
+                        && f.StartLocation.Distance(valueOut.StartLocation) < f.StartLocation.Distance(valueOut.TargetLocation));
+                        //&& f.TargetLocation.Distance(valueOut.StartLocation) > f.TargetLocation.Distance(valueOut.TargetLocation));
+                        //&& (f.RoutePoints.Where(p => p.Distance(valueOut.StartLocation) < 500).First() != null)); // Distance (to) etäisyys metreinä
+
+                        List<RideOut> incomingRides = query.ToList();
+                        List<RideOut> returnRides = new List<RideOut>();
+
+                        foreach (var item in incomingRides)
+                        {
+                            bool startPointMatch = false;
+                            bool targetPointMatch = false;
+                            try
+                            {
+                                if (StaticFunctions.CalculateDistanceBetweenPoints(item.RoutePoints.Where(p => StaticFunctions.CalculateDistanceBetweenPoints(p, valueOut.StartLocation) < 501).First(), valueOut.StartLocation) < 501)
+                                {
+                                    
+                                    startPointMatch = true;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                //startPointMatch = false;
+                                //continue;
+                            }
+
+
+                            try
+                            {
+                                if (StaticFunctions.CalculateDistanceBetweenPoints(item.RoutePoints.Where(p => StaticFunctions.CalculateDistanceBetweenPoints(p, valueOut.TargetLocation) < 501).First(), valueOut.TargetLocation) < 501) ;
+                                {
+                                    targetPointMatch = true;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                //targetPointMatch = false;
+                                //continue;
+                            }
+
+                            if (startPointMatch && targetPointMatch)
+                            {
+                                returnRides.Add(item);
+                            }
+                            startPointMatch = false;
+                            targetPointMatch = false;
+                        }
 
                         // check for contents in query before returning?
-
-                        return query.ToList();
+                        if (returnRides == null)
+                        {
+                            valueOut.Nickname = "Hakusi ei tuottanut tuloksia";
+                            returnRides.Add(valueOut);
+                        }
+                        return returnRides;
                     }
 
                     else
@@ -224,7 +272,7 @@ namespace KimppakyytiApi.Controllers
                 {
                     //Functions for delayed response -- timeout try /catch
 
-                  
+
 
                     // Get route from Google Directions Api
                     var response = await GoogleApiFunctions.GetRouteGoogle(valueIn.StartAddress, valueIn.TargetAddress);
@@ -251,12 +299,12 @@ namespace KimppakyytiApi.Controllers
                         valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lat, obj.routes[0].legs[0].start_location.lng);
                         valueOut.TargetAddress = valueIn.TargetAddress;
                         valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lat, obj.routes[0].legs[0].end_location.lng);
-                        
-                        
+
+
                         //foreach (var location in obj.routes[0].legs[0].steps)
                         //{
                         //    valueOut.RoutePoints.Add(new Point(location.end_location.lng, location.end_location.lat));
-                           
+
                         //}
                         valueOut.OfferingRide = valueIn.OfferingRide;
                         valueOut.SeatsLeft = valueIn.SeatsLeft;
@@ -324,13 +372,13 @@ namespace KimppakyytiApi.Controllers
             }
             return BadRequest();
         }
-        
+
         [HttpPost]
         public async Task<ActionResult<string>> PostOfferRideAsync([FromBody] Ride valueIn)
         {
             //Functions for delayed response -- timeout try /catch
 
-            
+
 
             // Get route from Google Directions Api
             var response = await GoogleApiFunctions.GetRouteGoogle(valueIn.StartAddress, valueIn.TargetAddress);
@@ -356,13 +404,13 @@ namespace KimppakyytiApi.Controllers
                 valueOut.StartAddress = valueIn.StartAddress;
 
                 // lat and lng intentionally the wrong way around. don't fix!
-                valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lat, obj.routes[0].legs[0].start_location.lng);
+                valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lng, obj.routes[0].legs[0].start_location.lat);
                 valueOut.TargetAddress = valueIn.TargetAddress;
-                valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lat, obj.routes[0].legs[0].end_location.lng);
+                valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lng, obj.routes[0].legs[0].end_location.lat);
                 valueOut.RoutePoints = new List<Point>();
                 foreach (var location in obj.routes[0].legs[0].steps)
                 {
-                    valueOut.RoutePoints.Add(new Point(location.end_location.lat, location.end_location.lng));
+                    valueOut.RoutePoints.Add(new Point(location.end_location.lng, location.end_location.lat));
                 }
                 valueOut.OfferingRide = valueIn.OfferingRide;
                 valueOut.SeatsLeft = valueIn.SeatsLeft;
@@ -387,7 +435,7 @@ namespace KimppakyytiApi.Controllers
             }
         }
         [HttpPut]
-        public async Task<string> JoinTheRideAsync(string Id,  int seatsLeft)
+        public async Task<string> JoinTheRideAsync(string Id, int seatsLeft)
         {       //Updating seats to database
             try
             {
@@ -396,7 +444,7 @@ namespace KimppakyytiApi.Controllers
                                             .Where(r => r.Id == Id)
                                             .AsEnumerable()
                                             .SingleOrDefault();
-                
+
                 //FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
                 //IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
                 //rideCollectionUri, queryOptions).Where(f => f.Id == rideid);
@@ -405,7 +453,7 @@ namespace KimppakyytiApi.Controllers
                 updatedSeats--;
 
                 //Update some properties on the found resource
-                doc.SetPropertyValue("SeatsLeft", updatedSeats);        
+                doc.SetPropertyValue("SeatsLeft", updatedSeats);
 
 
                 //Tähän pitää lisätä vielä reitin pituuden nousu tarvittaessa!    -+
@@ -425,17 +473,17 @@ namespace KimppakyytiApi.Controllers
             }
             return "Olisikohan joku mennyt vikaan?";
         }
-      
+
         [HttpPut]
-        public async Task<string> EditRideAsync(string id, double price, int seatsleft, DateTime startTime, DateTime endTime, string start, string end )
+        public async Task<string> EditRideAsync(string id, double price, int seatsleft, DateTime startTime, DateTime endTime, string start, string end)
         {
             try //Editing the Ride
             {
                 Document doc = _cosmosDBclient.CreateDocumentQuery<Document>(rideCollectionUri)
-                                       .Where(r => r.Id == id )
+                                       .Where(r => r.Id == id)
                                        .AsEnumerable()
-                                       .SingleOrDefault();               
-                
+                                       .SingleOrDefault();
+
                 doc.SetPropertyValue("Price", price);
                 doc.SetPropertyValue("SeatsLeft", seatsleft);
                 doc.SetPropertyValue("StartTime", startTime);
@@ -465,8 +513,8 @@ namespace KimppakyytiApi.Controllers
         {
             try
             {
-                 await _cosmosDBclient.DeleteDocumentAsync(
-                 UriFactory.CreateDocumentUri(_dbName, _collectionName, documentId));
+                await _cosmosDBclient.DeleteDocumentAsync(
+                UriFactory.CreateDocumentUri(_dbName, _collectionName, documentId));
                 return Ok($"Deleted document id {documentId}");
             }
             catch (DocumentClientException de)
