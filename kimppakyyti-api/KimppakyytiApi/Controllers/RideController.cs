@@ -53,12 +53,10 @@ namespace KimppakyytiApi.Controllers
             _configuration["AppSettings:EndpointUri"];
             var key =
             _configuration["AppSettings:PrimaryKey"];
-
-
+            
             //Reading EndpointUri and PrimaryKey from AzurePortal
             endpointUri = Environment.GetEnvironmentVariable("appsetting_endpointuri");
             key = Environment.GetEnvironmentVariable("appsetting_primarykey");
-
 
 
             _cosmosDBclient = new DocumentClient(new Uri(endpointUri), key);
@@ -71,8 +69,6 @@ namespace KimppakyytiApi.Controllers
 
             UriFactory.CreateDatabaseUri(_dbName),
             new DocumentCollection { Id = _collectionName });
-
-
         }
         [HttpGet]
         public string Ping()
@@ -224,9 +220,7 @@ namespace KimppakyytiApi.Controllers
                 {
                     //Functions for delayed response -- timeout try /catch
 
-                    // Parse input from user
-                    //valueIn.StartAddress = valueIn.StartAddress.Trim().Replace(' ','+');
-                    //valueIn.TargetAddress = valueIn.TargetAddress.Trim().Replace(' ', '+');
+                  
 
                     // Get route from Google Directions Api
                     var response = await GoogleApiFunctions.GetRouteGoogle(valueIn.StartAddress, valueIn.TargetAddress);
@@ -248,9 +242,11 @@ namespace KimppakyytiApi.Controllers
                         valueOut.StartTime = valueIn.StartTime;
                         valueOut.EndTime = valueIn.EndTime;
                         valueOut.StartAddress = valueIn.StartAddress;
-                        valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lng, obj.routes[0].legs[0].start_location.lat);
+
+                        // lat and lng intentionally the wrong way around. don't fix!
+                        valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lat, obj.routes[0].legs[0].start_location.lng);
                         valueOut.TargetAddress = valueIn.TargetAddress;
-                        valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lng, obj.routes[0].legs[0].end_location.lat);
+                        valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lat, obj.routes[0].legs[0].end_location.lng);
                         
                         
                         //foreach (var location in obj.routes[0].legs[0].steps)
@@ -326,7 +322,7 @@ namespace KimppakyytiApi.Controllers
         }
         
         [HttpPost]
-        public async Task<ActionResult<string>> PostOfferRideAsync([FromBody] Ride valueIn)
+        public async Task<ActionResult<RideOut>> PostOfferRideAsync([FromBody] Ride valueIn)
         {
             //Functions for delayed response -- timeout try /catch
 
@@ -341,7 +337,7 @@ namespace KimppakyytiApi.Controllers
 
             if (obj.status == "ZERO_RESULTS")
             {
-                return "Reittiä ei löytynyt. Tarkista antamasi osoitteet, tai kokeile hakea kaupunginosalla.";
+                return NotFound();
             }
             else if (obj.status == "OK")
             {
@@ -354,13 +350,15 @@ namespace KimppakyytiApi.Controllers
                     valueOut.EndTime = valueIn.EndTime;
                 }
                 valueOut.StartAddress = valueIn.StartAddress;
-                valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lng, obj.routes[0].legs[0].start_location.lat);
+
+                // lat and lng intentionally the wrong way around. don't fix!
+                valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lat, obj.routes[0].legs[0].start_location.lng);
                 valueOut.TargetAddress = valueIn.TargetAddress;
-                valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lng, obj.routes[0].legs[0].end_location.lat);
+                valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lat, obj.routes[0].legs[0].end_location.lng);
                 valueOut.RoutePoints = new List<Point>();
                 foreach (var location in obj.routes[0].legs[0].steps)
                 {
-                    valueOut.RoutePoints.Add(new Point(location.end_location.lng, location.end_location.lat));
+                    valueOut.RoutePoints.Add(new Point(location.end_location.lat, location.end_location.lng));
                 }
                 valueOut.OfferingRide = valueIn.OfferingRide;
                 valueOut.SeatsLeft = valueIn.SeatsLeft;
@@ -376,16 +374,16 @@ namespace KimppakyytiApi.Controllers
                 Document document = await _cosmosDBclient.CreateDocumentAsync(
                 UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
                 valueOut);
-
-                return Ok("Ilmoituksesi on tallennettu järjestelmään.");
+                
+                return Ok(document.Id);
             }
             else
             {
-                return "Nyt kävi jotain.";
+                return BadRequest();
             }
         }
         [HttpPut]
-        public async Task<string> JoinTheRideAsync(string Id,  int seatsLeft)
+        public async Task<string> JoinTheRideAsync(string Id,  int seatsLeft, string nick)
         {       //Updating seats to database
             try
             {
@@ -393,19 +391,14 @@ namespace KimppakyytiApi.Controllers
                 Document doc = _cosmosDBclient.CreateDocumentQuery<Document>(rideCollectionUri)
                                             .Where(r => r.Id == Id)
                                             .AsEnumerable()
-                                            .SingleOrDefault();
-                
-                //FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
-                //IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
-                //rideCollectionUri, queryOptions).Where(f => f.Id == rideid);
-
+                                            .SingleOrDefault();              
                 int updatedSeats = seatsLeft;
                 updatedSeats--;
 
                 //Update some properties on the found resource
-                doc.SetPropertyValue("SeatsLeft", updatedSeats);        
+                doc.SetPropertyValue("SeatsLeft", updatedSeats);
 
-
+  
                 //Tähän pitää lisätä vielä reitin pituuden nousu tarvittaessa!    -+
 
                 //Now persist these changes to the database by replacing the original resource
@@ -423,7 +416,7 @@ namespace KimppakyytiApi.Controllers
             }
             return "Olisikohan joku mennyt vikaan?";
         }
-      
+
         [HttpPut]
         public async Task<string> EditRideAsync(string id, double price, int seatsleft, DateTime startTime, DateTime endTime, string start, string end )
         {
