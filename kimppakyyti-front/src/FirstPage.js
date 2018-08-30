@@ -189,33 +189,34 @@ class FirstPage extends Component {
             <br />
             <Label>Toistuvat päivät</Label>
             <br />
-            <Label check>
-              <Input ref="monday" type="checkbox" /> Ma
-            </Label>{" "}
-            <br />
-            <Label check>
-              <Input ref="tuesday" type="checkbox" /> Ti
-            </Label>{" "}
-            <br />
-            <Label check>
-              <Input ref="wednesday" type="checkbox" /> Ke
-            </Label>{" "}
-            <br />
-            <Label check>
-              <Input ref="thursday" type="checkbox" /> To
-            </Label>{" "}
-            <br />
-            <Label check>
-              <Input ref="friday" type="checkbox" /> Pe
-            </Label>{" "}
-            <br />
-            <Label check>
-              <Input ref="saturday" type="checkbox" /> La
-            </Label>{" "}
-            <br />
-            <Label check>
-              <Input ref="sunday" type="checkbox" /> Su
-            </Label>{" "}
+            <label>
+              <input ref="monday" type="checkbox" />
+              Ma
+            </label>
+            <label>
+              <input ref="tuesday" type="checkbox" />
+              Ti
+            </label>
+            <label>
+              <input ref="wednesday" type="checkbox" />
+              Ke
+            </label>
+            <label>
+              <input ref="thursday" type="checkbox" />
+              To
+            </label>
+            <label>
+              <input ref="friday" type="checkbox" />
+              Pe
+            </label>
+            <label>
+              <input ref="saturday" type="checkbox" />
+              La
+            </label>
+            <label>
+              <input ref="sunday" type="checkbox" />
+              Su
+            </label>
             <br /> <br />
             <Button
               outline
