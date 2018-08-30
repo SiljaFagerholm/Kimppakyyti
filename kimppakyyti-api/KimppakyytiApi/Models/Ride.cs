@@ -16,34 +16,26 @@ namespace KimppakyytiApi.Models
         public virtual string Id { get; set; }
         public string Nickname { get; set; }
         public double Price { get; set; }
+        public List<string> OnBoard { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public string StartAddress { get; set; }
         //[JsonProperty("startlocation")]
-        //public Point StartLocation { get; set; }
-         
+        //public Point StartLocation { get; set; }         
         public string TargetAddress { get; set; }
         //[JsonProperty("targetlocation")]
         //public Point? TargetLocation { get; set; }
         //[JsonProperty("routepoints")]
-        //public List<Point> RoutePoints { get; set; }
-        
+        //public List<Point> RoutePoints { get; set; }        
         public bool OfferingRide { get; set; }
         public int SeatsLeft { get; set; }
-        public string OnBoard1 { get; set; }
-        public string OnBoard2 { get; set; }
-        public string OnBoard3 { get; set; }
-        public string OnBoard4 { get; set; }
-        public string OnBoard5 { get; set; }
         public bool MondayFrequency { get; set; }
         public bool TuesdayFrequency { get; set; }
         public bool WednesdayFrequency { get; set; }
         public bool ThursdayFrequency { get; set; }
         public bool FridayFrequency { get; set; }
         public bool SaturdayFrequency { get; set; }
-        public bool SundayFrequency { get; set; }
-        
-       
+        public bool SundayFrequency { get; set; }     
         
         public override string ToString()
         {

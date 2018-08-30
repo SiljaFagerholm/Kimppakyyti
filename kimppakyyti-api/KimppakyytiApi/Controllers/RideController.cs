@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Security;
 using System.Text;
@@ -138,9 +139,6 @@ namespace KimppakyytiApi.Controllers
                 {
                     //Functions for delayed response -- timeout try /catch
 
-                    // Parse input from user
-                    //valueIn.StartAddress = valueIn.StartAddress.Trim().Replace(' ','+');
-                    //valueIn.TargetAddress = valueIn.TargetAddress.Trim().Replace(' ', '+');
 
                     // Get route from Google Directions Api
                     var response = await GoogleApiFunctions.GetRouteGoogle(startAddress, targetAddress);
@@ -152,7 +150,7 @@ namespace KimppakyytiApi.Controllers
 
                     if (obj.status == "ZERO_RESULTS")
                     {
-                        return NoContent();// "Reittiä ei löytynyt. Tarkista antamasi osoitteet, tai kokeile hakea kaupunginosalla.";
+                        return BadRequest("Reittiä ei löytynyt. Tarkista antamasi osoitteet, tai kokeile hakea kaupunginosalla.");
                     }
                     else if (obj.status == "OK")
                     {
@@ -166,10 +164,7 @@ namespace KimppakyytiApi.Controllers
                         valueOut.TargetAddress = targetAddress;
                         valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lng, obj.routes[0].legs[0].end_location.lat);
 
-                        //foreach (var location in obj.routes[0].legs[0].steps)
-                        //{
-                        //    valueOut.RoutePoints.Add(new Point(location.end_location.lng, location.end_location.lat));
-                        //}
+
                         valueOut.OfferingRide = false;
                         valueOut.SeatsLeft = 0;
                         valueOut.MondayFrequency = false;
@@ -185,7 +180,10 @@ namespace KimppakyytiApi.Controllers
                         // search for matches
                         FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
                         IQueryable<RideOut> query = _cosmosDBclient.CreateDocumentQuery<RideOut>(
-                        rideCollectionUri, queryOptions).Where(f => f.OfferingRide == true && f.StartTime >= valueOut.StartTime && f.StartTime <= valueOut.EndTime && f.StartLocation.Distance(valueOut.StartLocation) < 500 && f.TargetLocation.Distance(valueOut.TargetLocation) < 500); // Distance (to) etäisyys metreinä
+                        rideCollectionUri, queryOptions).Where(f => f.OfferingRide == true
+                        && f.StartTime >= valueOut.StartTime && f.StartTime <= valueOut.EndTime
+                        && f.StartLocation.Distance(valueOut.StartLocation) < f.StartLocation.Distance(valueOut.TargetLocation));
+                        //&& ((f.RoutePoints.Where(p => p.Distance(valueOut.StartLocation) < 500).FirstOrDefault()) != null)); // Distance (to) etäisyys metreinä
 
                         // check for contents in query before returning?
 
@@ -242,7 +240,7 @@ namespace KimppakyytiApi.Controllers
                         valueOut.StartTime = valueIn.StartTime;
                         valueOut.EndTime = valueIn.EndTime;
                         valueOut.StartAddress = valueIn.StartAddress;
-
+                       
                         // lat and lng intentionally the wrong way around. don't fix!
                         valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lat, obj.routes[0].legs[0].start_location.lng);
                         valueOut.TargetAddress = valueIn.TargetAddress;
@@ -326,8 +324,6 @@ namespace KimppakyytiApi.Controllers
         {
             //Functions for delayed response -- timeout try /catch
 
-            
-
             // Get route from Google Directions Api
             var response = await GoogleApiFunctions.GetRouteGoogle(valueIn.StartAddress, valueIn.TargetAddress);
             // parse response
@@ -344,6 +340,11 @@ namespace KimppakyytiApi.Controllers
                 // parse incoming object to outgoing  start and end point from Google to CosmosDB -object
                 valueOut.Nickname = valueIn.Nickname;
                 valueOut.Price = valueIn.Price;
+                valueOut.OnBoard = new List<string>();
+                foreach (var i in valueIn.OnBoard)
+                {
+                    valueOut.OnBoard.Add(i);
+                }
                 valueOut.StartTime = valueIn.StartTime;
                 if (valueIn.EndTime != null)
                 {
@@ -383,7 +384,7 @@ namespace KimppakyytiApi.Controllers
             }
         }
         [HttpPut]
-        public async Task<string> JoinTheRideAsync(string Id,  int seatsLeft, string nick)
+        public async Task<string> JoinTheRideAsync(string Id, int seatsLeft, string nick)
         {       //Updating seats to database
             try
             {
@@ -395,10 +396,15 @@ namespace KimppakyytiApi.Controllers
                 int updatedSeats = seatsLeft;
                 updatedSeats--;
 
+                var lista = doc.GetPropertyValue<List<string>>("OnBoard");
+                lista.Add(nick);
+                Trace.WriteLine(lista);
+                lista.ForEach(i => Trace.WriteLine(i));
                 //Update some properties on the found resource
                 doc.SetPropertyValue("SeatsLeft", updatedSeats);
+                doc.SetPropertyValue("OnBoard", lista);
+                
 
-  
                 //Tähän pitää lisätä vielä reitin pituuden nousu tarvittaessa!    -+
 
                 //Now persist these changes to the database by replacing the original resource
@@ -449,7 +455,25 @@ namespace KimppakyytiApi.Controllers
             }
             return "Joku meni vikaan!";
         }
-
+        [HttpGet]
+        public async Task<ActionResult<RideOut>> GetByDocumentId(string documentId)
+        {
+            try
+            {
+                RideOut customer = await _cosmosDBclient.ReadDocumentAsync<RideOut>(
+                 UriFactory.CreateDocumentUri(_dbName, _collectionName, documentId));
+                return Ok(customer);
+            }
+            catch (DocumentClientException de)
+            {
+                switch (de.StatusCode.Value)
+                {
+                    case System.Net.HttpStatusCode.NotFound:
+                        return NotFound();
+                }
+            }
+            return BadRequest();
+        }
 
         [HttpDelete]
         public async Task<ActionResult<string>> DeleteRide(string documentId)
