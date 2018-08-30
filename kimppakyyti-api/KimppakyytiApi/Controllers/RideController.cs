@@ -134,7 +134,6 @@ namespace KimppakyytiApi.Controllers
         public async Task<ActionResult<List<RideOut>>> GetSearchRidesCustomerAsync(DateTime startTime, DateTime endTime, string startAddress, string targetAddress)
         {
             try //Searching Rides from CosmosDB with right TimeTable.
-
             {
                 {
                     //Functions for delayed response -- timeout try /catch
@@ -177,13 +176,13 @@ namespace KimppakyytiApi.Controllers
                         FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
                         IQueryable<RideOut> query = _cosmosDBclient.CreateDocumentQuery<RideOut>(
                         rideCollectionUri, queryOptions).Where(f => f.OfferingRide == true
-                        && f.StartTime >= valueOut.StartTime && f.StartTime <= valueOut.EndTime
-                        && (f.StartLocation.Distance(valueOut.StartLocation) < 500));
-                        //&& (f.TargetLocation.Distance(valueOut.TargetLocation) < 1000));
+                        && f.StartTime >= valueOut.StartTime && f.StartTime <= valueOut.EndTime);
+                        //&& (f.StartLocation.Distance(valueOut.StartLocation) < 5000000)
+                        //&& (f.TargetLocation.Distance(valueOut.TargetLocation) < 10000000));
                         //&& ((f.RoutePoints.Where(p => p.Distance(valueOut.StartLocation) < 500).FirstOrDefault()) != null)); // Distance (to) etäisyys metreinä
 
                         // check for contents in query before returning?
-
+                        
                         return query.ToList();
                     }
 
