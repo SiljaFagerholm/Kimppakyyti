@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import RideList from "./RideList";
 import moment from "moment";
-import DatePicker from "./Date";
-import { Button } from "reactstrap";
+import { Button, Label, Input } from "reactstrap";
+import DatePicker from "react-datepicker";
 
 class LookingForRide extends Component {
   constructor(props) {
@@ -62,23 +62,23 @@ class LookingForRide extends Component {
 
   GetEveryRide = url => {
     fetch(url)
-      .then(result => {
-        console.dir(result);
-        result.json();
+      .then(res => {
+        return res.json();
       })
       .then(data => {
-        console.dir(data);
-        if (data === undefined) {
-          console.log("täällä ollaan");
-          data = [{ targetAddress: "Ei löydy dataa" }];
-        }
         console.log(data);
         this.setState({ list: data });
-      })
-      .catch(err => {
-        console.log("Tapahtui virhe" + err);
       });
   };
+  //     .then(data => {
+  //       if (data === undefined) {
+  //         console.log("täällä ollaan");
+  //         data = [{ targetAddress: "Ei löydy dataa" }];
+  //       }
+  //       this.setState({ list: data });
+  //     })
+  //     .catch(err => {});
+  // };
 
   modifyDateString(date) {
     let temp = JSON.stringify(date);
@@ -88,42 +88,59 @@ class LookingForRide extends Component {
   render() {
     return (
       <div>
-        <h2>
-          <label>Mistä: </label>
-          <input
-            maxLength="50"
-            value={this.state.startAddress}
-            name="startAddress"
-            onChange={this.handleChangeStart.bind(this)}
-            type="text"
-            required
+        <Label>Mistä: </Label>
+        <Input
+          maxLength="50"
+          value={this.state.startAddress}
+          name="startAddress"
+          onChange={this.handleChangeStart.bind(this)}
+          type="text"
+          required
+        />{" "}
+        <br />
+        <Label>Minne: </Label>
+        <Input
+          maxLength="50"
+          name="targetAddress"
+          onChange={this.handleChangeTarget.bind(this)}
+          value={this.state.targetAddress}
+          type="text"
+          required
+        />
+        <br />
+        <div className="center left">
+          <Label>Lähtö aikaisintaan</Label>
+          <DatePicker
+            onChange={this.startTimeChanged}
+            selected={this.state.startTIme}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={15}
+            dateFormat="YYYY-MM-DD HH:mm"
+            timeCaption="time"
           />{" "}
           <br />
-          <label>Minne: </label>
-          <input
-            maxLength="50"
-            name="targetAddress"
-            onChange={this.handleChangeTarget.bind(this)}
-            value={this.state.targetAddress}
-            type="text"
-            required
+          <Label>Lähtö viimeistään</Label>
+          <DatePicker
+            onChange={this.endTimeChanged}
+            selected={this.state.endtTime}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={15}
+            dateFormat="YYYY-MM-DD HH:mm"
+            timeCaption="time"
           />
           <br />
-          <div className="center left">
-            <label>Aikaväli</label>
-            <DatePicker />
-            <DatePicker />
-            <br />
-          </div>
-          <Button
-            outline
-            color="secondary"
-            onClick={this.handleChangeUrl}
-            type="button"
-          >
-            Etsi kyytiä
-          </Button>{" "}
-        </h2>
+        </div>
+        <Button
+          outline
+          color="secondary"
+          onClick={this.handleChangeUrl}
+          type="button"
+        >
+          Etsi kyytiä
+        </Button>{" "}
+        {/* {this.state.startAddress} */}
         <RideList rides={this.state.list} />
       </div>
     );

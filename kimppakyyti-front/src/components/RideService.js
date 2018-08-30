@@ -1,5 +1,3 @@
-import { callbackify } from "util";
-
 const POSTURL =
   "https://kimppakyytiapi.azurewebsites.net/api/Ride/PostOfferRideAsync";
 

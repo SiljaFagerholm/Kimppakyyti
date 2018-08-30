@@ -27,11 +27,11 @@ class App extends Component {
       <div className="App">
         <NavComponent />
         <Container className="Container">
-          <Row>
+          <Row className="Row">
             <Router>
               <Switch>
                 <Route exact path="/firstpage" component={FirstPage} />
-                <Route exact path="/offercreated" component={OfferCreated}/>
+                <Route exact path="/offercreated" component={OfferCreated} />
                 <Route exact path="/ridebox" component={RideBox} />
                 <Route
                   exact
