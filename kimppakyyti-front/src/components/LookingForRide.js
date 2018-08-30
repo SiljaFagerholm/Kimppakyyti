@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import RideList from "./RideList";
+import RideList from "./RideList";
 import moment from "moment";
 import { Button, Label, Input } from "reactstrap";
 import DatePicker from "react-datepicker";
@@ -62,23 +62,22 @@ class LookingForRide extends Component {
 
   GetEveryRide = url => {
     fetch(url)
-      .then(result => {
-        console.dir(result);
-        result.json();
+      .then(res => {
+        return res.json();
       })
       .then(data => {
-        console.dir(data);
-        if (data === undefined) {
-          console.log("täällä ollaan");
-          data = [{ targetAddress: "Ei löydy dataa" }];
-        }
         console.log(data);
-        this.setState({ list: data });
-      })
-      .catch(err => {
-        console.log("Tapahtui virhe" + err);
       });
   };
+  //     .then(data => {
+  //       if (data === undefined) {
+  //         console.log("täällä ollaan");
+  //         data = [{ targetAddress: "Ei löydy dataa" }];
+  //       }
+  //       this.setState({ list: data });
+  //     })
+  //     .catch(err => {});
+  // };
 
   modifyDateString(date) {
     let temp = JSON.stringify(date);
@@ -140,8 +139,8 @@ class LookingForRide extends Component {
         >
           Etsi kyytiä
         </Button>{" "}
-        {this.state.startAddress}
-        {/* <RideList rides={this.state.list} /> */}
+        {/* {this.state.startAddress} */}
+        <RideList rides={this.state.list} />
       </div>
     );
   }
