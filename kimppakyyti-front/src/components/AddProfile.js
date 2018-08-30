@@ -2,19 +2,19 @@ import React, { Component } from "react";
 
 const url = "https://kimppakyytiapi.azurewebsites.net/api/user/post";
 
-export function AddNewProfile(profile) {
+export function AddNewProfile(user) {
   fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       // image: profile.image,
-      nickname: profile.nickname,
-      firstName: profile.firstName,
-      lastName: profile.lastName,
-      email: profile.email,
-      phonenumber: profile.phonenumber,
-      address: profile.address,
-      city: profile.city
+      nickname: user.nickname,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      phonenumber: user.phonenumber,
+      address: user.address,
+      city: user.city
     })
   }).then(res => console.log(res));
 }
@@ -23,13 +23,13 @@ class AddProfile extends Component {
   constructor() {
     super();
     this.state = {
-      profile: {},
+      user: {},
       redirect: false
     };
   }
 
   AddProfile = e => {
-    let profileTemp = {
+    let userTemp = {
       // image: this.refs.image.value,
       nickname: this.refs.nickname.value,
       firstName: this.refs.firstName.value,
@@ -40,8 +40,8 @@ class AddProfile extends Component {
       city: this.refs.city.value
     };
 
-    AddNewProfile(profileTemp);
-    this.setState({ profile: {}, redirect: true });
+    AddNewProfile(userTemp);
+    this.setState({ user: {}, redirect: true });
     alert("Olet rekisteröitynyt palveluun!");
   };
   render() {

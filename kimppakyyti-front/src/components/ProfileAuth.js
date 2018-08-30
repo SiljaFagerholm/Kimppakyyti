@@ -21,6 +21,7 @@ class ProfileAuth extends Component {
     super(props);
     this.state = {
       profile: {},
+      phonenumber: "",
       list: []
     };
   }
