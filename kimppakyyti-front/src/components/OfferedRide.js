@@ -22,12 +22,18 @@ class OfferedRide extends Component {
 
 
     render(){
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+        let start = new Date(this.props.singleride.startTime);
+        start = start.toLocaleString("fi-FI", options);
+  
+        let end = new Date(this.props.singleride.endTime);
+        end = end.toLocaleString("fi-FI", options);
         return (
                 <div>
                     <p>Nickname: {this.props.singleride.nickname}</p>
                     <p>Mistä: {this.props.singleride.startAddress}</p>
                     <p>Mihin: {this.props.singleride.targetAddress}</p>
-                    <p>Aikaväli: {this.props.singleride.startTime} - {this.props.singleride.endTime}</p>
+                    <p>Aikaväli: {start} - {end}</p>
                     <p>Milloin: {this.props.singleride.when}</p>
                     <p>Hinta: {this.props.singleride.price}</p>
                     
