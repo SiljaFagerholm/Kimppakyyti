@@ -1,15 +1,6 @@
 import React, { Component } from "react";
 import OfferedRide from "./OfferedRide";
-import {
-    Nav,
-    NavItem,
-    NavLink,
-    Button,
-    TabContent,
-    TabPane,
-    Label,
-    Input
-  } from "reactstrap";
+import { Button } from "reactstrap";
 
 const offerIdUrl =
   "https://kimppakyytiapi.azurewebsites.net/api/Ride/GetByDocumentId?documentId=";
