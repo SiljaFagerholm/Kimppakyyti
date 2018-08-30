@@ -74,9 +74,10 @@ class FirstPage extends Component {
       sundayFrequency: this.refs.sunday.checked
     };
     console.log(informationTemp);
-    OfferNewRide(informationTemp);
+    OfferNewRide(informationTemp).then(() => {
+      this.props.history.push("/offercreated");
+    });
     this.setState({ offer: informationTemp });
-    // this.props.history.push("/offercreated");
   };
 
   toggle(tab) {
@@ -113,7 +114,7 @@ class FirstPage extends Component {
 
   render() {
     return (
-      <div>
+      <div className="left">
         <Nav className="Row" tabs>
           <NavItem>
             <NavLink
@@ -167,6 +168,7 @@ class FirstPage extends Component {
             <br />
             <Label>Lähtö aikaisintaan</Label>
             <DatePicker
+            
               onChange={this.startTimeChanged}
               selected={this.state.startTIme}
               showTimeSelect
@@ -226,6 +228,7 @@ class FirstPage extends Component {
             >
               Tarjoa kyytiä
             </Button>{" "}
+            <br />
           </TabPane>
           <TabPane tabId="2">
             <LookingForRide />
