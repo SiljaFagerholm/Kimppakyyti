@@ -75,9 +75,11 @@ class FirstPage extends Component {
       sundayFrequency: this.refs.sunday.checked
     };
     console.log(informationTemp);
-    OfferNewRide(informationTemp);
+    OfferNewRide(informationTemp).then(()=> {
+      this.props.history.push("/offercreated");
+    });
     this.setState({ offer: informationTemp });
-    // this.props.history.push("/offercreated");
+    
   };
 
   toggle(tab) {

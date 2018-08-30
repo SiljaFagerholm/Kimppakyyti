@@ -7,6 +7,8 @@ const SEARCHURL =
   "https://kimppakyytiapi.azurewebsites.net/api/Ride/SearchRidesCustomerAsync";
 const urlDeleteNicknameRides = "https://kimppakyytiapi.azurewebsites.net/api/Ride/DeleteRide?documentId=";
 
+
+
 export function getEveryRide() {
   fetch(GETURL).then(result => result.json());
 }
@@ -28,11 +30,14 @@ export function searchRide(offer) {
       thursdayFrequency: true,
       fridayFrequency: true,
       saturdayFrequency: true,
-      sundayFrequency: true
+      sundayFrequency: true,
+      
     })
   })
     .then(res => {
       console.log("searchRide", res);
+      
+      
       // this.setState({ offer: {} });
     })
     .catch(err => {
@@ -41,7 +46,7 @@ export function searchRide(offer) {
 }
 
 export function OfferNewRide(offer) {
-  fetch(POSTURL, {
+  return fetch(POSTURL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -57,11 +62,18 @@ export function OfferNewRide(offer) {
       thursdayFrequency: offer.thursdayFrequency,
       fridayFrequency: offer.fridayFrequency,
       saturdayFrequency: offer.saturdayFrequency,
-      sundayFrequency: offer.sundayFrequency
+      sundayFrequency: offer.sundayFrequency,
+      onBoard: [],
+      seatsLeft: 3
     })
   })
     .then(res => {
       console.log("OfferNewRide", res);
+      return res.text().then(str=> {
+        console.log("OfferNewRdide body", str);
+        localStorage.setItem("posti", str);
+        
+      });
       // this.setState({ offer: {} });
     })
     .catch(err => {

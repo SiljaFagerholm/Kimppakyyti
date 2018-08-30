@@ -1,18 +1,46 @@
 import React, {Component} from "react";
+import OfferedRide from "./OfferedRide";
+import Callback from "../Callback";
 
+const offerIdUrl = "https://kimppakyytiapi.azurewebsites.net/api/Ride/GetByDocumentId?documentId="
 
 class OfferCreated extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { offer: [] };
+      }
+
+    componentDidMount() {
+        this.getOffer();
+    }
+    
+    getOffer = () => {
+        var postedOfferId = localStorage.getItem("posti");
+        fetch(offerIdUrl + postedOfferId)
+          .then(result => result.json())
+          .then(data => {
+            this.setState({ offer: data });
+          });
+    };
+
+    returnToFirstPage=()=>{
+        this.props.history.push("/firstpage");
+    }
+
+    returnToProfile=()=>{
+        this.props.history.push("/profileauth");
+    }
+
     render(){
+        // console.log("postedOfferId", postedOfferId);
         return(
             <div>
-                    {/* <p>Nickname: {this.props.singleride.nickname}</p>
-                    <p>Mistä: {this.props.singleride.startAddress}</p>
-                    <p>Mihin: {this.props.singleride.targetAddress}</p>
-                    <p>Aikaväli: {this.props.singleride.startTime} - {this.props.singleride.endTime}</p>
-                    <p>Milloin: {this.props.singleride.when}</p>
-                    <p>Hinta: {this.props.singleride.price}</p> */}
-<p>moro</p>
-                </div>
+               <OfferedRide singleride={this.state.offer} />
+               <p>
+                    <button type="button" onClick={this.returnToFirstPage}>Palaa etusivulle</button>
+                    <button type="button" onClick={this.returnToProfile}>Siirry Profiiliin</button>
+                </p>
+            </div>
         );
     }
 }
