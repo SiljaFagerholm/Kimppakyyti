@@ -13,8 +13,8 @@ class Date extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(date) { 
-    console.log(date);   
+  handleChange(date) {
+    //console.log(date);
     this.setState({
       startDate: date
     });
@@ -29,7 +29,7 @@ class Date extends React.Component {
         timeFormat="HH:mm"
         timeIntervals={15}
         dateFormat="YYYY-MM-DD HH:mm"
-        timeCaption="time"        
+        timeCaption="time"
       />
     );
   }
