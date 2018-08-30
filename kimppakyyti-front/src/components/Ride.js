@@ -63,6 +63,7 @@ class Ride extends Component {
     end = end.toLocaleString("fi-FI", options);
     return (
       <div>
+        <br />
         <ListGroup>
           <ListGroupItem>
             Nickname: {this.props.singleride.nickname}
@@ -77,9 +78,12 @@ class Ride extends Component {
             {" "}
             Aikaväli: {start} - {end}
           </ListGroupItem>
-          <ListGroupItem>Vapaat paikat: {this.props.singleride.seatsLeft}</ListGroupItem>
+          <ListGroupItem>
+            Vapaat paikat: {this.props.singleride.seatsLeft}
+          </ListGroupItem>
           <ListGroupItem>Hinta: {this.props.singleride.price}</ListGroupItem>
         </ListGroup>
+        <br />
         <Button
           outline
           color="secondary"
