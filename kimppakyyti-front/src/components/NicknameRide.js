@@ -15,13 +15,14 @@ class NicknameRide extends Component {
 
       let end = new Date(this.props.singleride.endTime);
       end = end.toLocaleString("fi-FI", options);
+
+    let onBoard = this.props.singleride.onBoard.map(function(ride, i) {
+        return <p>{ride}</p>});
     return (
       <div>
         <br />
         <ListGroup>
-          <ListGroupItem>
-            Nickname: {this.props.singleride.nickname}
-          </ListGroupItem>
+          
           <ListGroupItem>
             Mistä: {this.props.singleride.startAddress}
           </ListGroupItem>
@@ -34,6 +35,9 @@ class NicknameRide extends Component {
           </ListGroupItem>
           <ListGroupItem>
             Paikkoja jäljellä: {this.props.singleride.seatsLeft}
+          </ListGroupItem>
+          <ListGroupItem>
+            Kyydissä: {onBoard}
           </ListGroupItem>
         </ListGroup>
         <br />

@@ -18,6 +18,7 @@ import { getProfile } from "./components/AuthService";
 import { OfferNewRide, searchRide } from "./components/RideService";
 import LookingForRide from "./components/LookingForRide";
 
+
 class FirstPage extends Component {
   constructor(props) {
     super(props);
@@ -31,7 +32,9 @@ class FirstPage extends Component {
       startAddress: "",
       targetAddress: "",
       profile: {},
-      informationTemp: {}
+      informationTemp: {},
+      seatsLeft: "1",
+      price: ""
     };
     this.startTimeChanged = this.startTimeChanged.bind(this);
     this.endTimeChanged = this.endTimeChanged.bind(this);
@@ -65,13 +68,8 @@ class FirstPage extends Component {
       targetAddress: this.state.targetAddress,
       startTime: this.state.startTime,
       endTime: this.state.endTime,
-      mondayFrequency: this.refs.monday.checked,
-      tuesdayFrequency: this.refs.tuesday.checked,
-      wednesdayFrequency: this.refs.wednesday.checked,
-      thursdayFrequency: this.refs.thursday.checked,
-      fridayFrequency: this.refs.friday.checked,
-      saturdayFrequency: this.refs.saturday.checked,
-      sundayFrequency: this.refs.sunday.checked
+      seatsLeft: this.state.seatsLeft,
+      price: this.state.price
     };
     console.log(informationTemp);
     OfferNewRide(informationTemp).then(() => {
@@ -110,6 +108,17 @@ class FirstPage extends Component {
       //console.log(profile);
       this.setState({ profile: profile });
     });
+  }
+
+  handleChangeSeats(event){
+    this.setState({
+     seatsLeft: event.target.value
+    })
+  }
+  handleChangePrice(event){
+    this.setState({
+      price: event.target.value
+    })
   }
 
   render() {
@@ -189,37 +198,29 @@ class FirstPage extends Component {
               timeCaption="time"
             />
             <br />
-            <Label>Toistuvat päivät</Label>
+            <Label>Kyydin hinta</Label>
+           <Input
+             type="number"
+             name="price"
+             placeholder=""
+             maxLength="2"
+             value={this.state.price}
+             onChange={this.handleChangePrice.bind(this)}
+             required
+           />
+           <br />
+           <Label>Paikkoja vapaana</Label>
+           <Input
+             type="number"
+             name="seatsLeft"
+             placeholder="1"
+             maxLength="1"
+             value={this.state.seatsLeft}
+             onChange={this.handleChangeSeats.bind(this)}
+             required
+           />
+            <br /> 
             <br />
-            <label>
-              <input ref="monday" type="checkbox" />
-              Ma
-            </label>
-            <label>
-              <input ref="tuesday" type="checkbox" />
-              Ti
-            </label>
-            <label>
-              <input ref="wednesday" type="checkbox" />
-              Ke
-            </label>
-            <label>
-              <input ref="thursday" type="checkbox" />
-              To
-            </label>
-            <label>
-              <input ref="friday" type="checkbox" />
-              Pe
-            </label>
-            <label>
-              <input ref="saturday" type="checkbox" />
-              La
-            </label>
-            <label>
-              <input ref="sunday" type="checkbox" />
-              Su
-            </label>
-            <br /> <br />
             <Button
               outline
               color="secondary"

@@ -21,15 +21,16 @@ export function OfferNewRide(offer) {
       startTime: offer.startTime,
       endTime: offer.endTime,
       offeringRide: true,
-      mondayFrequency: offer.mondayFrequency,
-      tuesdayFrequency: offer.tuesdayFrequency,
-      wednesdayFrequency: offer.wednesdayFrequency,
-      thursdayFrequency: offer.thursdayFrequency,
-      fridayFrequency: offer.fridayFrequency,
-      saturdayFrequency: offer.saturdayFrequency,
-      sundayFrequency: offer.sundayFrequency,
+      // mondayFrequency: offer.mondayFrequency,
+      // tuesdayFrequency: offer.tuesdayFrequency,
+      // wednesdayFrequency: offer.wednesdayFrequency,
+      // thursdayFrequency: offer.thursdayFrequency,
+      // fridayFrequency: offer.fridayFrequency,
+      // saturdayFrequency: offer.saturdayFrequency,
+      // sundayFrequency: offer.sundayFrequency,
       onBoard: [],
-      seatsLeft: 3
+      seatsLeft: offer.seatsLeft,
+      price: offer.price
     })
   })
     .then(res => {

@@ -1,5 +1,15 @@
 import React, { Component } from "react";
 import OfferedRide from "./OfferedRide";
+import {
+    Nav,
+    NavItem,
+    NavLink,
+    Button,
+    TabContent,
+    TabPane,
+    Label,
+    Input
+  } from "reactstrap";
 
 const offerIdUrl =
   "https://kimppakyytiapi.azurewebsites.net/api/Ride/GetByDocumentId?documentId=";
@@ -37,12 +47,12 @@ class OfferCreated extends Component {
       <div>
         <OfferedRide singleride={this.state.offer} />
         <p>
-          <button type="button" onClick={this.returnToFirstPage}>
+          <Button type="button" onClick={this.returnToFirstPage}>
             Palaa etusivulle
-          </button>
-          <button type="button" onClick={this.returnToProfile}>
+          </Button>
+          <Button type="button" onClick={this.returnToProfile}>
             Siirry Profiiliin
-          </button>
+          </Button>
         </p>
       </div>
     );

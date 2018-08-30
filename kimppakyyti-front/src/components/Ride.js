@@ -66,7 +66,7 @@ class Ride extends Component {
             Aikaväli: {start} -{" "}
             {end}
           </ListGroupItem>
-          <ListGroupItem>Milloin: {this.props.singleride.when}</ListGroupItem>
+          <ListGroupItem>Vapaat paikat: {this.props.singleride.seatsLeft}</ListGroupItem>
           <ListGroupItem>Hinta: {this.props.singleride.price}</ListGroupItem>
         </ListGroup>
         <Button

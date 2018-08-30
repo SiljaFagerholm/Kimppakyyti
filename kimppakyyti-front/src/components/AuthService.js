@@ -37,7 +37,7 @@ export function getProfile(callback) {
   if (accessToken) {
     auth.client.userInfo(accessToken, (err, profile) => {
       if (profile) {
-        console.dir(profile);
+        // console.dir(profile);
         callback(err, profile);
       }
     });
