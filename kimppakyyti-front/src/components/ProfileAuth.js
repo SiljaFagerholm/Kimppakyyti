@@ -10,8 +10,10 @@ import {
   CardTitle
 } from "reactstrap";
 import NicknameRides from "./NicknameRides";
+import { ListGroup, ListGroupItem } from "reactstrap";
 
-const urlGetNicknameRides = "https://kimppakyytiapi.azurewebsites.net/api/ride/getallrides";
+const urlGetNicknameRides =
+  "https://kimppakyytiapi.azurewebsites.net/api/ride/getallrides";
 var allRides = [];
 
 class ProfileAuth extends Component {
@@ -29,23 +31,21 @@ class ProfileAuth extends Component {
       this.getNicknameRides();
     });
   }
-      getNicknameRides = (callback) => {
-        fetch(urlGetNicknameRides)
-        .then(result => result.json())
-        .then(data => {
-          allRides = data.filter(x => x.nickname === this.state.profile.nickname)
+  getNicknameRides = callback => {
+    fetch(urlGetNicknameRides)
+      .then(result => result.json())
+      .then(data => {
+        allRides = data.filter(x => x.nickname === this.state.profile.nickname);
 
-          this.setState({list: allRides});
-        });
-      }
-
-
+        this.setState({ list: allRides });
+      });
+  };
 
   deleteRideFromList = id => {
-    var tempList = this.state.list.filter(x => x.id != id)
-    
-    this.setState({list: tempList});
-  }
+    var tempList = this.state.list.filter(x => x.id !== id);
+
+    this.setState({ list: tempList });
+  };
 
   render() {
     return (
@@ -58,13 +58,24 @@ class ProfileAuth extends Component {
                 <CardBody>
                   <CardTitle>Profiili</CardTitle>
                   <CardText>
-                    Nimi: {this.state.profile.name}
-                    <br />
-                    Käyttäjätunnus: {this.state.profile.nickname}
+                    <ListGroup>
+                      <ListGroupItem>
+                        {" "}
+                        Nimi: {this.state.profile.name}
+                      </ListGroupItem>
+                      <ListGroupItem>
+                        {" "}
+                        Käyttäjätunnus: {this.state.profile.nickname}
+                      </ListGroupItem>
+                    </ListGroup>
                   </CardText>
-                  <CardTitle>Kyydit</CardTitle>
+                  <br />
+                  <CardTitle>Tarjotut kyydit</CardTitle>
                   <div>
-                    <NicknameRides rides={this.state.list} deleteRideFromList={this.deleteRideFromList}/>
+                    <NicknameRides
+                      rides={this.state.list}
+                      deleteRideFromList={this.deleteRideFromList}
+                    />
                   </div>
                 </CardBody>
               </Card>
