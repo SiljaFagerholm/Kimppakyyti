@@ -16,7 +16,7 @@ namespace KimppakyytiApi.Models
         public virtual string Id { get; set; }
         public string Nickname { get; set; }
         public double Price { get; set; }
-        public List<string> OnBoard { get; set; }
+        public List<string> OnBoard { get; set; }        
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public string StartAddress { get; set; }
