@@ -105,7 +105,7 @@ class FirstPage extends Component {
   }
   componentDidMount() {
     getProfile((err, profile) => {
-      //console.log(profile);
+      console.log(profile);
       this.setState({ profile: profile });
     });
   }

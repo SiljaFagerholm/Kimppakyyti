@@ -36,7 +36,7 @@ export function OfferNewRide(offer) {
     .then(res => {
       console.log("OfferNewRide", res);
       return res.text().then(str => {
-        console.log("OfferNewRdide body", str);
+        console.log("OfferNewRide body", str);
         localStorage.setItem("posti", str);
       });
       // this.setState({ offer: {} });
