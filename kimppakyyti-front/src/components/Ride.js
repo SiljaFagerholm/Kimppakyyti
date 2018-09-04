@@ -14,7 +14,7 @@ class Ride extends Component {
     getProfile((err, profile) => {
       this.setState({ profile: profile });
       let url =
-        "https://kimppakyytiapi.azurewebsites.net/api/Ride/JoinTheRideAsync?Id=" +
+        "https://lada.azurewebsites.net/api/Ride/JoinTheRideAsync?Id=" +
         encodeURIComponent(this.props.singleride.id) +
         "&seatsLeft=" +
         encodeURIComponent(this.props.singleride.seatsLeft) +

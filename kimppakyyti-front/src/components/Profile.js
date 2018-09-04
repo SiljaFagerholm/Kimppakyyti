@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-const url = "https://kimppakyytiapi.azurewebsites.net/api/user/post";
+const url = "https://lada.azurewebsites.net/api/user/post";
 
 class Profile extends Component {
   constructor(props) {
