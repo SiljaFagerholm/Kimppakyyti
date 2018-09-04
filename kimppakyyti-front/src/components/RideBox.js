@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import RideList from "./RideList";
 
 const urlGetRides =
-  "https://kimppakyytiapi.azurewebsites.net/api/ride/getallrides";
+  "https://lada.azurewebsites.net/api/ride/getallrides";
 
 class RideBox extends Component {
   constructor() {

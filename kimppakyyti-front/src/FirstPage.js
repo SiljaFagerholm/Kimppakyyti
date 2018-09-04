@@ -110,12 +110,12 @@ class FirstPage extends Component {
     });
   }
 
-  handleChangeSeats(event){
+  handleChangeSeats(event) {
     this.setState({
       seatsLeft: event.target.value
     })
   }
-  handleChangePrice(event){
+  handleChangePrice(event) {
     this.setState({
       price: event.target.value
     })
@@ -201,7 +201,7 @@ class FirstPage extends Component {
             <br />
             <Label style={{ float: 'left' }}>Lähtö aikaisintaan</Label>
             <DatePicker
-            
+
               onChange={this.startTimeChanged}
               selected={this.state.startTime}
               showTimeSelect
@@ -221,7 +221,34 @@ class FirstPage extends Component {
               dateFormat="YYYY-MM-DD HH:mm"
               timeCaption="time"
             />
+<<<<<<< HEAD
             <br /><br />
+=======
+            <br />
+            <Label>Kyydin hinta</Label>
+            <Input
+              type="number"
+              name="price"
+              placeholder=""
+              maxLength="2"
+              value={this.state.price}
+              onChange={this.handleChangePrice.bind(this)}
+              required
+            />
+            <br />
+            <Label>Paikkoja vapaana</Label>
+            <Input
+              type="number"
+              name="seatsLeft"
+              placeholder="1"
+              maxLength="1"
+              value={this.state.seatsLeft}
+              onChange={this.handleChangeSeats.bind(this)}
+              required
+            />
+            <br />
+            <br />
+>>>>>>> e11350897e9cac9decf243b32748c281a68265b8
             <Button
               outline
               color="secondary"

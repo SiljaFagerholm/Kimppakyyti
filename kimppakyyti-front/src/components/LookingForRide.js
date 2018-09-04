@@ -45,7 +45,7 @@ class LookingForRide extends Component {
     let end = this.modifyDateString(this.state.endTime);
 
     let url =
-      "https://kimppakyytiapi.azurewebsites.net/api/Ride/GetSearchRidesCustomerAsync?startTime=" +
+      "https://lada.azurewebsites.net/api/Ride/GetSearchRidesCustomerAsync?startTime=" +
       encodeURIComponent(start) +
       "&endTime=" +
       encodeURIComponent(end) +

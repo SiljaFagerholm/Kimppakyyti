@@ -72,37 +72,37 @@ namespace KimppakyytiApi.Controllers
             UriFactory.CreateDatabaseUri(_dbName),
             new DocumentCollection { Id = _collectionName });
         }
-        //[HttpGet]
-        //public string Ping()
-        //{
-        //    return "Nyt on tehty collection, vaikka sitä ei oltu tehty aiemmin!";
-        //}
-        //[HttpGet]
-        //public ActionResult<List<Ride>> SearchRidesByLocation()
-        //{
-        //    try
-        //    {
+        [HttpGet]
+        public string Ping()
+        {
+            return "Nyt on tehty collection, vaikka sitä ei oltu tehty aiemmin!";
+        }
+        [HttpGet]
+        public ActionResult<List<Ride>> SearchRidesByLocation(string startlocation)
+        {
+            try
+            {
 
-        //        FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
-        //        IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
-        //        UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
-        //            $"SELECT * FROM c WHERE  ST_DISTANCE (c.StartLocation, {"StartLocation": [ 62.8979675, 27.678122]}) < 100 * 1000",
-        //            //$"SELECT * FROM c WHERE c[\"When\"] ={time}",             
+                FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
+                IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
+                UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
+                    $"SELECT * FROM c WHERE  ST_DISTANCE (c.StartLocation, {"StartLocation": [ 62.8979675, 27.678122]}) < 100 * 1000",
+                    //$"SELECT * FROM c WHERE c[\"When\"] ={time}",             
 
-        //            queryOptions);
+                    queryOptions);
 
-        //        return Ok(query.ToList());
-        //    }
-        //    catch (DocumentClientException de)
-        //    {
-        //        switch (de.StatusCode.Value)
-        //        {
-        //            case System.Net.HttpStatusCode.NotFound:
-        //                return NotFound();
-        //        }
-        //    }
-        //    return BadRequest();
-        //}
+                return Ok(query.ToList());
+            }
+            catch (DocumentClientException de)
+            {
+                switch (de.StatusCode.Value)
+                {
+                    case System.Net.HttpStatusCode.NotFound:
+                        return NotFound();
+                }
+            }
+            return BadRequest();
+        }
         //[HttpGet]
         //public ActionResult<List<Ride>> SearchRidesByTime(string startTime, string endTime)
         //{
@@ -208,7 +208,7 @@ namespace KimppakyytiApi.Controllers
 
                             try
                             {
-                                if (StaticFunctions.CalculateDistanceBetweenPoints(item.RoutePoints.Where(p => StaticFunctions.CalculateDistanceBetweenPoints(p, valueOut.TargetLocation) < 501).First(), valueOut.TargetLocation) < 501) ;
+                                if (StaticFunctions.CalculateDistanceBetweenPoints(item.RoutePoints.Where(p => StaticFunctions.CalculateDistanceBetweenPoints(p, valueOut.TargetLocation) < 501).First(), valueOut.TargetLocation) < 501) 
                                 {
                                     targetPointMatch = true;
                                 }
