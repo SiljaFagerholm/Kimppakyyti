@@ -3,6 +3,28 @@
   text-align: center;
 } */
 
+
+
+.left {
+  width: 60%;
+  margin: auto;
+  padding: 2% 4%;
+  background-color: #f2f7ff;
+  border-radius: 5px;
+}
+
+.nav-tabs {
+  width: 100%;
+}
+
+.nav-link {
+  margin-left: 1%;
+}
+
+.nav-item {
+  width: 48%;
+}
+
 .left ul {
   padding-left: 0;
 }
@@ -10,3 +32,9 @@
 /* .center input {
   text-align: center;
 } */
+
+@media only screen and (max-width: 767px) {
+  .left {
+      width: 100%;
+  }
+}

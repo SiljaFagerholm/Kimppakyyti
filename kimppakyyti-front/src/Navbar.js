@@ -10,13 +10,13 @@ class NavComponent extends Component {
       <div>
         <Navbar className="NavBar">
           <NavbarBrand href="/">
-            <img width={200} height={100} src={logo} alt={"logo"} />
+            <img className="logo" width={200} height={100} src={logo} alt={"logo"} />
           </NavbarBrand>
           <Nav>
             <NavItem>
               {isLoggedIn() ? (
                 <Button
-                  size="sm"
+                  size="md"
                   outline
                   color="secondary"
                   onClick={() => logout()}
@@ -25,7 +25,7 @@ class NavComponent extends Component {
                 </Button>
               ) : (
                 <Button
-                  size="sm"
+                  size="md"
                   outline
                   color="secondary"
                   onClick={() => login()}
@@ -36,7 +36,7 @@ class NavComponent extends Component {
             </NavItem>
             &nbsp;
             <NavItem>
-              <Button size="sm" outline color="secondary" href="/profileauth">
+              <Button size="md" outline color="secondary" href="/profileauth">
                 Profiili
               </Button>
             </NavItem>
