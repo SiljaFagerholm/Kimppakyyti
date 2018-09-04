@@ -112,7 +112,7 @@ class LookingForRide extends Component {
           <Label>Lähtö aikaisintaan</Label>
           <DatePicker
             onChange={this.startTimeChanged}
-            selected={this.state.startTIme}
+            selected={this.state.startTime}
             showTimeSelect
             timeFormat="HH:mm"
             timeIntervals={15}
@@ -123,7 +123,7 @@ class LookingForRide extends Component {
           <Label>Lähtö viimeistään</Label>
           <DatePicker
             onChange={this.endTimeChanged}
-            selected={this.state.endtTime}
+            selected={this.state.endTime}
             showTimeSelect
             timeFormat="HH:mm"
             timeIntervals={15}

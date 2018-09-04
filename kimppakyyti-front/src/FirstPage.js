@@ -11,12 +11,12 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import moment from "moment";
-import "./FirstPage.css";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { getProfile } from "./components/AuthService";
 import { OfferNewRide, searchRide } from "./components/RideService";
 import LookingForRide from "./components/LookingForRide";
+require("./FirstPage.css");
 
 
 class FirstPage extends Component {
@@ -112,7 +112,7 @@ class FirstPage extends Component {
 
   handleChangeSeats(event){
     this.setState({
-     seatsLeft: event.target.value
+      seatsLeft: event.target.value
     })
   }
   handleChangePrice(event){
@@ -126,7 +126,8 @@ class FirstPage extends Component {
       <div className="left">
         <Nav className="Row" tabs>
           <NavItem>
-            <NavLink
+            <NavLink 
+              style={{ cursor: 'pointer' }}
               className={classnames({
                 active: this.state.activeTab === "1"
               })}
@@ -138,7 +139,8 @@ class FirstPage extends Component {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink
+            <NavLink 
+              style={{ cursor: 'pointer' }}
               className={classnames({
                 active: this.state.activeTab === "2"
               })}
@@ -175,11 +177,33 @@ class FirstPage extends Component {
               required
             />
             <br />
-            <Label>Lähtö aikaisintaan</Label>
+            <Label>Kyydin hinta</Label>
+            <Input
+              type="number"
+              name="price"
+              placeholder=""
+              maxLength="2"
+              value={this.state.price}
+              onChange={this.handleChangePrice.bind(this)}
+              required
+            />
+            <br />
+            <Label>Paikkoja vapaana</Label>
+            <Input
+              type="number"
+              name="seatsLeft"
+              placeholder="1"
+              maxLength="1"
+              value={this.state.seatsLeft}
+              onChange={this.handleChangeSeats.bind(this)}
+              required
+            />
+            <br />
+            <Label style={{ float: 'left' }}>Lähtö aikaisintaan</Label>
             <DatePicker
             
               onChange={this.startTimeChanged}
-              selected={this.state.startTIme}
+              selected={this.state.startTime}
               showTimeSelect
               timeFormat="HH:mm"
               timeIntervals={15}
@@ -187,40 +211,17 @@ class FirstPage extends Component {
               timeCaption="time"
             />
             <br />
-            <Label>Lähtö viimeistään</Label>
+            <Label style={{ float: 'left' }}>Lähtö viimeistään</Label>
             <DatePicker
               onChange={this.endTimeChanged}
-              selected={this.state.endtTime}
+              selected={this.state.endTime}
               showTimeSelect
               timeFormat="HH:mm"
               timeIntervals={15}
               dateFormat="YYYY-MM-DD HH:mm"
               timeCaption="time"
             />
-            <br />
-            <Label>Kyydin hinta</Label>
-           <Input
-             type="number"
-             name="price"
-             placeholder=""
-             maxLength="2"
-             value={this.state.price}
-             onChange={this.handleChangePrice.bind(this)}
-             required
-           />
-           <br />
-           <Label>Paikkoja vapaana</Label>
-           <Input
-             type="number"
-             name="seatsLeft"
-             placeholder="1"
-             maxLength="1"
-             value={this.state.seatsLeft}
-             onChange={this.handleChangeSeats.bind(this)}
-             required
-           />
-            <br /> 
-            <br />
+            <br /><br />
             <Button
               outline
               color="secondary"
