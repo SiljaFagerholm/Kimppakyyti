@@ -13,7 +13,7 @@ import NicknameRides from "./NicknameRides";
 import { ListGroup, ListGroupItem } from "reactstrap";
 
 const urlGetNicknameRides =
-  "https://kimppakyytiapi.azurewebsites.net/api/ride/getallrides";
+  "https://lada.azurewebsites.net/api/ride/getallrides";
 var allRides = [];
 
 class ProfileAuth extends Component {

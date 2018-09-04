@@ -1,10 +1,10 @@
 const POSTURL =
-  "https://kimppakyytiapi.azurewebsites.net/api/Ride/PostOfferRideAsync";
+  "https://lada.azurewebsites.net/api/Ride/PostOfferRideAsync";
 
 const SEARCHURL =
-  "https://kimppakyytiapi.azurewebsites.net/api/Ride/SearchRidesCustomerAsync";
+  "https://lada.azurewebsites.net/api/Ride/SearchRidesCustomerAsync";
 const urlDeleteNicknameRides =
-  "https://kimppakyytiapi.azurewebsites.net/api/Ride/DeleteRide?documentId=";
+  "https://lada.azurewebsites.net/api/Ride/DeleteRide?documentId=";
 
 export function searchRide() {
   fetch(SEARCHURL).then(result => result.json());
