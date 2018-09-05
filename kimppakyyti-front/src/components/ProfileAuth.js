@@ -49,8 +49,10 @@ class ProfileAuth extends Component {
     this.setState({ list: tempList });
   };
 
+
   render() {
     return (
+
       isLoggedIn() && (
         <div className="profileContent">
           <Row className="row justify-content-center">

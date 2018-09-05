@@ -1,0 +1,39 @@
+[1mdiff --git a/kimppakyyti-front/src/FirstPage.js b/kimppakyyti-front/src/FirstPage.js[m
+[1mindex 76edeee..b326c1b 100644[m
+[1m--- a/kimppakyyti-front/src/FirstPage.js[m
+[1m+++ b/kimppakyyti-front/src/FirstPage.js[m
+[36m@@ -105,7 +105,7 @@[m [mclass FirstPage extends Component {[m
+   }[m
+   componentDidMount() {[m
+     getProfile((err, profile) => {[m
+[31m-      //console.log(profile);[m
+[32m+[m[32m      console.log(profile);[m
+       this.setState({ profile: profile });[m
+     });[m
+   }[m
+[1mdiff --git a/kimppakyyti-front/src/components/OfferCreated.js b/kimppakyyti-front/src/components/OfferCreated.js[m
+[1mindex 2b0a99c..205e341 100644[m
+[1m--- a/kimppakyyti-front/src/components/OfferCreated.js[m
+[1m+++ b/kimppakyyti-front/src/components/OfferCreated.js[m
+[36m@@ -3,7 +3,7 @@[m [mimport OfferedRide from "./OfferedRide";[m
+ import { Button } from "reactstrap";[m
+ [m
+ const offerIdUrl =[m
+[31m-  "https://lada.azurewebsites.net/api/Ride/GetByDocumentId?documentId=";[m
+[32m+[m[32m  "https://lada.azurewebsites.net/api/Ride/GetByDocumentIdAsync?documentId=";[m
+ [m
+ class OfferCreated extends Component {[m
+   constructor(props) {[m
+[1mdiff --git a/kimppakyyti-front/src/components/RideService.js b/kimppakyyti-front/src/components/RideService.js[m
+[1mindex e88f4e5..94a0d05 100644[m
+[1m--- a/kimppakyyti-front/src/components/RideService.js[m
+[1m+++ b/kimppakyyti-front/src/components/RideService.js[m
+[36m@@ -36,7 +36,7 @@[m [mexport function OfferNewRide(offer) {[m
+     .then(res => {[m
+       console.log("OfferNewRide", res);[m
+       return res.text().then(str => {[m
+[31m-        console.log("OfferNewRdide body", str);[m
+[32m+[m[32m        console.log("OfferNewRide body", str);[m
+         localStorage.setItem("posti", str);[m
+       });[m
+       // this.setState({ offer: {} });[m

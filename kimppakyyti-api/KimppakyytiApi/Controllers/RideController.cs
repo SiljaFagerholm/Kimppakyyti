@@ -77,32 +77,32 @@ namespace KimppakyytiApi.Controllers
         {
             return "Nyt on tehty collection, vaikka sitä ei oltu tehty aiemmin!";
         }
-        [HttpGet]
-        public ActionResult<List<Ride>> SearchRidesByLocation(string startlocation)
-        {
-            try
-            {
+        //[HttpGet]
+        //public ActionResult<List<Ride>> SearchRidesByLocation(string startlocation)
+        //{
+        //    try
+        //    {
 
-                FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
-                IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
-                UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
-                    $"SELECT * FROM c WHERE  ST_DISTANCE (c.StartLocation, {"StartLocation": [ 62.8979675, 27.678122]}) < 100 * 1000",
-                    //$"SELECT * FROM c WHERE c[\"When\"] ={time}",             
+        //        FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
+        //        IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
+        //        UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
+        //            $"SELECT * FROM c WHERE  ST_DISTANCE (c.StartLocation, {"StartLocation": [ 62.8979675, 27.678122]}) < 100 * 1000",
+        //            //$"SELECT * FROM c WHERE c[\"When\"] ={time}",             
 
-                    queryOptions);
+        //            queryOptions);
 
-                return Ok(query.ToList());
-            }
-            catch (DocumentClientException de)
-            {
-                switch (de.StatusCode.Value)
-                {
-                    case System.Net.HttpStatusCode.NotFound:
-                        return NotFound();
-                }
-            }
-            return BadRequest();
-        }
+        //        return Ok(query.ToList());
+        //    }
+        //    catch (DocumentClientException de)
+        //    {
+        //        switch (de.StatusCode.Value)
+        //        {
+        //            case System.Net.HttpStatusCode.NotFound:
+        //                return NotFound();
+        //        }
+        //    }
+        //    return BadRequest();
+        //}
         //[HttpGet]
         //public ActionResult<List<Ride>> SearchRidesByTime(string startTime, string endTime)
         //{
@@ -225,6 +225,126 @@ namespace KimppakyytiApi.Controllers
                             }
                             startPointMatch = false;
                             targetPointMatch = false;
+                        }
+
+                        // check for contents in query before returning?
+                        if (returnRides == null)
+                        {
+                            valueOut.Nickname = "Hakusi ei tuottanut tuloksia";
+                            returnRides.Add(valueOut);
+                        }
+                        return returnRides;
+                    }
+
+                    else
+                    {
+                        return NoContent();// "Nyt kävi jotain.";
+                    }
+                }
+            }
+
+            catch (DocumentClientException de)
+            {
+                switch (de.StatusCode.Value)
+                {
+                    case System.Net.HttpStatusCode.NotFound:
+                        return NotFound();
+                }
+            }
+            return BadRequest();
+
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<RideOut>>> GetSearchRidesLocationAsync(DateTime startTime, DateTime endTime, string startAddress)
+        {
+            try //Searching Rides from CosmosDB with right TimeTable.
+            {
+                {
+                    //Functions for delayed response -- timeout try /catch
+
+                    // Get route from Google Directions Api
+                    var response = await GoogleApiFunctions.GetPlaceGoogle(startAddress);
+
+                    // parse response from Google
+                    RootObject obj = JsonConvert.DeserializeObject<RootObject>(response);
+                    RideOut valueOut = new RideOut();
+
+
+                    if (obj.status == "ZERO_RESULTS")
+                    {
+                        return BadRequest("Paikkaa ei löytynyt. Tarkista antamasi osoitteet, tai kokeile hakea kaupunginosalla.");
+                    }
+                    else if (obj.status == "OK")
+                    {
+                        // parse incoming object to outgoing  start and end point from Google to CosmosDB -object
+                        valueOut.Nickname = "Haku";
+                        valueOut.Price = 0.00;
+                        valueOut.StartTime = startTime;
+                        valueOut.EndTime = endTime;
+                        valueOut.StartAddress = startAddress;
+                        valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lng, obj.routes[0].legs[0].start_location.lat);
+
+                        valueOut.OfferingRide = false;
+                        valueOut.SeatsLeft = 0;
+                        valueOut.MondayFrequency = false;
+                        valueOut.TuesdayFrequency = false;
+                        valueOut.WednesdayFrequency = false;
+                        valueOut.ThursdayFrequency = false;
+                        valueOut.FridayFrequency = false;
+                        valueOut.SaturdayFrequency = false;
+                        valueOut.SundayFrequency = false;
+
+                        // search for matches
+                        FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
+
+                        IQueryable<RideOut> query = _cosmosDBclient.CreateDocumentQuery<RideOut>(
+                        rideCollectionUri, queryOptions).Where(f => f.OfferingRide == true
+                        && f.StartTime >= valueOut.StartTime
+                        && f.StartTime <= valueOut.EndTime
+                        && f.StartLocation.Distance(valueOut.StartLocation) < f.StartLocation.Distance(valueOut.TargetLocation));
+                        //&& f.TargetLocation.Distance(valueOut.StartLocation) > f.TargetLocation.Distance(valueOut.TargetLocation));
+                        //&& (f.RoutePoints.Where(p => p.Distance(valueOut.StartLocation) < 500).First() != null)); // Distance (to) etäisyys metreinä
+
+                        List<RideOut> incomingRides = query.ToList();
+                        List<RideOut> returnRides = new List<RideOut>();
+
+                        foreach (var item in incomingRides)
+                        {
+                            bool startPointMatch = false;
+                            try
+                            {
+                                if (StaticFunctions.CalculateDistanceBetweenPoints(item.RoutePoints.Where(p => StaticFunctions.CalculateDistanceBetweenPoints(p, valueOut.StartLocation) < 501).First(), valueOut.StartLocation) < 501)
+                                {
+
+                                    startPointMatch = true;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                //startPointMatch = false;
+                                //continue;
+                            }
+
+
+                            //try
+                            //{
+                            //    if (StaticFunctions.CalculateDistanceBetweenPoints(item.RoutePoints.Where(p => StaticFunctions.CalculateDistanceBetweenPoints(p, valueOut.TargetLocation) < 501).First(), valueOut.TargetLocation) < 501)
+                            //    {
+                            //        targetPointMatch = true;
+                            //    }
+                            //}
+                            //catch (Exception)
+                            //{
+                            //    //targetPointMatch = false;
+                            //    //continue;
+                            //}
+
+                            if (startPointMatch)
+                            {
+                                returnRides.Add(item);
+                            }
+                            startPointMatch = false;
                         }
 
                         // check for contents in query before returning?

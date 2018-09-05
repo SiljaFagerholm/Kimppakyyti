@@ -3,7 +3,7 @@ import OfferedRide from "./OfferedRide";
 import { Button } from "reactstrap";
 
 const offerIdUrl =
-  "https://lada.azurewebsites.net/api/Ride/GetByDocumentId?documentId=";
+  "https://lada.azurewebsites.net/api/Ride/GetByDocumentIdAsync?documentId=";
 
 class OfferCreated extends Component {
   constructor(props) {
