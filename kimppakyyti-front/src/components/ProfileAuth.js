@@ -34,6 +34,7 @@ class ProfileAuth extends Component {
     });
   }
   getNicknameRides = callback => {
+    console.log("getNicknameRides käynnistyi!");
     fetch(urlGetNicknameRides)
       .then(result => result.json())
       .then(data => {
@@ -41,6 +42,8 @@ class ProfileAuth extends Component {
 
         this.setState({ list: allRides });
       });
+    console.log("getNicknameRides valmistui!");
+
   };
 
   deleteRideFromList = id => {
@@ -81,6 +84,7 @@ class ProfileAuth extends Component {
                     <NicknameRides
                       rides={this.state.list}
                       deleteRideFromList={this.deleteRideFromList}
+                      history={this.props.history}
                     />
                   </div>
                 </CardBody>

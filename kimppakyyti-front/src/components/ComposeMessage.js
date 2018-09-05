@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, ListGroup, ListGroupItem } from "reactstrap";
 import { isLoggedIn, getProfile } from "./AuthService";
 
-class Message extends Component {
+class ComposeMessage extends Component {
     constructor(props) {
         super(props);
         this.state = { profile: {} };
@@ -12,12 +12,11 @@ class Message extends Component {
     render() {
         return (
             <div>
-                <p>{this.props.singlemessage.SenderId}:</p>
-                <p>{this.props.singlemessage.MessageText}</p>
+                <p>Tähän tulee viestinkirjoituspalikka</p>
             </div>
 
         );
     }
 
 }
-export default Message;
+export default ComposeMessage;
