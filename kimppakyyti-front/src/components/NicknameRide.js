@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { deleteRideFromApi } from "./RideService";
 import { Button, ListGroup, ListGroupItem } from "reactstrap";
+import RideMessages from "./RideMessages";
 
 class NicknameRide extends Component {
   delteRideFromList = () => {
@@ -10,19 +11,20 @@ class NicknameRide extends Component {
   };
   render() {
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-      let start = new Date(this.props.singleride.startTime);
-      start = start.toLocaleString("fi-FI", options);
+    let start = new Date(this.props.singleride.startTime);
+    start = start.toLocaleString("fi-FI", options);
 
-      let end = new Date(this.props.singleride.endTime);
-      end = end.toLocaleString("fi-FI", options);
+    let end = new Date(this.props.singleride.endTime);
+    end = end.toLocaleString("fi-FI", options);
 
-    let onBoard = this.props.singleride.onBoard.map(function(ride, i) {
-        return <p>{ride}</p>});
+    let onBoard = this.props.singleride.onBoard.map(function (ride, i) {
+      return <p>{ride}</p>
+    });
     return (
       <div>
         <br />
         <ListGroup>
-          
+
           <ListGroupItem>
             Mistä: {this.props.singleride.startAddress}
           </ListGroupItem>
@@ -46,6 +48,7 @@ class NicknameRide extends Component {
         <Button type="button" onClick={this.delteRideFromList}>
           Poista
         </Button>
+        <RideMessages RideId={this.props.singleride.RideId} />
         <br />
       </div>
     );

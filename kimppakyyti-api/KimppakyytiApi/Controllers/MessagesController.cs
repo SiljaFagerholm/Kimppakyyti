@@ -57,6 +57,13 @@ namespace KimppakyytiApi.Controllers
             new DocumentCollection { Id = _collectionName });
         }
 
+        [HttpPost]
+        public async Task<ActionResult<string>> Post ([FromBody] Message value)
+        {
+            Document document = await _cosmosDBclient.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName), value);
+            return Ok(document.Id);
+        }
+
         [HttpGet]
         public string Ping()
         {
@@ -87,11 +94,18 @@ namespace KimppakyytiApi.Controllers
         {
             FeedOptions queryoptions = new FeedOptions { MaxItemCount = -1 };
             IQueryable<Message> query = _cosmosDBclient.CreateDocumentQuery<Message>(UriFactory
-                .CreateDocumentCollectionUri(_dbName, _collectionName), $"SELECT * FROM c  WHERE CONTAINS(c.RecipientsId, '{id}')");
+                .CreateDocumentCollectionUri(_dbName, _collectionName), $"SELECT * FROM c  WHERE CONTAINS(c.RecipientId, '{id}')");
 
             return Ok(query.ToList());
         }
-
+        [HttpGet]
+        public ActionResult<List<Message>> GetByRideId(string id)
+        {
+            FeedOptions queryoptions = new FeedOptions { MaxItemCount = -1 };
+            IQueryable<Message> query = _cosmosDBclient.CreateDocumentQuery<Message>(UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
+                $"SELECT * FROM C WHERE CONTAINS(C.RideId, '{id}')");
+            return Ok(query.ToList());
+        }
         [HttpGet]
         public async Task<ActionResult<Message>> GetByDocumentId(string documentid)
         {
@@ -113,11 +127,24 @@ namespace KimppakyytiApi.Controllers
             return BadRequest();
         }
 
-        //[HttpGet]
-        //public async Task<>
-        public IActionResult Index()
+     [HttpDelete]
+     public async Task<ActionResult<string>> Delete (string documentid)
         {
-            return View();
+            try
+            {
+                await _cosmosDBclient.DeleteDocumentAsync(UriFactory.CreateDocumentUri(_dbName, _collectionName, documentid));
+                return Ok($"Deleted message {documentid}");
+            }
+            catch (DocumentClientException de)
+            {
+
+                switch (de.StatusCode.Value)
+                {
+                    case System.Net.HttpStatusCode.NotFound:
+                        return NotFound();
+                }
+            }
+            return BadRequest();
         }
     }
 }

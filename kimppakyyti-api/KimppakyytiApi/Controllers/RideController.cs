@@ -459,29 +459,29 @@ namespace KimppakyytiApi.Controllers
         //     return BadRequest();
 
         // }
-        // [HttpGet]
-        // public ActionResult<List<Ride>> GetAllRides()
-        // {
-        //     try
-        //     {
-        //         FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
-        //         IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
-        //         UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
-        //         $"SELECT * FROM C",
-        //         queryOptions);
+        [HttpGet]
+        public ActionResult<List<Ride>> GetAllRides()
+        {
+            try
+            {
+                FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
+                IQueryable<Ride> query = _cosmosDBclient.CreateDocumentQuery<Ride>(
+                UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
+                $"SELECT * FROM C",
+                queryOptions);
 
-        //         return Ok(query.ToList());
-        //     }
-        //     catch (DocumentClientException de)
-        //     {
-        //         switch (de.StatusCode.Value)
-        //         {
-        //             case System.Net.HttpStatusCode.NotFound:
-        //                 return NotFound();
-        //         }
-        //     }
-        //     return BadRequest();
-        // }
+                return Ok(query.ToList());
+            }
+            catch (DocumentClientException de)
+            {
+                switch (de.StatusCode.Value)
+                {
+                    case System.Net.HttpStatusCode.NotFound:
+                        return NotFound();
+                }
+            }
+            return BadRequest();
+        }
 
         [HttpPost]
         public async Task<ActionResult<RideOut>> PostOfferRideAsync([FromBody] Ride valueIn)
