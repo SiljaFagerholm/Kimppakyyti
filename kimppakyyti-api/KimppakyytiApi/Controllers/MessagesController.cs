@@ -9,9 +9,15 @@ using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Azure.Documents;
 using KimppakyytiApi.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace KimppakyytiApi.Controllers
+
+    
 {
+    [EnableCors("MyPolicy")]
+    [Route("api/[controller]/[Action]")]
+    [ApiController]
     public class MessagesController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -113,7 +119,7 @@ namespace KimppakyytiApi.Controllers
             return BadRequest();
         }
 
-        //[HttpGet]
+        [HttpGet]
         //public async Task<>
         public IActionResult Index()
         {
