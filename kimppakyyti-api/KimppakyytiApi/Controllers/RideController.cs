@@ -254,6 +254,8 @@ namespace KimppakyytiApi.Controllers
             return BadRequest();
 
         }
+
+        [HttpGet]
         public async Task<ActionResult<List<RideOut>>> GetSearchRidesLocationAsync(DateTime startTime, DateTime endTime, string startAddress)
         {
             try //Searching Rides from CosmosDB with right TimeTable.
