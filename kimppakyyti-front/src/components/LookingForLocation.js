@@ -4,7 +4,7 @@ import moment from "moment";
 import { Button, Label, Input } from "reactstrap";
 import DatePicker from "react-datepicker";
 
-class LookingForRide extends Component {
+class LookingForLocation extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -43,28 +43,14 @@ class LookingForRide extends Component {
     console.log(JSON.stringify(this.state.startTime));
     let start = this.modifyDateString(this.state.startTime);
     let end = this.modifyDateString(this.state.endTime);
-    let url = "";
-    if (this.state.targetAddress === "") {
 
-      url =
-        "https://lada.azurewebsites.net/api/Ride/GetSearchRidesLocationAsync?startTime=" +
-        encodeURIComponent(start) +
-        "&endTime=" +
-        encodeURIComponent(end) +
-        "&startAddress=" +
-        encodeURIComponent(this.state.startAddress)
-    }
-    else {
-      url =
-        "https://lada.azurewebsites.net/api/Ride/GetSearchRidesCustomerAsync?startTime=" +
-        encodeURIComponent(start) +
-        "&endTime=" +
-        encodeURIComponent(end) +
-        "&startAddress=" +
-        encodeURIComponent(this.state.startAddress) +
-        "&targetAddress=" +
-        encodeURIComponent(this.state.targetAddress);
-    }
+    let url =
+      "https://lada.azurewebsites.net/api/Ride/GetSearchRidesLocationAsync?startTime=" +
+      encodeURIComponent(start) +
+      "&endTime=" +
+      encodeURIComponent(end) +
+      "&startAddress=" +
+      encodeURIComponent(this.state.startAddress)
     console.log("URL", url);
     this.setState({
       searchUrl: url
@@ -109,17 +95,7 @@ class LookingForRide extends Component {
           type="text"
           required
         />{" "}
-        <br />
 
-        <Label>Minne: </Label>
-        <Input
-          maxLength="50"
-          name="targetAddress"
-          onChange={this.handleChangeTarget.bind(this)}
-          value={this.state.targetAddress}
-          type="text"
-          required
-        />
         <br />
         <div className="center left">
           <Label>Lähtö aikaisintaan</Label>
@@ -160,4 +136,4 @@ class LookingForRide extends Component {
   }
 }
 
-export default LookingForRide;
+export default LookingForLocation;
