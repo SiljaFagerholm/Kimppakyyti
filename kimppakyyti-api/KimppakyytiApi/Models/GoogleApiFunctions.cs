@@ -30,5 +30,10 @@ namespace KimppakyytiApi.Models
 
             return response;
         }
+        public static async Task<string> GetPlaceGoogle(string from)
+        {
+            string response = await _googleClient.GetStringAsync($"https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input={from}&inputtype=textquery&key=" + googleKey);
+            return response;
+        }
     }
 }

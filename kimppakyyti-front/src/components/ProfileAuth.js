@@ -48,8 +48,10 @@ class ProfileAuth extends Component {
     this.setState({ list: tempList });
   };
 
+
   render() {
     return (
+
       isLoggedIn() && (
         <div>
           <Row>

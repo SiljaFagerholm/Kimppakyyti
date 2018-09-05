@@ -38,8 +38,8 @@ namespace KimppakyytiApi
 
             }).AddJwtBearer(options =>
             {
-                options.Authority = "https://melaaman.eu.auth0.com/";
-                options.Audience = "kimppalada.com";
+                options.Authority = "https://spaavil.eu.auth0.com";
+                options.Audience = "lada2.com";
             });
 
             // Cors:

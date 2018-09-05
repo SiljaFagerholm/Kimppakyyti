@@ -34,7 +34,7 @@ class FirstPage extends Component {
       profile: {},
       informationTemp: {},
       seatsLeft: "1",
-      price: ""
+      price: "0"
     };
     this.startTimeChanged = this.startTimeChanged.bind(this);
     this.endTimeChanged = this.endTimeChanged.bind(this);
@@ -126,7 +126,7 @@ class FirstPage extends Component {
       <div className="left">
         <Nav className="Row" tabs>
           <NavItem>
-            <NavLink 
+            <NavLink
               style={{ cursor: 'pointer' }}
               className={classnames({
                 active: this.state.activeTab === "1"
@@ -139,7 +139,7 @@ class FirstPage extends Component {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink 
+            <NavLink
               style={{ cursor: 'pointer' }}
               className={classnames({
                 active: this.state.activeTab === "2"
