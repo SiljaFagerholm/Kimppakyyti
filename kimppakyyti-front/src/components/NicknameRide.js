@@ -3,7 +3,12 @@ import { deleteRideFromApi } from "./RideService";
 import { Button, ListGroup, ListGroupItem } from "reactstrap";
 
 class NicknameRide extends Component {
-  delteRideFromList = () => {
+
+  changeRide = () => {
+    console.log("Nyt voin muuttaa kyydin asetuksia!")
+  }
+
+  deleteRideFromList = () => {
     deleteRideFromApi(this.props.singleride.id, () => {
       this.props.deleteRideFromList(this.props.singleride.id);
     });
@@ -41,9 +46,11 @@ class NicknameRide extends Component {
           </ListGroupItem>
         </ListGroup>
         <br />
-        <Button>Muuta</Button>
+        <Button type="button" onClick={this.changeRide}>
+          Muuta
+        </Button>
         &nbsp;
-        <Button type="button" onClick={this.delteRideFromList}>
+        <Button type="button" onClick={this.deleteRideFromList}>
           Poista
         </Button>
         <br />

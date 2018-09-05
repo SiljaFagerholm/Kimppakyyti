@@ -159,7 +159,7 @@ class FirstPage extends Component {
             <Input
               type="text"
               name="startAddress"
-              placeholder="Helsinki"
+              placeholder="Lähtöpaikka"
               maxLength="50"
               value={this.state.startAddress}
               onChange={this.handleChangeStart.bind(this)}
@@ -170,7 +170,7 @@ class FirstPage extends Component {
             <Input
               type="text"
               name="targetAddress"
-              placeholder="Espoo"
+              placeholder="Saapumispaikka"
               maxLength="50"
               value={this.state.targetAddress}
               onChange={this.handleChangeTarget.bind(this)}
@@ -181,7 +181,7 @@ class FirstPage extends Component {
             <Input
               type="number"
               name="price"
-              placeholder=""
+              placeholder="Hinta"
               maxLength="2"
               value={this.state.price}
               onChange={this.handleChangePrice.bind(this)}
@@ -192,7 +192,7 @@ class FirstPage extends Component {
             <Input
               type="number"
               name="seatsLeft"
-              placeholder="1"
+              placeholder="Vapaat paikat"
               maxLength="1"
               value={this.state.seatsLeft}
               onChange={this.handleChangeSeats.bind(this)}

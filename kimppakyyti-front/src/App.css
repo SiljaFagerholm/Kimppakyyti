@@ -6,7 +6,7 @@
 }
 
 .NavBar {
-  height: 140px;
+  height: 200px;
   padding: 0px;
   background-color: whitesmoke;
 }
@@ -23,8 +23,48 @@
   padding-right: 45px;
 }
 
+.profileContent {
+  margin-left: 18vw;
+  margin-right: 18vw;
+  width: 50vw;
+}
+
 @media only screen and (min-width: 768px) {
   .logo {
       margin-left: 30%;
   }
+}
+
+@media only screen and (max-width: 600px) {
+  .Row.row {
+      margin-left: 2vw;
+      margin-right: 2vw;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .Row {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+  }
+
+  .Col {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+  }
+
+  li {
+    margin: 1% 0 !important;
+    padding: 1% 0 !important;
+    width: 100%;
+  }
+
+  .card-body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+  }
+
 }

@@ -9,6 +9,7 @@ import {
   CardBody,
   CardTitle
 } from "reactstrap";
+import '../App.css';
 import NicknameRides from "./NicknameRides";
 import { ListGroup, ListGroupItem } from "reactstrap";
 
@@ -51,9 +52,9 @@ class ProfileAuth extends Component {
   render() {
     return (
       isLoggedIn() && (
-        <div>
-          <Row>
-            <Col sm="12" md={{ size: 6, offset: 6 }}>
+        <div className="profileContent">
+          <Row className="row justify-content-center">
+            <Col className="row justify-content-center">
               <Card>
                 <CardImg src={this.state.profile.picture} alt="profile" />
                 <CardBody>
@@ -62,11 +63,13 @@ class ProfileAuth extends Component {
                     <ListGroup>
                       <ListGroupItem>
                         {" "}
-                        Nimi: {this.state.profile.name}
+                        Nimi: <br />
+                        {this.state.profile.name}
                       </ListGroupItem>
                       <ListGroupItem>
                         {" "}
-                        Käyttäjätunnus: {this.state.profile.nickname}
+                        Käyttäjätunnus: <br />
+                        {this.state.profile.nickname}
                       </ListGroupItem>
                     </ListGroup>
                   </CardText>

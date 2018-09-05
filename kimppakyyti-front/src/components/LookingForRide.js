@@ -88,28 +88,30 @@ class LookingForRide extends Component {
   render() {
     return (
       <div>
-        <Label>Mistä: </Label>
+        <Label>Mistä</Label>
         <Input
           maxLength="50"
           value={this.state.startAddress}
           name="startAddress"
+          placeholder="Lähtöpaikka"
           onChange={this.handleChangeStart.bind(this)}
           type="text"
           required
         />{" "}
         <br />
-        <Label>Minne: </Label>
+        <Label>Minne</Label>
         <Input
           maxLength="50"
           name="targetAddress"
+          placeholder="Saapumispaikka"
           onChange={this.handleChangeTarget.bind(this)}
           value={this.state.targetAddress}
           type="text"
           required
         />
         <br />
-        <div className="center left">
-          <Label>Lähtö aikaisintaan</Label>
+        <div>
+          <Label style={{ float: 'left' }}>Lähtö aikaisintaan</Label>
           <DatePicker
             onChange={this.startTimeChanged}
             selected={this.state.startTime}
@@ -120,7 +122,7 @@ class LookingForRide extends Component {
             timeCaption="time"
           />{" "}
           <br />
-          <Label>Lähtö viimeistään</Label>
+          <Label style={{ float: 'left' }}>Lähtö viimeistään</Label>
           <DatePicker
             onChange={this.endTimeChanged}
             selected={this.state.endTime}
