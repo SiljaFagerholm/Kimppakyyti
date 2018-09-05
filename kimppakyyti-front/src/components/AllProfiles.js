@@ -41,10 +41,10 @@ class AllProfiles extends Component {
             <ProfileList data={this.state.profileList} />
           </div>
         ) : (
-          <div>
-            <h2>Kirjaudu sisään</h2>
-          </div>
-        )}
+            <div>
+              <h2>Kirjaudu sisään</h2>
+            </div>
+          )}
       </div>
     );
   }

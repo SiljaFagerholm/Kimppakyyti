@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { deleteRideFromApi } from "./RideService";
-import { Button, ListGroup, ListGroupItem } from "reactstrap";
-import RideMessages from "./RideMessages";
+import { Button, ListGroup, ListGroupItem, Label } from "reactstrap";
 
 class NicknameRide extends Component {
 
@@ -14,6 +13,11 @@ class NicknameRide extends Component {
       this.props.deleteRideFromList(this.props.singleride.id);
     });
   };
+  showMessages = e => {
+    console.log("Viestit kyytiin " + this.props.singleride.id + " liittyen!");
+    localStorage.setItem("profiili", this.props.singleride.id);
+    this.props.history.push("/messages");
+  }
   render() {
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
     let start = new Date(this.props.singleride.startTime);
@@ -55,8 +59,10 @@ class NicknameRide extends Component {
         <Button type="button" onClick={this.deleteRideFromList}>
           Poista
         </Button>
-        <RideMessages RideId={this.props.singleride.RideId} />
         <br />
+        <Button type="button" onClick={this.showMessages}>
+          Näytä kyytiin liittyvät viestit
+        </Button>
       </div>
     );
   }

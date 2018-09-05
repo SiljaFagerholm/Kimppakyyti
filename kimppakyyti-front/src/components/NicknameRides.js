@@ -3,15 +3,15 @@ import NicknameRide from "./NicknameRide";
 
 
 
-class  NicknameRides extends Component{
+class NicknameRides extends Component {
     render() {
         var self = this;
 
         var nickRides = this.props.rides
-        .map(function(ride){
-            return (<NicknameRide singleride={ride} deleteRideFromList={self.props.deleteRideFromList} key={ride.id}/>)
-        });
-        return(
+            .map(function (ride) {
+                return (<NicknameRide singleride={ride} deleteRideFromList={self.props.deleteRideFromList} history={self.props.history} key={ride.id} />)
+            });
+        return (
             <div>
                 <div>{nickRides}</div>
             </div>
