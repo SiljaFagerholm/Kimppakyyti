@@ -3,7 +3,7 @@ import Ride from "./Ride";
 
 class RideList extends Component {
   render() {
-    var everything = this.props.rides.map(function(ride, i) {
+    var everything = this.props.rides.map(function (ride, i) {
       return <Ride singleride={ride} key={i} />;
     });
     return (

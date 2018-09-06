@@ -23,7 +23,8 @@ class ProfileAuth extends Component {
     this.state = {
       profile: {},
       phonenumber: "",
-      list: []
+      list: [],
+      passengerlist: []
     };
   }
 
@@ -34,7 +35,7 @@ class ProfileAuth extends Component {
     });
   }
   getNicknameRides = callback => {
-    console.log("getNicknameRides käynnistyi!");
+
     fetch(urlGetNicknameRides)
       .then(result => result.json())
       .then(data => {
@@ -42,9 +43,14 @@ class ProfileAuth extends Component {
 
         this.setState({ list: allRides });
       });
-    console.log("getNicknameRides valmistui!");
+
 
   };
+  // getPassengerRides = callback => {
+  //   fetch(urlGetNicknameRides)
+  //     .then(result => result.json())
+  //     .then(data => )
+  // }
 
   deleteRideFromList = id => {
     var tempList = this.state.list.filter(x => x.id !== id);
@@ -85,8 +91,17 @@ class ProfileAuth extends Component {
                       rides={this.state.list}
                       deleteRideFromList={this.deleteRideFromList}
                       history={this.props.history}
+                      profile={this.state.profile}
                     />
                   </div>
+                  {/* <CardTitle>Liitytyt kyydit</CardTitle> || Tässä ei ole vielä toiminnallisuutta, eli tarvii rakentaa!
+                  <div>
+                    <NicknameRides
+                      rides={this.state.passengerlist}
+                      deleteRideFromList={this.deleteRideFromList}
+                      history={this.props.history}
+                    />
+                  </div> */}
                 </CardBody>
               </Card>
             </Col>

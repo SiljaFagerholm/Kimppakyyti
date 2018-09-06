@@ -12,8 +12,9 @@ class Message extends Component {
     render() {
         return (
             <div>
-                <p>{this.props.singlemessage.SenderId}:</p>
-                <p>{this.props.singlemessage.MessageText}</p>
+                <p>{this.props.singlemessage.senderId}</p>
+                <p>{this.props.singlemessage.messageText}</p>
+                <p>{this.props.singlemessage.sendDate}</p>
             </div>
 
         );
