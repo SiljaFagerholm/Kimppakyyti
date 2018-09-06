@@ -39,7 +39,7 @@ class ComposeMessage extends Component {
             isLoggedIn() && (
 
                 <div>
-                    <p>Logged in as {this.props.profile.nickname}</p>
+
                     <form onSubmit={this.Send}>
                         <input type="text" placeholder="Viestisi" value={this.state.MessageText} onChange={this.MessageTextChanged} />
                         <input type="submit" value="Lähetä viesti" onClick={this.Send} />

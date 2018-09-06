@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, ListGroup, ListGroupItem } from "reactstrap";
 import { isLoggedIn, getProfile } from "./AuthService";
+import Ride from "./Ride";
 import RideMessages from "./RideMessages";
 import ComposeMessage from "./ComposeMessage";
 import { SendMessage, deleteMessageFromApi } from "./MessageService";
@@ -9,7 +10,7 @@ class MessageBox extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            profile: {}, RideId: "", thread: []
+            profile: {}, RideId: "", thread: [], singleride: {}
         }
     }
     componentDidMount() {
@@ -22,6 +23,7 @@ class MessageBox extends Component {
     getRideInfo = () => {
         var storedid = localStorage.getItem("ride");
         this.getUpdatedThread(storedid);
+        this.getRideDetails(storedid);
         this.setState({ RideId: storedid });
     }
 
@@ -41,7 +43,27 @@ class MessageBox extends Component {
                 callback(lista);
             });
     }
-
+    getRide = (id, callback) => {
+        var rideurl =
+            "https://lada.azurewebsites.net/api/Ride/GetByDocumentIdAsync?documentId=";
+        fetch(rideurl + id)
+            .then(function (response) {
+                if (!response.ok) {
+                    const errviesti = { status: response.status, statusText: response.statusText, viesti: "RideDetailshaku" }
+                    throw errviesti;
+                }
+                return response.json();
+            })
+            .then(function (olio) {
+                callback(olio);
+            });
+    }
+    getRideDetails = (id) => {
+        this.getRide(id, function callback(olio) {
+            this.setState({ singleride: olio });
+            console.log(this.state.singleride)
+        }.bind(this));
+    }
     getUpdatedThread = (id) => {
         this.getThread(id,
             function callback(lista) {
@@ -58,14 +80,36 @@ class MessageBox extends Component {
             function hasselhoff() {
                 this.getUpdatedThread(this.state.RideId);
             }.bind(this));
+    }
+    deleteMessage = () => {
+        this.getUpdatedThread(this.state.RideId);
 
     }
     render() {
+        var options = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+        let start = new Date(this.state.singleride.startTime);
+        start = start.toLocaleString("fi-FI", options);
+
+        let end = new Date(this.state.singleride.endTime);
+        end = end.toLocaleString("fi-FI", options);
+
+
         return (isLoggedIn && (
 
             <div>
-                <RideMessages thread={this.state.thread} />
-                <ComposeMessage profile={this.state.profile} compose={this.SendNewMessage} />
+                <ListGroup>
+
+                    <ListGroupItem>
+                        <h3>{this.state.singleride.startAddress} - {this.state.singleride.targetAddress}</h3><br />
+                        {start} -{" "}
+                        {end}<br />
+                        Kuskina {this.state.singleride.nickname}
+                    </ListGroupItem>
+
+
+                </ListGroup>
+                <RideMessages thread={this.state.thread} ride={this.state.ride} deletethis={this.deleteMessage} />
+                <ComposeMessage profile={this.state.profile} compose={this.SendNewMessage} ride={this.state.ride} />
 
             </div>)
 
