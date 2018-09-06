@@ -13,7 +13,8 @@ class LookingForRide extends Component {
       startAddress: "",
       targetAddress: "",
       searchUrl: "",
-      list: []
+      list: [],
+      profile: {}
     };
     this.startTimeChanged = this.startTimeChanged.bind(this);
     this.endTimeChanged = this.endTimeChanged.bind(this);

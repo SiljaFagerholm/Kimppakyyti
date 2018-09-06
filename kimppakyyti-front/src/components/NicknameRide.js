@@ -15,7 +15,6 @@ class NicknameRide extends Component {
   };
   showMessages = e => {
     console.log("Viestit kyytiin " + this.props.singleride.id + " liittyen!");
-    localStorage.setItem("profiili", this.props.profile.nickname);
     localStorage.setItem("ride", this.props.singleride.id);
     this.props.history.push("/messages");
   }

@@ -37,9 +37,9 @@ function SendMessage(message, hasselhoff) {
     });
 }
 
-function deleteMessageFromApi(id, callback) {
+function deleteMessageFromApi(id) {
   fetch(urlDeleteMessage + id, {
     method: "DELETE"
-  }).then(callback);
+  });
 }
 export { SendMessage, deleteMessageFromApi }

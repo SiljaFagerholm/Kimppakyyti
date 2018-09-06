@@ -16,6 +16,7 @@ import { ListGroup, ListGroupItem } from "reactstrap";
 const urlGetNicknameRides =
   "https://lada.azurewebsites.net/api/ride/getallrides";
 var allRides = [];
+var passengerRides = [];
 
 class ProfileAuth extends Component {
   constructor(props) {
@@ -32,6 +33,7 @@ class ProfileAuth extends Component {
     getProfile((err, profile) => {
       this.setState({ profile: profile });
       this.getNicknameRides();
+      this.getPassengerRides();
     });
   }
   getNicknameRides = callback => {
@@ -42,6 +44,16 @@ class ProfileAuth extends Component {
         allRides = data.filter(x => x.nickname === this.state.profile.nickname);
 
         this.setState({ list: allRides });
+      });
+  }
+  getPassengerRides = callback => {
+
+    fetch(urlGetNicknameRides)
+      .then(result => result.json())
+      .then(data => {
+        // passengerRides = data.filter(x => !!x.onBoard.filter(o => o === this.state.profile.nickname).length);
+        passengerRides = data.filter(x => x.onBoard.indexOf(this.state.profile.nickname) > -1);
+        this.setState({ passengerlist: passengerRides });
       });
 
 
@@ -94,14 +106,17 @@ class ProfileAuth extends Component {
                       profile={this.state.profile}
                     />
                   </div>
-                  {/* <CardTitle>Liitytyt kyydit</CardTitle> || Tässä ei ole vielä toiminnallisuutta, eli tarvii rakentaa!
+                  <br />
+                  <CardTitle>Olet kyydissä näissä</CardTitle>
                   <div>
                     <NicknameRides
                       rides={this.state.passengerlist}
                       deleteRideFromList={this.deleteRideFromList}
                       history={this.props.history}
+                      profile={this.state.profile}
+
                     />
-                  </div> */}
+                  </div>
                 </CardBody>
               </Card>
             </Col>
