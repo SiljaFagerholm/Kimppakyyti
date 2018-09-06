@@ -91,16 +91,17 @@ class ProfileAuth extends Component {
                       rides={this.state.list}
                       deleteRideFromList={this.deleteRideFromList}
                       history={this.props.history}
+                      profile={this.state.profile}
                     />
                   </div>
-                  <CardTitle>Liitytyt kyydit</CardTitle>
+                  {/* <CardTitle>Liitytyt kyydit</CardTitle> || Tässä ei ole vielä toiminnallisuutta, eli tarvii rakentaa!
                   <div>
                     <NicknameRides
                       rides={this.state.passengerlist}
                       deleteRideFromList={this.deleteRideFromList}
                       history={this.props.history}
                     />
-                  </div>
+                  </div> */}
                 </CardBody>
               </Card>
             </Col>

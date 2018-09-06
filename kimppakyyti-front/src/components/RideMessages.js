@@ -9,21 +9,23 @@ class RideMessages extends Component {
         super(props);
         this.state = { messages: this.DUMMY_DATA };
     }
+    componentDidMount() {
+
+    }
 
     DUMMY_DATA = [
         {
-            SenderId: "Ville", RecipientId: "Kalle", MessageText: "Moikka vaan!", UserIsSender: true, i: 1
+            SenderId: "Ville", RecipientId: "Kalle", MessageText: "Moikka vaan!", UserIsSender: true, id: 1
         },
         {
-            SenderId: "Kalle", RecipientId: "Ville", MessageText: "No moi moi!", UserIsSender: false, i: 2
+            SenderId: "Kalle", RecipientId: "Ville", MessageText: "No moi moi!", UserIsSender: false, id: 2
         }];
 
     render() {
 
         return (
             <div>
-                <p>RideId: {this.props.RideId}</p>
-                <MessageList messages={this.state.messages} />
+                <MessageList messages={this.props.thread} />
             </div>
         )
 

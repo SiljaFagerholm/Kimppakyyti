@@ -8,8 +8,8 @@ class MessageList extends Component {
 
     render() {
         var self = this;
-        var messages = this.props.messages.map(function (message, i) {
-            return <Message singlemessage={message} key={i} />;
+        var messages = this.props.messages.map(function (message) {
+            return <Message singlemessage={message} key={message.id} />;
         });
         return (
             <div>
