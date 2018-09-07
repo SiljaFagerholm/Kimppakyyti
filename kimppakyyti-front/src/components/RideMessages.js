@@ -20,7 +20,7 @@ class RideMessages extends Component {
         return (
             <div>
 
-                <MessageList messages={this.props.thread} />
+                <MessageList messages={this.props.thread} deletethis={this.props.deletethis} />
             </div>
         )
 

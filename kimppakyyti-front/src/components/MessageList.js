@@ -8,14 +8,17 @@ class MessageList extends Component {
 
     render() {
         var self = this;
-        var deletemessage = self.props.deletethis;
-        var messages = self.props.messages.map(function (message) {
+        var deletemessage = this.props.deletethis;
+        console.log("Messagelistin deletethis" + this.props.deletethis);
+        console.log("Messagelistin thread " + this.props.thread);
+        var messages = self.props.thread.map(function (message) {
             return <Message singlemessage={message} key={message.id} deletethis={deletemessage} />;
         });
         return (
             <div>
                 <div>{messages}</div>
             </div>
+
 
         );
     }
