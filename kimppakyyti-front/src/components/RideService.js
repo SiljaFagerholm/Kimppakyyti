@@ -56,7 +56,7 @@ export function deleteRideFromApi(id, callback) {
   }).then(callback);
 }
 
-var data = {username: 'example'};
+var data = {star : 'example'};
 
 export function updateRideOnApi(id, callback) {
   fetch(UPDATERIDE, {

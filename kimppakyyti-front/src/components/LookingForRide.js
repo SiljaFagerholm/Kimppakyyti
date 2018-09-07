@@ -13,7 +13,8 @@ class LookingForRide extends Component {
       startAddress: "",
       targetAddress: "",
       searchUrl: "",
-      list: []
+      list: [],
+      profile: {}
     };
     this.startTimeChanged = this.startTimeChanged.bind(this);
     this.endTimeChanged = this.endTimeChanged.bind(this);
@@ -40,31 +41,24 @@ class LookingForRide extends Component {
   }
 
   handleChangeUrl = () => {
+    if (this.state.targetAddress === "") {
+      this.setState({ targetAddress: "any" });
+    }
     console.log(JSON.stringify(this.state.startTime));
     let start = this.modifyDateString(this.state.startTime);
     let end = this.modifyDateString(this.state.endTime);
     let url = "";
-    if (this.state.targetAddress === "") {
 
-      url =
-        "https://lada.azurewebsites.net/api/Ride/GetSearchRidesLocationAsync?startTime=" +
-        encodeURIComponent(start) +
-        "&endTime=" +
-        encodeURIComponent(end) +
-        "&startAddress=" +
-        encodeURIComponent(this.state.startAddress)
-    }
-    else {
-      url =
-        "https://lada.azurewebsites.net/api/Ride/GetSearchRidesCustomerAsync?startTime=" +
-        encodeURIComponent(start) +
-        "&endTime=" +
-        encodeURIComponent(end) +
-        "&startAddress=" +
-        encodeURIComponent(this.state.startAddress) +
-        "&targetAddress=" +
-        encodeURIComponent(this.state.targetAddress);
-    }
+    url =
+      "https://lada.azurewebsites.net/api/Ride/GetSearchRidesCustomerAsync?startTime=" +
+      encodeURIComponent(start) +
+      "&endTime=" +
+      encodeURIComponent(end) +
+      "&startAddress=" +
+      encodeURIComponent(this.state.startAddress) +
+      "&targetAddress=" +
+      encodeURIComponent(this.state.targetAddress);
+
     console.log("URL", url);
     this.setState({
       searchUrl: url
@@ -100,30 +94,28 @@ class LookingForRide extends Component {
   render() {
     return (
       <div>
-        <Label>Mistä</Label>
+        <Label>Mistä: </Label>
         <Input
           maxLength="50"
           value={this.state.startAddress}
           name="startAddress"
-          placeholder="Lähtöpaikka"
           onChange={this.handleChangeStart.bind(this)}
           type="text"
           required
         />{" "}
         <br />
-        <Label>Minne</Label>
+        <Label>Minne: </Label>
         <Input
           maxLength="50"
           name="targetAddress"
-          placeholder="Saapumispaikka"
           onChange={this.handleChangeTarget.bind(this)}
           value={this.state.targetAddress}
           type="text"
           required
         />
         <br />
-        <div>
-          <Label style={{ float: 'left' }}>Lähtö aikaisintaan</Label>
+        <div className="center left">
+          <Label>Lähtö aikaisintaan</Label>
           <DatePicker
             onChange={this.startTimeChanged}
             selected={this.state.startTime}
@@ -134,7 +126,7 @@ class LookingForRide extends Component {
             timeCaption="time"
           />{" "}
           <br />
-          <Label style={{ float: 'left' }}>Lähtö viimeistään</Label>
+          <Label>Lähtö viimeistään</Label>
           <DatePicker
             onChange={this.endTimeChanged}
             selected={this.state.endTime}

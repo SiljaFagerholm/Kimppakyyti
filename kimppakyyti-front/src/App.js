@@ -19,6 +19,7 @@ import RideBox from "./components/RideBox";
 import OfferCreated from "./components/OfferCreated";
 import LookingForLocation from "./components/LookingForLocation";
 import ChangeRide from "./components/ChangeRide";
+import MessageBox from "./components/MessageBox";
 
 class App extends Component {
   force() {
@@ -45,6 +46,12 @@ class App extends Component {
                   exact
                   path="/profileauth"
                   component={ProfileAuth}
+                  onEnter={requireAuth}
+                />
+                <Route
+                  exact
+                  path="/messages"
+                  component={MessageBox}
                   onEnter={requireAuth}
                 />
                 <Route

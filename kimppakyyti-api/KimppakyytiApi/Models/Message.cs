@@ -13,7 +13,7 @@ namespace KimppakyytiApi.Models
         public string SenderId { get; set; }
         public string RecipientId { get; set; }
         public DateTime SendDate { get; set; }
-
+        public string RideId { get; set; }
 
     }
 }
