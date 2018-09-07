@@ -33,32 +33,35 @@ namespace KimppakyytiApi.Controllers
         private readonly DocumentClient _cosmosDBclient;
         private const string _dbName = "RideDB";
         private const string _collectionName = "Ride";
-        private static readonly string endpointUri = ConfigurationManager.AppSettings["EndpointUri"];
-        private static readonly string key = ConfigurationManager.AppSettings["PrimaryKey"];
+        //private static readonly string endpointUri = ConfigurationManager.AppSettings["EndpointUri"];
+        //private static readonly string key = ConfigurationManager.AppSettings["PrimaryKey"];
         private Uri rideCollectionUri = UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName);
 
-        private static SecureString toSecureString(string v)
-        {
-            SecureString s = new SecureString();
+        //private static SecureString toSecureString(string v)
+        //{
+        //    SecureString s = new SecureString();
 
-            foreach (var item in v)
-            {
-                s.AppendChar(item);
-            }
-            return s;
-        }
+        //    foreach (var item in v)
+        //    {
+        //        s.AppendChar(item);
+        //    }
+        //    return s;
+        //}
 
         public RideController(IConfiguration configuration)
         {
             _configuration = configuration;
+            //var endpointUri =
+            //_configuration["AppSettings:EndpointUri"];
+            //var key =
+            //_configuration["AppSettings:PrimaryKey"];
             var endpointUri =
-            _configuration["AppSettings:EndpointUri"];
+           _configuration["ConnectionStrings:CosmosDbConnection:EndpointUri"];
             var key =
-            _configuration["AppSettings:PrimaryKey"];
-            
+            _configuration["ConnectionStrings:CosmosDbConnection:PrimaryKey"];
             //Reading EndpointUri and PrimaryKey from AzurePortal
-            endpointUri = Environment.GetEnvironmentVariable("appsetting_endpointuri");
-            key = Environment.GetEnvironmentVariable("appsetting_primarykey");
+            //endpointUri = Environment.GetEnvironmentVariable("appsetting_endpointuri");
+            //key = Environment.GetEnvironmentVariable("appsetting_primarykey");
 
 
             _cosmosDBclient = new DocumentClient(new Uri(endpointUri), key);
@@ -134,21 +137,11 @@ namespace KimppakyytiApi.Controllers
         [HttpGet]
         public async Task<ActionResult<List<RideOut>>> GetSearchRidesCustomerAsync(DateTime startTime, DateTime endTime, string startAddress, string targetAddress)
         {
-            
+
             try //Searching Rides from CosmosDB with right TimeTable.
             {
                 {
-                    //Functions for delayed response -- timeout try /catch
-                    //if (targetAddress == "any")
-                    //{
-                    //    FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
-                    //    IQueryable<RideOut> query = _cosmosDBclient.CreateDocumentQuery<RideOut>(
-                    //    UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
-                    //    $"SELECT * FROM C WHERE C.StartAddress = {startAddress} ",
-                    //    queryOptions);
-
-                    //    return Ok(query.ToList());
-                    //}
+              
                     // Get route from Google Directions Api
                     var response = await GoogleApiFunctions.GetRouteGoogle(startAddress, targetAddress);
 
@@ -172,7 +165,7 @@ namespace KimppakyytiApi.Controllers
                         valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lng, obj.routes[0].legs[0].start_location.lat);
                         valueOut.TargetAddress = targetAddress;
                         valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lng, obj.routes[0].legs[0].end_location.lat);
-                        
+
                         valueOut.OfferingRide = false;
                         valueOut.SeatsLeft = 0;
                         valueOut.MondayFrequency = false;
@@ -182,7 +175,7 @@ namespace KimppakyytiApi.Controllers
                         valueOut.FridayFrequency = false;
                         valueOut.SaturdayFrequency = false;
                         valueOut.SundayFrequency = false;
-                        
+
                         // search for matches
                         FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
 
@@ -200,20 +193,13 @@ namespace KimppakyytiApi.Controllers
                         foreach (var item in incomingRides)
                         {
                             bool startPointMatch = false;
-                            bool targetPointMatch;
-                            if (targetAddress == "any")
-                            {
-                                targetPointMatch = true;
-                            }
-                            else
-                            {
-                                targetPointMatch = false;
-                            }
+                            bool targetPointMatch = false;
+                           
                             try
                             {
                                 if (StaticFunctions.CalculateDistanceBetweenPoints(item.RoutePoints.Where(p => StaticFunctions.CalculateDistanceBetweenPoints(p, valueOut.StartLocation) < 501).First(), valueOut.StartLocation) < 501)
                                 {
-                                    
+
                                     startPointMatch = true;
                                 }
                             }
@@ -226,7 +212,7 @@ namespace KimppakyytiApi.Controllers
 
                             try
                             {
-                                if (StaticFunctions.CalculateDistanceBetweenPoints(item.RoutePoints.Where(p => StaticFunctions.CalculateDistanceBetweenPoints(p, valueOut.TargetLocation) < 501).First(), valueOut.TargetLocation) < 501) 
+                                if (StaticFunctions.CalculateDistanceBetweenPoints(item.RoutePoints.Where(p => StaticFunctions.CalculateDistanceBetweenPoints(p, valueOut.TargetLocation) < 501).First(), valueOut.TargetLocation) < 501)
                                 {
                                     targetPointMatch = true;
                                 }
@@ -273,8 +259,97 @@ namespace KimppakyytiApi.Controllers
 
         }
 
-       
-      
+        [HttpGet]
+        public async Task<ActionResult<List<RideOut>>> GetSearchRidesLocationAsync(DateTime startTime, DateTime endTime, string startAddress)
+        {
+            
+            try //Searching Rides from CosmosDB with right TimeTable.
+            {
+                {
+                    //Functions for delayed response -- timeout try /catch
+
+                    // Get route from Google Directions Api
+                    var response = await GoogleApiFunctions.GetPlaceGoogle(startAddress);
+
+                    // parse response from Google
+                    RootObject obj = JsonConvert.DeserializeObject<RootObject>(response);
+                    RideOut valueOut = new RideOut();
+                    
+                    
+
+                    if (obj.status == "ZERO_RESULTS")
+                    {
+                        return BadRequest("Reittiä ei löytynyt.Tarkista antamasi osoitteet, tai kokeile hakea kaupunginosalla.");
+                    }
+                    else if (obj.status == "OK")
+                    {
+                        // parse incoming object to outgoing  start and end point from Google to CosmosDB -object
+                        valueOut.Nickname = "Haku";
+                        valueOut.Price = 0.00;
+                        valueOut.StartTime = startTime;
+                        valueOut.EndTime = endTime;
+                        valueOut.StartAddress = startAddress.ToLower();
+                        valueOut.Location = new Point(obj.candidates[0].geometry.location.lng, obj.candidates[0].geometry.location.lat);
+                      
+                        valueOut.OfferingRide = false;
+                        valueOut.SeatsLeft = 0;
+                        valueOut.MondayFrequency = false;
+                        valueOut.TuesdayFrequency = false;
+                        valueOut.WednesdayFrequency = false;
+                        valueOut.ThursdayFrequency = false;
+                        valueOut.FridayFrequency = false;
+                        valueOut.SaturdayFrequency = false;
+                        valueOut.SundayFrequency = false;
+                        
+                        // search for matches
+                        FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
+
+                        IQueryable<RideOut> query = _cosmosDBclient.CreateDocumentQuery<RideOut>(
+                        rideCollectionUri, queryOptions).Where(f => f.OfferingRide == true
+                        && f.StartTime >= valueOut.StartTime
+                        && f.StartTime <= valueOut.EndTime
+                        && f.StartAddress.ToLower() == valueOut.StartAddress);
+                      
+
+                        List<RideOut> incomingRides = query.ToList();
+                        List<RideOut> returnRides = new List<RideOut>();
+
+                        foreach (var item in incomingRides)
+                        {
+                         
+                                returnRides.Add(item);                         
+                        }
+
+                        // check for contents in query before returning?
+                        if (returnRides == null)
+                        {
+                            valueOut.Nickname = "Hakusi ei tuottanut tuloksia";
+                            returnRides.Add(valueOut);
+                        }
+                        return returnRides;
+                    }
+
+                    else
+                    {
+                        return NoContent();// "Nyt kävi jotain.";
+                    }
+                }
+            }
+
+            catch (DocumentClientException de)
+            {
+                switch (de.StatusCode.Value)
+                {
+                    case System.Net.HttpStatusCode.NotFound:
+                        return NotFound();
+                }
+            }
+            return BadRequest();
+
+        }
+
+
+
 
         //[HttpPost]
         //public async Task<ActionResult<List<RideOut>>> SearchRidesCustomerAsync([FromBody]Ride valueIn)
@@ -362,6 +437,8 @@ namespace KimppakyytiApi.Controllers
         //     return BadRequest();
 
         // }
+
+      
         [HttpGet]
         public ActionResult<List<Ride>> GetAllRides()
         {
@@ -386,73 +463,73 @@ namespace KimppakyytiApi.Controllers
             return BadRequest();
         }
 
-        [HttpPost]
-        public async Task<ActionResult<RideOut>> PostOfferRideAsync([FromBody] Ride valueIn)
-        {
-            //Functions for delayed response -- timeout try /catch
+        //[HttpPost]
+        //public async Task<ActionResult<RideOut>> PostOfferRideAsync([FromBody] Ride valueIn)
+        //{
+        //    //Functions for delayed response -- timeout try /catch
 
-            // Get route from Google Directions Api
-            var response = await GoogleApiFunctions.GetRouteGoogle(valueIn.StartAddress, valueIn.TargetAddress);
-            // parse response
-            RootObject obj = JsonConvert.DeserializeObject<RootObject>(response);
-            RideOut valueOut = new RideOut();
+        //    // Get route from Google Directions Api
+        //    var response = await GoogleApiFunctions.GetRouteGoogle(valueIn.StartAddress, valueIn.TargetAddress);
+        //    // parse response
+        //    RootObject obj = JsonConvert.DeserializeObject<RootObject>(response);
+        //    RideOut valueOut = new RideOut();
 
 
-            if (obj.status == "ZERO_RESULTS")
-            {
-                return NotFound();
-            }
-            else if (obj.status == "OK")
-            {
-                // parse incoming object to outgoing  start and end point from Google to CosmosDB -object
-                valueOut.Nickname = valueIn.Nickname;
-                valueOut.Price = valueIn.Price;
-                valueOut.OnBoard = new List<string>();
-                foreach (var i in valueIn.OnBoard)
-                {
-                    valueOut.OnBoard.Add(i);
-                }
+        //    if (obj.status == "ZERO_RESULTS")
+        //    {
+        //        return NotFound();
+        //    }
+        //    else if (obj.status == "OK")
+        //    {
+        //        // parse incoming object to outgoing  start and end point from Google to CosmosDB -object
+        //        valueOut.Nickname = valueIn.Nickname;
+        //        valueOut.Price = valueIn.Price;
+        //        valueOut.OnBoard = new List<string>();
+        //        foreach (var i in valueIn.OnBoard)
+        //        {
+        //            valueOut.OnBoard.Add(i);
+        //        }
 
-                DateTime UTCDateTime = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Local);
-                UTCDateTime = valueIn.StartTime;
-                valueOut.StartTime = UTCDateTime;
+        //        DateTime UTCDateTime = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Local);
+        //        UTCDateTime = valueIn.StartTime;
+        //        valueOut.StartTime = UTCDateTime;
                 
-                if (valueIn.EndTime != null)
-                {
-                    valueOut.EndTime = valueIn.EndTime;
-                }
-                valueOut.StartAddress = valueIn.StartAddress;
-                // lat and lng intentionally the wrong way around. don't fix!
-                valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lng, obj.routes[0].legs[0].start_location.lat);
-                valueOut.TargetAddress = valueIn.TargetAddress;
-                valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lng, obj.routes[0].legs[0].end_location.lat);
-                valueOut.RoutePoints = new List<Point>();
-                foreach (var location in obj.routes[0].legs[0].steps)
-                {
-                    valueOut.RoutePoints.Add(new Point(location.end_location.lng, location.end_location.lat));
-                }
-                valueOut.OfferingRide = valueIn.OfferingRide;
-                valueOut.SeatsLeft = valueIn.SeatsLeft;
-                valueOut.MondayFrequency = valueIn.MondayFrequency;
-                valueOut.TuesdayFrequency = valueIn.TuesdayFrequency;
-                valueOut.WednesdayFrequency = valueIn.WednesdayFrequency;
-                valueOut.ThursdayFrequency = valueIn.ThursdayFrequency;
-                valueOut.FridayFrequency = valueIn.FridayFrequency;
-                valueOut.SaturdayFrequency = valueIn.SaturdayFrequency;
-                valueOut.SundayFrequency = valueIn.SundayFrequency;
+        //        if (valueIn.EndTime != null)
+        //        {
+        //            valueOut.EndTime = valueIn.EndTime;
+        //        }
+        //        valueOut.StartAddress = valueIn.StartAddress;
+        //        // lat and lng intentionally the wrong way around. don't fix!
+        //        valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lng, obj.routes[0].legs[0].start_location.lat);
+        //        valueOut.TargetAddress = valueIn.TargetAddress;
+        //        valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lng, obj.routes[0].legs[0].end_location.lat);
+        //        valueOut.RoutePoints = new List<Point>();
+        //        foreach (var location in obj.routes[0].legs[0].steps)
+        //        {
+        //            valueOut.RoutePoints.Add(new Point(location.end_location.lng, location.end_location.lat));
+        //        }
+        //        valueOut.OfferingRide = valueIn.OfferingRide;
+        //        valueOut.SeatsLeft = valueIn.SeatsLeft;
+        //        valueOut.MondayFrequency = valueIn.MondayFrequency;
+        //        valueOut.TuesdayFrequency = valueIn.TuesdayFrequency;
+        //        valueOut.WednesdayFrequency = valueIn.WednesdayFrequency;
+        //        valueOut.ThursdayFrequency = valueIn.ThursdayFrequency;
+        //        valueOut.FridayFrequency = valueIn.FridayFrequency;
+        //        valueOut.SaturdayFrequency = valueIn.SaturdayFrequency;
+        //        valueOut.SundayFrequency = valueIn.SundayFrequency;
 
-                // How to check if document == created?
-                Document document = await _cosmosDBclient.CreateDocumentAsync(
-                UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
-                valueOut);
+        //        // How to check if document == created?
+        //        Document document = await _cosmosDBclient.CreateDocumentAsync(
+        //        UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
+        //        valueOut);
                 
-                return Ok(document.Id);
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
+        //        return Ok(document.Id);
+        //    }
+        //    else
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
         [HttpPut]
         public async Task<string> JoinTheRideAsync(string Id, int seatsLeft, string nick)
         {       //Updating seats to database

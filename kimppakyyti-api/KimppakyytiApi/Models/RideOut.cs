@@ -22,12 +22,15 @@ namespace KimppakyytiApi.Models
         public DateTime? EndTime { get; set; }
         public string StartAddress { get; set; }
         [JsonProperty("startlocation")]
-        public Point StartLocation { get; set; }         
+        public Point StartLocation { get; set; }
+
+        [JsonProperty("location")]
+        public Point Location { get; set; }
         public string TargetAddress { get; set; }
         [JsonProperty("targetlocation")]
         public Point TargetLocation { get; set; }
         [JsonProperty("routepoints")]
-        public List<Point> RoutePoints { get; set; }        
+        public List<Point> RoutePoints { get; set; }
         public bool OfferingRide { get; set; }
         public int SeatsLeft { get; set; }
         public bool MondayFrequency { get; set; }
