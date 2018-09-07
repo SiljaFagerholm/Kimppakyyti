@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { deleteRideFromApi } from "./RideService";
-import { Button, ListGroup, ListGroupItem, Label } from "reactstrap";
+import { Button, ListGroup, ListGroupItem } from "reactstrap";
 
 class NicknameRide extends Component {
 
@@ -58,7 +58,9 @@ class NicknameRide extends Component {
           </ListGroupItem>
         </ListGroup>
         <br />
-        <Button type="button" onClick={this.changeRide}>
+        <Button 
+          type="button"
+          href="/changeride">
           Muuta
         </Button>
         &nbsp;

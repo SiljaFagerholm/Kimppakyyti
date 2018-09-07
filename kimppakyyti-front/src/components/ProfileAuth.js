@@ -14,7 +14,7 @@ import NicknameRides from "./NicknameRides";
 import { ListGroup, ListGroupItem } from "reactstrap";
 
 const urlGetNicknameRides =
-  "https://lada.azurewebsites.net/api/ride/getallrides";
+  "https://lada.azurewebsites.net/api/Ride/GetAllRides";
 var allRides = [];
 var passengerRides = [];
 
@@ -64,6 +64,12 @@ class ProfileAuth extends Component {
   //     .then(data => )
   // }
 
+  changeRide = id => {
+    var tempList = this.state.list.filter(x => x.id !== id);
+
+    this.setState({ list: tempList })
+  }
+
   deleteRideFromList = id => {
     var tempList = this.state.list.filter(x => x.id !== id);
 
@@ -107,6 +113,7 @@ class ProfileAuth extends Component {
                   <div>
                     <NicknameRides
                       rides={this.state.list}
+                      changeRide={this.changeRide}
                       deleteRideFromList={this.deleteRideFromList}
                       deleteFromOnBoard={this.deleteFromOnBoard}
                       history={this.props.history}
