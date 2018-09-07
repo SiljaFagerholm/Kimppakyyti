@@ -64,12 +64,12 @@ class NicknameRide extends Component {
           Muuta
         </Button>
         &nbsp;
-        <Button type="button" onClick={this.deleteRideFromList} visibility={userIsDriver}>
+        {userIsDriver && <Button type="button" onClick={this.deleteRideFromList}>
           Poista
-        </Button>
-        <Button type="button" onClick={this.hopOffBoard} visibility={!userIsDriver}>
+        </Button>}
+        {!userIsDriver && <Button type="button" onClick={this.hopOffBoard} >
           Poistu kyydistä
-        </Button>
+        </Button>}
         <br />
         <Button type="button" onClick={this.showMessages}>
           Näytä kyytiin liittyvät viestit
