@@ -30,6 +30,9 @@ class ComposeMessage extends Component {
         this.setState({ SenderId: sender });
         console.log(this.props.profile.nickname);
         this.props.compose(msg);
+        this.setState({
+            MessageText: "", SenderId: "", SendDate: ""
+        })
 
 
     }

@@ -38,7 +38,7 @@ function SendMessage(message, hasselhoff) {
 }
 
 function deleteMessageFromApi(id) {
-  fetch(urlDeleteMessage + id, {
+  return fetch(urlDeleteMessage + id, {
     method: "DELETE"
   });
 }

@@ -70,6 +70,12 @@ class ProfileAuth extends Component {
     this.setState({ list: tempList });
   };
 
+  deleteFromOnBoard = id => {
+    var tempList = this.state.passengerlist.filter(x => x.id !== id);
+
+    this.setState({ list: tempList });
+  };
+
 
   render() {
     return (
@@ -102,6 +108,7 @@ class ProfileAuth extends Component {
                     <NicknameRides
                       rides={this.state.list}
                       deleteRideFromList={this.deleteRideFromList}
+                      deleteFromOnBoard={this.deleteFromOnBoard}
                       history={this.props.history}
                       profile={this.state.profile}
                     />
@@ -112,6 +119,7 @@ class ProfileAuth extends Component {
                     <NicknameRides
                       rides={this.state.passengerlist}
                       deleteRideFromList={this.deleteRideFromList}
+                      deleteFromOnBoard={this.deleteFromOnBoard}
                       history={this.props.history}
                       profile={this.state.profile}
 

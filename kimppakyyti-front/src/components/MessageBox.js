@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, ListGroup, ListGroupItem } from "reactstrap";
 import { isLoggedIn, getProfile } from "./AuthService";
 import Ride from "./Ride";
-import RideMessages from "./RideMessages";
+import MessageList from "./MessageList";
 import ComposeMessage from "./ComposeMessage";
 import { SendMessage, deleteMessageFromApi } from "./MessageService";
 
@@ -81,8 +81,12 @@ class MessageBox extends Component {
                 this.getUpdatedThread(this.state.RideId);
             }.bind(this));
     }
-    deleteMessage = () => {
-        this.getUpdatedThread(this.state.RideId);
+    deleteMessage = (deleteid) => {
+        var threadid = this.state.RideId;
+        console.log("MessageBoxin deleteid: " + deleteid);
+        deleteMessageFromApi(deleteid).then(function jeejee() {
+            this.getUpdatedThread(threadid);
+        }.bind(this));
 
     }
     render() {
@@ -108,7 +112,7 @@ class MessageBox extends Component {
 
 
                 </ListGroup>
-                <RideMessages thread={this.state.thread} ride={this.state.ride} deletethis={this.deleteMessage} />
+                <MessageList thread={this.state.thread} deletethis={this.deleteMessage} />
                 <ComposeMessage profile={this.state.profile} compose={this.SendNewMessage} ride={this.state.ride} />
 
             </div>)

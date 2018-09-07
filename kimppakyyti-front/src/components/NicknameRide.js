@@ -4,6 +4,7 @@ import { Button, ListGroup, ListGroupItem, Label } from "reactstrap";
 
 class NicknameRide extends Component {
 
+
   changeRide = () => {
     console.log("Nyt voin muuttaa kyydin asetuksia!")
   }
@@ -13,6 +14,9 @@ class NicknameRide extends Component {
       this.props.deleteRideFromList(this.props.singleride.id);
     });
   };
+  hopOffBoard = () => {
+    console.log("Removing user from onboard!");
+  }
   showMessages = e => {
     console.log("Viestit kyytiin " + this.props.singleride.id + " liittyen!");
     localStorage.setItem("ride", this.props.singleride.id);
@@ -25,9 +29,11 @@ class NicknameRide extends Component {
 
     let end = new Date(this.props.singleride.endTime);
     end = end.toLocaleString("fi-FI", options);
-
+    var userIsDriver = this.props.singleride.nickname === this.props.profile.nickname;
+    console.log("Riden " + this.props.singleride.id + " userisdriver: " + userIsDriver)
     let onBoard = this.props.singleride.onBoard.map(function (ride, i) {
       return <p>{ride}</p>
+
     });
     return (
       <div>
@@ -56,8 +62,11 @@ class NicknameRide extends Component {
           Muuta
         </Button>
         &nbsp;
-        <Button type="button" onClick={this.deleteRideFromList}>
+        <Button type="button" onClick={this.deleteRideFromList} visibility={userIsDriver}>
           Poista
+        </Button>
+        <Button type="button" onClick={this.hopOffBoard} visibility={!userIsDriver}>
+          Poistu kyydistä
         </Button>
         <br />
         <Button type="button" onClick={this.showMessages}>

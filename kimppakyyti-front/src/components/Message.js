@@ -12,7 +12,8 @@ class Message extends Component {
     }
     deletemessage = (e) => {
         e.preventDefault();
-        deleteMessageFromApi(this.props.singlemessage.id);
+        // console.log("This.props.deletethis: " + this.props.deletethis);
+        this.props.deletethis(this.props.singlemessage.id);
 
     }
     render() {
