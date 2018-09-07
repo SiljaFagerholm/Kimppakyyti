@@ -11,7 +11,7 @@ class MessageList extends Component {
         var deletemessage = this.props.deletethis;
 
         var messages = self.props.thread.map(function (message) {
-            return <Message singlemessage={message} key={message.id} deletethis={deletemessage} />;
+            return <Message singlemessage={message} key={message.id} deletethis={deletemessage} profile={self.props.profile} />;
         });
         return (
             <div>

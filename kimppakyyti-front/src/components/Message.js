@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import { Button, ListGroup, ListGroupItem } from "reactstrap";
-import { isLoggedIn, getProfile } from "./AuthService";
-import moment from "moment";
-import { deleteMessageFromApi } from "./MessageService";
 
 class Message extends Component {
     constructor(props) {
@@ -27,6 +24,7 @@ class Message extends Component {
         };
         let sendDateString = new Date(this.props.singlemessage.sendDate);
         sendDateString = sendDateString.toLocaleString("fi-FI", options);
+        var userIsAuthor = this.props.singlemessage.senderId === this.props.profile.nickname;
         return (
             <div>
                 <ListGroup>
@@ -34,7 +32,7 @@ class Message extends Component {
                         {this.props.singlemessage.senderId} || {sendDateString} <br />
                         "{this.props.singlemessage.messageText}"<br />
 
-                        <Button onClick={this.deletemessage}>Poista viesti</Button>
+                        {userIsAuthor && <Button onClick={this.deletemessage}>Poista viesti</Button>}
                     </ListGroupItem>
                 </ListGroup>
             </div>
