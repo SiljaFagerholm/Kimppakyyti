@@ -13,10 +13,7 @@ class ComposeMessage extends Component {
     }
 
     componentDidMount() {
-        var profiili = localStorage.getItem("profiili");
-        console.log("localstoragesta haettu composen profiili on " + profiili)
         this.setState({ SenderId: this.props.profile.nickname });
-        console.log("Composen senderid: " + this.state.SenderId);
     }
 
     MessageTextChanged = (msg) => { this.setState({ MessageText: msg.target.value }) }

@@ -27,12 +27,14 @@ class Ride extends Component {
       if (this.props.singleride.seatsLeft !== 0) {
         alert("Olet kyydissä!");
         this.joinRide(url);
+        localStorage.setItem("ride", this.props.singleride.id);
+        this.props.history.push("/messages");
       } else {
         alert("Autossa ei ole tilaa.");
       }
     });
   };
-  
+
   joinRide = url => {
     fetch(url, {
       method: "PUT",

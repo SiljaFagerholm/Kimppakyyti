@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { deleteRideFromApi } from "./RideService";
+import { deleteRideFromApi, hopOff } from "./RideService";
 import { Button, ListGroup, ListGroupItem } from "reactstrap";
 
 class NicknameRide extends Component {
@@ -15,10 +15,12 @@ class NicknameRide extends Component {
     });
   };
   hopOffBoard = () => {
-    console.log("Removing user from onboard!");
+    hopOff(this.props.singleride.id, this.props.singleride.seatsLeft, this.props.profile.nickname, () => {
+      this.props.deleteFromOnBoard(this.props.singleride.id)
+    });
   }
+
   showMessages = e => {
-    console.log("Viestit kyytiin " + this.props.singleride.id + " liittyen!");
     localStorage.setItem("ride", this.props.singleride.id);
     this.props.history.push("/messages");
   }
@@ -30,7 +32,7 @@ class NicknameRide extends Component {
     let end = new Date(this.props.singleride.endTime);
     end = end.toLocaleString("fi-FI", options);
     var userIsDriver = this.props.singleride.nickname === this.props.profile.nickname;
-    console.log("Riden " + this.props.singleride.id + " userisdriver: " + userIsDriver)
+    var userIsOnboard = this.props.singleride.onBoard.indexOf(this.props.profile.nickname) > -1;
     let onBoard = this.props.singleride.onBoard.map(function (ride, i) {
       return <p>{ride}</p>
 
@@ -58,7 +60,7 @@ class NicknameRide extends Component {
           </ListGroupItem>
         </ListGroup>
         <br />
-        <Button 
+        <Button
           type="button"
           href="/changeride">
           Muuta
@@ -67,7 +69,7 @@ class NicknameRide extends Component {
         {userIsDriver && <Button type="button" onClick={this.deleteRideFromList}>
           Poista
         </Button>}
-        {!userIsDriver && <Button type="button" onClick={this.hopOffBoard} >
+        {userIsOnboard && <Button type="button" onClick={this.hopOffBoard} >
           Poistu kyydistä
         </Button>}
         <br />
