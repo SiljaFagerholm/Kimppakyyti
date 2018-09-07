@@ -4,6 +4,7 @@ import { isLoggedIn, getProfile } from "./AuthService";
 import MessageList from "./MessageList";
 import ComposeMessage from "./ComposeMessage";
 import { SendMessage, deleteMessageFromApi } from "./MessageService";
+import '../App.css';
 
 class MessageBox extends Component {
     constructor(props) {
@@ -99,10 +100,10 @@ class MessageBox extends Component {
 
         return (isLoggedIn && (
 
-            <div>
-                <ListGroup>
+            <div className="left">
+                <ListGroup className="Row">
 
-                    <ListGroupItem>
+                    <ListGroupItem className="Col">
                         <h3>{this.state.singleride.startAddress} - {this.state.singleride.targetAddress}</h3><br />
                         {start} -{" "}
                         {end}<br />

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 // import { Button, ListGroup, ListGroupItem } from "reactstrap";
 // import { isLoggedIn, getProfile } from "./AuthService";
 import Message from "./Message";
+import '../App.css';
 
 class MessageList extends Component {
 

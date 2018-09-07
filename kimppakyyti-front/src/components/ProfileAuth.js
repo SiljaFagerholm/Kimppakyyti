@@ -88,9 +88,9 @@ class ProfileAuth extends Component {
     return (
 
       isLoggedIn() && (
-        <div className="profileContent">
-          <Row className="row justify-content-center">
-            <Col className="row justify-content-center">
+        <div className="left">
+          <Row className="Row">
+            <Col className="Col">
               <Card>
                 <CardImg src={this.state.profile.picture} alt="profile" />
                 <CardBody>

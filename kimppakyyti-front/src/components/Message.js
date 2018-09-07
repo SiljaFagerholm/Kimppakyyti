@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, ListGroup, ListGroupItem } from "reactstrap";
+import '../App.css';
 
 class Message extends Component {
     constructor(props) {
@@ -27,12 +28,11 @@ class Message extends Component {
         var userIsAuthor = this.props.singlemessage.senderId === this.props.profile.nickname;
         return (
             <div>
-                <ListGroup>
-                    <ListGroupItem>
+                <ListGroup className="Row">
+                    <ListGroupItem className="Col">
                         {this.props.singlemessage.senderId} || {sendDateString} <br />
                         "{this.props.singlemessage.messageText}"<br />
-
-                        {userIsAuthor && <Button onClick={this.deletemessage}>Poista viesti</Button>}
+                        {userIsAuthor && <Button className="btn-sm btn-danger m-2" style={{ color: 'black', opacity: '0.8' }} onClick={this.deletemessage}>Poista</Button>}<br />
                     </ListGroupItem>
                 </ListGroup>
             </div>

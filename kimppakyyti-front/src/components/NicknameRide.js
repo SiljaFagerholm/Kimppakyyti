@@ -58,9 +58,15 @@ class NicknameRide extends Component {
           </ListGroupItem>
         </ListGroup>
         <br />
-        <Button id={this.props.singleride.id} startAddress={this.props.singleride.startAddress} targetAddress={this.props.singleride.targetAddress}
-                price= {this.props.singleride.price} seatsLeft={this.props.singleride.seatsLeft} startTime={this.props.singleride.startTime}
-                endTime={this.props.singleride.endTime}
+        <Button className="btn-secondary m-2" type="button" onClick={this.showMessages}>
+          Kyydin viestit
+        </Button>
+        <Button
+          id={this.props.singleride.id} startAddress={this.props.singleride.startAddress} targetAddress={this.props.singleride.targetAddress}
+          price= {this.props.singleride.price} seatsLeft={this.props.singleride.seatsLeft} startTime={this.props.singleride.startTime}
+          endTime={this.props.singleride.endTime}
+
+          className="btn-secondary"
           type="button"
           onClick={ChangeRide}
           href="/changeride"
@@ -69,16 +75,13 @@ class NicknameRide extends Component {
           Muuta
         </Button>
         &nbsp;
-        {userIsDriver && <Button type="button" onClick={this.deleteRideFromList}>
+        {userIsDriver && <Button className="btn-danger" type="button" onClick={this.deleteRideFromList}>
           Poista
         </Button>}
-        {userIsOnboard && <Button type="button" onClick={this.hopOffBoard} >
+        {userIsOnboard && <Button className="btn-warning" type="button" onClick={this.hopOffBoard} >
           Poistu kyydistä
         </Button>}
         <br />
-        <Button type="button" onClick={this.showMessages}>
-          Näytä kyytiin liittyvät viestit
-        </Button>
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button } from "reactstrap";
 import { isLoggedIn } from "./AuthService";
+import '../App.css';
 
 class ComposeMessage extends Component {
     constructor(props) {
@@ -37,11 +38,10 @@ class ComposeMessage extends Component {
         return (
             isLoggedIn() && (
 
-                <div>
-
+                <div className="Row">
                     <form onSubmit={this.Send}>
-                        <input type="text" placeholder="Viestisi" value={this.state.MessageText} onChange={this.MessageTextChanged} />
-                        <Button onClick={this.Send}>Lähetä viesti</Button>
+                        <input className="m-2" style={{ padding: '1%' }} type="text" placeholder="Viesti" value={this.state.MessageText} onChange={this.MessageTextChanged} />
+                        <Button className="btn-success m-2" style={{ padding: '1%' }} onClick={this.Send}>Lähetä viesti</Button>
                     </form>
                 </div>
             )
