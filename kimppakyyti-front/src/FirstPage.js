@@ -233,7 +233,7 @@ class FirstPage extends Component {
             <br />
           </TabPane>
           <TabPane tabId="2">
-            <LookingForRide />
+            <LookingForRide history={this.props.history} />
           </TabPane>
         </TabContent>
       </div>

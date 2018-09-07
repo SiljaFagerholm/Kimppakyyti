@@ -43,6 +43,8 @@ class LookingForRide extends Component {
     if (this.state.targetAddress === "") {
       this.setState({ targetAddress: "any" });
     }
+    console.log("LookingForRiden historia: ", this.props.history)
+
     console.log(JSON.stringify(this.state.startTime));
     let start = this.modifyDateString(this.state.startTime);
     let end = this.modifyDateString(this.state.endTime);
@@ -146,7 +148,7 @@ class LookingForRide extends Component {
           Etsi kyytiä
         </Button>{" "}
         <br />
-        <RideList rides={this.state.list} />
+        <RideList rides={this.state.list} history={this.props.history} />
       </div>
     );
   }

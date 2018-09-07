@@ -68,7 +68,7 @@ class MessageBox extends Component {
         this.getThread(id,
             function callback(lista) {
                 this.setState({ thread: lista });
-                console.log(this.state.thread)
+                console.log("Updated thread: ", this.state.thread)
             }.bind(this));
     }
 
@@ -83,7 +83,7 @@ class MessageBox extends Component {
     }
     deleteMessage = (deleteid) => {
         var threadid = this.state.RideId;
-        console.log("MessageBoxin deleteid: " + deleteid);
+
         deleteMessageFromApi(deleteid).then(function jeejee() {
             this.getUpdatedThread(threadid);
         }.bind(this));
