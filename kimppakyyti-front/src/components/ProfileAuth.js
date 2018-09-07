@@ -58,12 +58,11 @@ class ProfileAuth extends Component {
 
 
   };
-  // getPassengerRides = callback => {
-  //   fetch(urlGetNicknameRides)
-  //     .then(result => result.json())
-  //     .then(data => )
-  // }
 
+  getUpdatedRides = () => {
+    this.getNicknameRides();
+    this.getPassengerRides();
+  }
   changeRide = id => {
     var tempList = this.state.list.filter(x => x.id !== id);
 
@@ -74,12 +73,14 @@ class ProfileAuth extends Component {
     var tempList = this.state.list.filter(x => x.id !== id);
 
     this.setState({ list: tempList });
+    this.getUpdatedRides();
   };
 
   deleteFromOnBoard = id => {
     var tempList = this.state.passengerlist.filter(x => x.id !== id);
 
     this.setState({ list: tempList });
+    this.getUpdatedRides();
   };
 
 

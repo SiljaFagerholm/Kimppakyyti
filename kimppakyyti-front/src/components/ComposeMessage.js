@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Button, ListGroup, ListGroupItem } from "reactstrap";
-import { isLoggedIn, getProfile } from "./AuthService";
-import moment from "moment";
+import { Button } from "reactstrap";
+import { isLoggedIn } from "./AuthService";
 
 class ComposeMessage extends Component {
     constructor(props) {
@@ -13,10 +12,7 @@ class ComposeMessage extends Component {
     }
 
     componentDidMount() {
-        var profiili = localStorage.getItem("profiili");
-        console.log("localstoragesta haettu composen profiili on " + profiili)
         this.setState({ SenderId: this.props.profile.nickname });
-        console.log("Composen senderid: " + this.state.SenderId);
     }
 
     MessageTextChanged = (msg) => { this.setState({ MessageText: msg.target.value }) }
@@ -45,7 +41,7 @@ class ComposeMessage extends Component {
 
                     <form onSubmit={this.Send}>
                         <input type="text" placeholder="Viestisi" value={this.state.MessageText} onChange={this.MessageTextChanged} />
-                        <input type="submit" value="Lähetä viesti" onClick={this.Send} />
+                        <Button onClick={this.Send}>Lähetä viesti</Button>
                     </form>
                 </div>
             )

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Button, ListGroup, ListGroupItem } from "reactstrap";
+import { ListGroup, ListGroupItem } from "reactstrap";
 import { isLoggedIn, getProfile } from "./AuthService";
-import Ride from "./Ride";
 import MessageList from "./MessageList";
 import ComposeMessage from "./ComposeMessage";
 import { SendMessage, deleteMessageFromApi } from "./MessageService";
@@ -68,7 +67,7 @@ class MessageBox extends Component {
         this.getThread(id,
             function callback(lista) {
                 this.setState({ thread: lista });
-                console.log(this.state.thread)
+                console.log("Updated thread: ", this.state.thread)
             }.bind(this));
     }
 
@@ -83,7 +82,7 @@ class MessageBox extends Component {
     }
     deleteMessage = (deleteid) => {
         var threadid = this.state.RideId;
-        console.log("MessageBoxin deleteid: " + deleteid);
+
         deleteMessageFromApi(deleteid).then(function jeejee() {
             this.getUpdatedThread(threadid);
         }.bind(this));
@@ -112,7 +111,7 @@ class MessageBox extends Component {
 
 
                 </ListGroup>
-                <MessageList thread={this.state.thread} deletethis={this.deleteMessage} />
+                <MessageList thread={this.state.thread} deletethis={this.deleteMessage} profile={this.state.profile} />
                 <ComposeMessage profile={this.state.profile} compose={this.SendNewMessage} ride={this.state.ride} />
 
             </div>)

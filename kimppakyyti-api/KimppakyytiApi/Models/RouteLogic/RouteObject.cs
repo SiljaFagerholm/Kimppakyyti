@@ -13,6 +13,9 @@ namespace KimppakyytiApi.Models.RouteLogic
         public List<GeocodedWaypoint> geocoded_waypoints { get; set; }
         public List<Route> routes { get; set; }
         public string status { get; set; }
+        public List<Candidate> candidates { get; set; }
+        public DebugLog debug_log { get; set; }
+
     }
 
     public class GeocodedWaypoint
@@ -160,6 +163,39 @@ namespace KimppakyytiApi.Models.RouteLogic
         public List<object> warnings { get; set; }
         public List<object> waypoint_order { get; set; }
     }
+
+    public class Location
+    {
+        public double lat { get; set; }
+        public double lng { get; set; }
+    }
+
+
+    public class Viewport
+    {
+        public Northeast northeast { get; set; }
+        public Southwest southwest { get; set; }
+    }
+
+    public class Geometry
+    {
+        public Location location { get; set; }
+        public Viewport viewport { get; set; }
+    }
+
+    public class Candidate
+    {
+        public Geometry geometry { get; set; }
+        public string name { get; set; }
+    }
+
+    public class DebugLog
+    {
+        public List<object> line { get; set; }
+    }
+
+    
+
 }
 
 

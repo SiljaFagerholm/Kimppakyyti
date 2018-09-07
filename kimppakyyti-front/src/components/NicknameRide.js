@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { deleteRideFromApi } from "./RideService";
+import { deleteRideFromApi, hopOff } from "./RideService";
 import { Button, ListGroup, ListGroupItem } from "reactstrap";
 import ChangeRide from './ChangeRide';
 
@@ -13,11 +13,12 @@ class NicknameRide extends Component {
   };
 
   hopOffBoard = () => {
-    console.log("Removing user from onboard!");
+    hopOff(this.props.singleride.id, this.props.singleride.seatsLeft, this.props.profile.nickname, () => {
+      this.props.deleteFromOnBoard(this.props.singleride.id)
+    });
   }
 
   showMessages = e => {
-    console.log("Viestit kyytiin " + this.props.singleride.id + " liittyen!");
     localStorage.setItem("ride", this.props.singleride.id);
     this.props.history.push("/messages");
   }
@@ -29,7 +30,7 @@ class NicknameRide extends Component {
     let end = new Date(this.props.singleride.endTime);
     end = end.toLocaleString("fi-FI", options);
     var userIsDriver = this.props.singleride.nickname === this.props.profile.nickname;
-    console.log("Riden " + this.props.singleride.id + " userisdriver: " + userIsDriver)
+    var userIsOnboard = this.props.singleride.onBoard.indexOf(this.props.profile.nickname) > -1;
     let onBoard = this.props.singleride.onBoard.map(function (ride, i) {
       return <p>{ride}</p>
 
@@ -68,12 +69,12 @@ class NicknameRide extends Component {
           Muuta
         </Button>
         &nbsp;
-        <Button type="button" onClick={this.deleteRideFromList} visibility={userIsDriver}>
+        {userIsDriver && <Button type="button" onClick={this.deleteRideFromList}>
           Poista
-        </Button>
-        <Button type="button" onClick={this.hopOffBoard} visibility={!userIsDriver}>
+        </Button>}
+        {userIsOnboard && <Button type="button" onClick={this.hopOffBoard} >
           Poistu kyydistä
-        </Button>
+        </Button>}
         <br />
         <Button type="button" onClick={this.showMessages}>
           Näytä kyytiin liittyvät viestit

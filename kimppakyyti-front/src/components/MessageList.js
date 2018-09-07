@@ -9,10 +9,9 @@ class MessageList extends Component {
     render() {
         var self = this;
         var deletemessage = this.props.deletethis;
-        console.log("Messagelistin deletethis" + this.props.deletethis);
-        console.log("Messagelistin thread " + this.props.thread);
+
         var messages = self.props.thread.map(function (message) {
-            return <Message singlemessage={message} key={message.id} deletethis={deletemessage} />;
+            return <Message singlemessage={message} key={message.id} deletethis={deletemessage} profile={self.props.profile} />;
         });
         return (
             <div>

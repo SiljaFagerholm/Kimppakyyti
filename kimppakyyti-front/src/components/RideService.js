@@ -55,6 +55,29 @@ export function deleteRideFromApi(id, callback) {
     method: "DELETE"
   }).then(callback);
 }
+export function hopOff(id, seatsLeft, nickname, callback) {
+
+  let url =
+    "https://lada.azurewebsites.net/api/Ride/HopOffTheRideAsync?Id=" +
+    encodeURIComponent(id) +
+    "&seatsLeft=" +
+    encodeURIComponent(seatsLeft) +
+    "&nick=" +
+    encodeURIComponent(nickname);
+  console.log("URL", url);
+  leaveRide(url, callback);
+  alert("Olet poistunut kyydistä.");
+}
+function leaveRide(url, callback) {
+  fetch(url, {
+    method: "PUT", headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(res => { return res; }
+  ).then(callback);;
+}
+
+var data = { star: 'example' };
 
 export function updateRideOnApi(ride) {
   fetch(UPDATERIDE + ride.id, {
