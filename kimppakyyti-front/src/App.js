@@ -18,6 +18,7 @@ import ProfileAuth from "./components/ProfileAuth";
 import RideBox from "./components/RideBox";
 import OfferCreated from "./components/OfferCreated";
 import LookingForLocation from "./components/LookingForLocation";
+import ChangeRide from "./components/ChangeRide";
 
 class App extends Component {
   force() {
@@ -52,6 +53,7 @@ class App extends Component {
                   component={RideSearchPage}
                 />
                 <Route exact path="/addride" component={AddRide} />
+                <Route exact path="/changeride" component={ChangeRide} />
                 <Route path="/callback" component={Callback} />
                 <Route path="/location" component={LookingForLocation} />
                 <Redirect exact from="/" to="/firstpage" />

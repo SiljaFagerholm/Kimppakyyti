@@ -9,7 +9,7 @@ class  NicknameRides extends Component{
 
         var nickRides = this.props.rides
         .map(function(ride){
-            return (<NicknameRide singleride={ride} deleteRideFromList={self.props.deleteRideFromList} key={ride.id}/>)
+            return (<NicknameRide singleride={ride} changeRide={self.props.changeRide} deleteRideFromList={self.props.deleteRideFromList} key={ride.id}/>)
         });
         return(
             <div>
