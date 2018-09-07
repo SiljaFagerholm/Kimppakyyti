@@ -26,14 +26,14 @@ namespace KimppakyytiApi.Models
         public static async Task<string> GetRouteGoogle(string from, string to)
         {
 
-            string response = await _googleClient.GetStringAsync($"https://maps.googleapis.com/maps/api/directions/json?origin={from}&destination={to}&key=AIzaSyAhiwlHEabIvfno23DJhUAgOSffNnC5EqQ");
+            string response = await _googleClient.GetStringAsync($"https://maps.googleapis.com/maps/api/directions/json?origin={from}&destination={to}&key=");
 
             return response;
         }
 
         public static async Task<string> GetPlaceGoogle(string from)
         {
-            string response = await _googleClient.GetStringAsync($"https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input={from}&fields=name,geometry&inputtype=textquery&key=AIzaSyAhiwlHEabIvfno23DJhUAgOSffNnC5EqQ");
+            string response = await _googleClient.GetStringAsync($"https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input={from}&fields=name,geometry&inputtype=textquery&key=");
             return response;
         }
     }
