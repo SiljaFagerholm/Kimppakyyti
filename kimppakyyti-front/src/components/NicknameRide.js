@@ -1,22 +1,21 @@
 import React, { Component } from "react";
 import { deleteRideFromApi } from "./RideService";
 import { Button, ListGroup, ListGroupItem } from "reactstrap";
+import ChangeRide from './ChangeRide';
 
 class NicknameRide extends Component {
 
-
-  changeRide = () => {
-    console.log("Nyt voin muuttaa kyydin asetuksia!")
-  }
 
   deleteRideFromList = () => {
     deleteRideFromApi(this.props.singleride.id, () => {
       this.props.deleteRideFromList(this.props.singleride.id);
     });
   };
+
   hopOffBoard = () => {
     console.log("Removing user from onboard!");
   }
+
   showMessages = e => {
     console.log("Viestit kyytiin " + this.props.singleride.id + " liittyen!");
     localStorage.setItem("ride", this.props.singleride.id);
@@ -58,9 +57,14 @@ class NicknameRide extends Component {
           </ListGroupItem>
         </ListGroup>
         <br />
-        <Button 
+        <Button id={this.props.singleride.id} startAddress={this.props.singleride.startAddress} targetAddress={this.props.singleride.targetAddress}
+                price= {this.props.singleride.price} seatsLeft={this.props.singleride.seatsLeft} startTime={this.props.singleride.startTime}
+                endTime={this.props.singleride.endTime}
           type="button"
-          href="/changeride">
+          onClick={ChangeRide}
+          href="/changeride"
+          visibility={userIsDriver}
+        >
           Muuta
         </Button>
         &nbsp;

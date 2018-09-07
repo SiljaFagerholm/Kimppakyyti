@@ -56,16 +56,18 @@ export function deleteRideFromApi(id, callback) {
   }).then(callback);
 }
 
-var data = {star : 'example'};
-
-export function updateRideOnApi(id, callback) {
-  fetch(UPDATERIDE, {
+export function updateRideOnApi(ride) {
+  fetch(UPDATERIDE + ride.id, {
     method: 'PUT',
-    body: JSON.stringify(data), // data can be `string` or {object}!
     headers:{
       'Content-Type': 'application/json'
-    }
+    },
+    body: JSON.stringify({
+      'id': ride.id, 'startAddress': ride.startAddress, 'targetAddress': ride.targetAddress, 'price': ride.price,
+      'seatsLeft': ride.seatsLeft, 'startTime': ride.startTime, 'endTime': ride.endTime
+    })
   }).then(res => res.json())
   .then(response => console.log('Success:', JSON.stringify(response)))
   .catch(error => console.error('Error:', error));
+  console.log("Päästiin tänne asti! Onko päivitetty tieto tietokannassa?")
 }
