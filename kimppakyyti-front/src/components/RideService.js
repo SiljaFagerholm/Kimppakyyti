@@ -1,8 +1,12 @@
 const POSTURL =
   "https://lada.azurewebsites.net/api/Ride/PostOfferRideAsync";
 
+const UPDATERIDE =
+  "https://lada.azurewebsites.net/api/Ride/EditRideAsync";
+
 const SEARCHURL =
   "https://lada.azurewebsites.net/api/Ride/SearchRidesCustomerAsync";
+
 const urlDeleteNicknameRides =
   "https://lada.azurewebsites.net/api/Ride/DeleteRide?documentId=";
 
@@ -50,4 +54,18 @@ export function deleteRideFromApi(id, callback) {
   fetch(urlDeleteNicknameRides + id, {
     method: "DELETE"
   }).then(callback);
+}
+
+var data = {star : 'example'};
+
+export function updateRideOnApi(id, callback) {
+  fetch(UPDATERIDE, {
+    method: 'PUT',
+    body: JSON.stringify(data), // data can be `string` or {object}!
+    headers:{
+      'Content-Type': 'application/json'
+    }
+  }).then(res => res.json())
+  .then(response => console.log('Success:', JSON.stringify(response)))
+  .catch(error => console.error('Error:', error));
 }

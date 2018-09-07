@@ -32,7 +32,7 @@ class Ride extends Component {
       }
     });
   };
-
+  
   joinRide = url => {
     fetch(url, {
       method: "PUT",

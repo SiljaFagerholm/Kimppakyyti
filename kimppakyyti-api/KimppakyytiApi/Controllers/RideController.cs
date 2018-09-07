@@ -569,6 +569,45 @@ namespace KimppakyytiApi.Controllers
             }
             return "Olisikohan joku mennyt vikaan?";
         }
+        [HttpPut]
+        public async Task<string> HopOffTheRideAsync(string Id, int seatsLeft, string nick)
+        {       //Updating seats to database
+            try
+            {
+                //Fetch the Document to be updated
+                Document doc = _cosmosDBclient.CreateDocumentQuery<Document>(rideCollectionUri)
+                                            .Where(r => r.Id == Id)
+                                            .AsEnumerable()
+                                            .SingleOrDefault();
+                int updatedSeats = seatsLeft;
+                updatedSeats++;
+
+                var lista = doc.GetPropertyValue<List<string>>("OnBoard");
+                lista.Remove(nick);
+                Trace.WriteLine(lista);
+                lista.ForEach(i => Trace.WriteLine(i));
+                //Update some properties on the found resource
+                doc.SetPropertyValue("SeatsLeft", updatedSeats);
+                doc.SetPropertyValue("OnBoard", lista);
+
+
+                //Tähän pitää lisätä vielä reitin pituuden nousu tarvittaessa!    -+
+
+                //Now persist these changes to the database by replacing the original resource
+                Document updated = await _cosmosDBclient.ReplaceDocumentAsync(doc);
+
+                return "Olet poistunut tästä kyydistä.";
+            }
+            catch (DocumentClientException de)
+            {
+                switch (de.StatusCode.Value)
+                {
+                    case System.Net.HttpStatusCode.NotFound:
+                        return "Nyt ei löytynyt kyytiä, koita uudelleen.";
+                }
+            }
+            return "Olisikohan joku mennyt vikaan?";
+        }
 
         [HttpPut]
         public async Task<string> EditRideAsync(string id, double price, int seatsleft, DateTime startTime, DateTime endTime, string start, string end)

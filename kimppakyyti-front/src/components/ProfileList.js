@@ -3,7 +3,7 @@ import Profile from "./Profile";
 
 class ProfileList extends Component {
   render() {
-    var profileList = this.props.data.map(function(p) {
+    var profileList = this.props.data.map(function (p) {
       return (
         <Profile
           key={p.nickname}

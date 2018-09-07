@@ -14,8 +14,9 @@ import NicknameRides from "./NicknameRides";
 import { ListGroup, ListGroupItem } from "reactstrap";
 
 const urlGetNicknameRides =
-  "https://lada.azurewebsites.net/api/ride/getallrides";
+  "https://lada.azurewebsites.net/api/Ride/GetAllRides";
 var allRides = [];
+var passengerRides = [];
 
 class ProfileAuth extends Component {
   constructor(props) {
@@ -23,7 +24,8 @@ class ProfileAuth extends Component {
     this.state = {
       profile: {},
       phonenumber: "",
-      list: []
+      list: [],
+      passengerlist: []
     };
   }
 
@@ -31,9 +33,11 @@ class ProfileAuth extends Component {
     getProfile((err, profile) => {
       this.setState({ profile: profile });
       this.getNicknameRides();
+      this.getPassengerRides();
     });
   }
   getNicknameRides = callback => {
+
     fetch(urlGetNicknameRides)
       .then(result => result.json())
       .then(data => {
@@ -41,10 +45,39 @@ class ProfileAuth extends Component {
 
         this.setState({ list: allRides });
       });
+  }
+  getPassengerRides = callback => {
+
+    fetch(urlGetNicknameRides)
+      .then(result => result.json())
+      .then(data => {
+        // passengerRides = data.filter(x => !!x.onBoard.filter(o => o === this.state.profile.nickname).length);
+        passengerRides = data.filter(x => x.onBoard.indexOf(this.state.profile.nickname) > -1);
+        this.setState({ passengerlist: passengerRides });
+      });
+
+
   };
+  // getPassengerRides = callback => {
+  //   fetch(urlGetNicknameRides)
+  //     .then(result => result.json())
+  //     .then(data => )
+  // }
+
+  changeRide = id => {
+    var tempList = this.state.list.filter(x => x.id !== id);
+
+    this.setState({ list: tempList })
+  }
 
   deleteRideFromList = id => {
     var tempList = this.state.list.filter(x => x.id !== id);
+
+    this.setState({ list: tempList });
+  };
+
+  deleteFromOnBoard = id => {
+    var tempList = this.state.passengerlist.filter(x => x.id !== id);
 
     this.setState({ list: tempList });
   };
@@ -80,7 +113,23 @@ class ProfileAuth extends Component {
                   <div>
                     <NicknameRides
                       rides={this.state.list}
+                      changeRide={this.changeRide}
                       deleteRideFromList={this.deleteRideFromList}
+                      deleteFromOnBoard={this.deleteFromOnBoard}
+                      history={this.props.history}
+                      profile={this.state.profile}
+                    />
+                  </div>
+                  <br />
+                  <CardTitle>Olet kyydissä näissä</CardTitle>
+                  <div>
+                    <NicknameRides
+                      rides={this.state.passengerlist}
+                      deleteRideFromList={this.deleteRideFromList}
+                      deleteFromOnBoard={this.deleteFromOnBoard}
+                      history={this.props.history}
+                      profile={this.state.profile}
+
                     />
                   </div>
                 </CardBody>
