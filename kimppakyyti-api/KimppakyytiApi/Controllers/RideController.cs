@@ -351,92 +351,92 @@ namespace KimppakyytiApi.Controllers
 
 
 
-        [HttpPost]
-        public async Task<ActionResult<List<RideOut>>> SearchRidesCustomerAsync([FromBody]Ride valueIn)
-        {
-            try //Searching Rides from CosmosDB with right TimeTable.
+        //[HttpPost]
+        //public async Task<ActionResult<List<RideOut>>> SearchRidesCustomerAsync([FromBody]Ride valueIn)
+        //{
+        //    try //Searching Rides from CosmosDB with right TimeTable.
 
-            {
-                {
-                    //Functions for delayed response -- timeout try /catch
-
-
-
-                    // Get route from Google Directions Api
-                    var response = await GoogleApiFunctions.GetRouteGoogle(valueIn.StartAddress, valueIn.TargetAddress);
-
-                    // parse response from Google
-                    RootObject obj = JsonConvert.DeserializeObject<RootObject>(response);
-                    RideOut valueOut = new RideOut();
+        //    {
+        //        {
+        //            //Functions for delayed response -- timeout try /catch
 
 
-                    if (obj.status == "ZERO_RESULTS")
-                    {
-                        return NoContent();// "Reittiä ei löytynyt. Tarkista antamasi osoitteet, tai kokeile hakea kaupunginosalla.";
-                    }
-                    else if (obj.status == "OK")
-                    {
-                        // parse incoming object to outgoing  start and end point from Google to CosmosDB -object
-                        valueOut.Nickname = valueIn.Nickname;
-                        valueOut.Price = valueIn.Price;
-                        valueOut.StartTime = valueIn.StartTime;
-                        valueOut.EndTime = valueIn.EndTime;
-                        valueOut.StartAddress = valueIn.StartAddress;
 
-                        // lat and lng intentionally the wrong way around. don't fix!
-                        valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lat, obj.routes[0].legs[0].start_location.lng);
-                        valueOut.TargetAddress = valueIn.TargetAddress;
-                        valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lat, obj.routes[0].legs[0].end_location.lng);
+        //            // Get route from Google Directions Api
+        //            var response = await GoogleApiFunctions.GetRouteGoogle(valueIn.StartAddress, valueIn.TargetAddress);
+
+        //            // parse response from Google
+        //            RootObject obj = JsonConvert.DeserializeObject<RootObject>(response);
+        //            RideOut valueOut = new RideOut();
 
 
-                        //foreach (var location in obj.routes[0].legs[0].steps)
-                        //{
-                        //    valueOut.RoutePoints.Add(new Point(location.end_location.lng, location.end_location.lat));
+        //            if (obj.status == "ZERO_RESULTS")
+        //            {
+        //                return NoContent();// "Reittiä ei löytynyt. Tarkista antamasi osoitteet, tai kokeile hakea kaupunginosalla.";
+        //            }
+        //            else if (obj.status == "OK")
+        //            {
+        //                // parse incoming object to outgoing  start and end point from Google to CosmosDB -object
+        //                valueOut.Nickname = valueIn.Nickname;
+        //                valueOut.Price = valueIn.Price;
+        //                valueOut.StartTime = valueIn.StartTime;
+        //                valueOut.EndTime = valueIn.EndTime;
+        //                valueOut.StartAddress = valueIn.StartAddress;
 
-                        //}
-                        valueOut.OfferingRide = valueIn.OfferingRide;
-                        valueOut.SeatsLeft = valueIn.SeatsLeft;
-                        valueOut.MondayFrequency = valueIn.MondayFrequency;
-                        valueOut.TuesdayFrequency = valueIn.TuesdayFrequency;
-                        valueOut.WednesdayFrequency = valueIn.WednesdayFrequency;
-                        valueOut.ThursdayFrequency = valueIn.ThursdayFrequency;
-                        valueOut.FridayFrequency = valueIn.FridayFrequency;
-                        valueOut.SaturdayFrequency = valueIn.SaturdayFrequency;
-                        valueOut.SundayFrequency = valueIn.SundayFrequency;
+        //                // lat and lng intentionally the wrong way around. don't fix!
+        //                valueOut.StartLocation = new Point(obj.routes[0].legs[0].start_location.lat, obj.routes[0].legs[0].start_location.lng);
+        //                valueOut.TargetAddress = valueIn.TargetAddress;
+        //                valueOut.TargetLocation = new Point(obj.routes[0].legs[0].end_location.lat, obj.routes[0].legs[0].end_location.lng);
 
-                        // How to check if document == created?
-                        Document document = await _cosmosDBclient.CreateDocumentAsync(
-                        UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
-                        valueOut);
 
-                        // search for matches
-                        FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
-                        IQueryable<RideOut> query = _cosmosDBclient.CreateDocumentQuery<RideOut>(
-                        rideCollectionUri, queryOptions).Where(f => f.OfferingRide == true && f.StartTime >= valueOut.StartTime && f.StartTime <= valueOut.EndTime && f.StartLocation.Distance(valueOut.StartLocation) < 500 && f.TargetLocation.Distance(valueOut.TargetLocation) < 500); // Distance (to) etäisyys metreinä
+        //                //foreach (var location in obj.routes[0].legs[0].steps)
+        //                //{
+        //                //    valueOut.RoutePoints.Add(new Point(location.end_location.lng, location.end_location.lat));
 
-                        // check for contents in query before returning?
+        //                //}
+        //                valueOut.OfferingRide = valueIn.OfferingRide;
+        //                valueOut.SeatsLeft = valueIn.SeatsLeft;
+        //                valueOut.MondayFrequency = valueIn.MondayFrequency;
+        //                valueOut.TuesdayFrequency = valueIn.TuesdayFrequency;
+        //                valueOut.WednesdayFrequency = valueIn.WednesdayFrequency;
+        //                valueOut.ThursdayFrequency = valueIn.ThursdayFrequency;
+        //                valueOut.FridayFrequency = valueIn.FridayFrequency;
+        //                valueOut.SaturdayFrequency = valueIn.SaturdayFrequency;
+        //                valueOut.SundayFrequency = valueIn.SundayFrequency;
 
-                        return query.ToList();
-                    }
+        //                // How to check if document == created?
+        //                Document document = await _cosmosDBclient.CreateDocumentAsync(
+        //                UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName),
+        //                valueOut);
 
-                    else
-                    {
-                        return NoContent();// "Nyt kävi jotain.";
-                    }
-                }
-            }
+        //                // search for matches
+        //                FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
+        //                IQueryable<RideOut> query = _cosmosDBclient.CreateDocumentQuery<RideOut>(
+        //                rideCollectionUri, queryOptions).Where(f => f.OfferingRide == true && f.StartTime >= valueOut.StartTime && f.StartTime <= valueOut.EndTime && f.StartLocation.Distance(valueOut.StartLocation) < 500 && f.TargetLocation.Distance(valueOut.TargetLocation) < 500); // Distance (to) etäisyys metreinä
 
-            catch (DocumentClientException de)
-            {
-                switch (de.StatusCode.Value)
-                {
-                    case System.Net.HttpStatusCode.NotFound:
-                        return NotFound();
-                }
-            }
-            return BadRequest();
+        //                // check for contents in query before returning?
 
-        }
+        //                return query.ToList();
+        //            }
+
+        //            else
+        //            {
+        //                return NoContent();// "Nyt kävi jotain.";
+        //            }
+        //        }
+        //    }
+
+        //    catch (DocumentClientException de)
+        //    {
+        //        switch (de.StatusCode.Value)
+        //        {
+        //            case System.Net.HttpStatusCode.NotFound:
+        //                return NotFound();
+        //        }
+        //    }
+        //    return BadRequest();
+
+        //}
 
 
         [HttpGet]

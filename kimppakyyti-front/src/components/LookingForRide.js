@@ -13,7 +13,7 @@ class LookingForRide extends Component {
       startAddress: "",
       targetAddress: "",
       searchUrl: "",
-      list: [],
+      list: []
     };
     this.startTimeChanged = this.startTimeChanged.bind(this);
     this.endTimeChanged = this.endTimeChanged.bind(this);
@@ -40,25 +40,32 @@ class LookingForRide extends Component {
   }
 
   handleChangeUrl = () => {
-    if (this.state.targetAddress === "") {
-      this.setState({ targetAddress: "any" });
-    }
-    console.log("LookingForRiden historia: ", this.props.history)
+    console.log("LookingForRiden historia: ", this.props.history);
 
     console.log(JSON.stringify(this.state.startTime));
     let start = this.modifyDateString(this.state.startTime);
     let end = this.modifyDateString(this.state.endTime);
     let url = "";
 
-    url =
-      "https://lada.azurewebsites.net/api/Ride/GetSearchRidesCustomerAsync?startTime=" +
-      encodeURIComponent(start) +
-      "&endTime=" +
-      encodeURIComponent(end) +
-      "&startAddress=" +
-      encodeURIComponent(this.state.startAddress) +
-      "&targetAddress=" +
-      encodeURIComponent(this.state.targetAddress);
+    if (this.state.targetAddress === "") {
+      url =
+        "https://lada.azurewebsites.net/api/Ride/GetSearchRidesLocationAsync?startTime=" +
+        encodeURIComponent(start) +
+        "&endTime=" +
+        encodeURIComponent(end) +
+        "&startAddress=" +
+        encodeURIComponent(this.state.startAddress);
+    } else {
+      url =
+        "https://lada.azurewebsites.net/api/Ride/GetSearchRidesCustomerAsync?startTime=" +
+        encodeURIComponent(start) +
+        "&endTime=" +
+        encodeURIComponent(end) +
+        "&startAddress=" +
+        encodeURIComponent(this.state.startAddress) +
+        "&targetAddress=" +
+        encodeURIComponent(this.state.targetAddress);
+    }
 
     console.log("URL", url);
     this.setState({
@@ -97,6 +104,7 @@ class LookingForRide extends Component {
       <div>
         <Label>Mistä: </Label>
         <Input
+          placeholder="Lähtöpaikka"
           maxLength="50"
           value={this.state.startAddress}
           name="startAddress"
@@ -107,12 +115,12 @@ class LookingForRide extends Component {
         <br />
         <Label>Minne: </Label>
         <Input
+          placeholder="Saapumispaikka *Valinnainen*"
           maxLength="50"
           name="targetAddress"
           onChange={this.handleChangeTarget.bind(this)}
           value={this.state.targetAddress}
           type="text"
-          required
         />
         <br />
         <div className="center left">
@@ -148,7 +156,7 @@ class LookingForRide extends Component {
           Etsi kyytiä
         </Button>{" "}
         <br />
-        <RideList rides={this.state.list} history={this.props.history} />
+        <RideList rides={this.state.list} history={this.props.history} />{" "}
       </div>
     );
   }
